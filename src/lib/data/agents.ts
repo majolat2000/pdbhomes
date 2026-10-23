@@ -1,0 +1,48 @@
+import { Agent } from "@/types";
+
+export const agents: Agent[] = [
+  {
+    id: "agent-1",
+    name: "Victoria Sterling",
+    email: "victoria.sterling@pdbhomes.com",
+    phone: "(310) 849-2104",
+    title: "Senior Vice President of Luxury Estates",
+    licenseNumber: "DRE# 01928412",
+    avatarUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
+    bio: "With over 16 years specializing in premier architectural homes across Beverly Hills, Bel Air, and Malibu, Victoria consistently ranks in the top 0.1% of luxury advisors globally.",
+    experienceYears: 16,
+  },
+  {
+    id: "agent-2",
+    name: "Marcus Vance",
+    email: "marcus.vance@pdbhomes.com",
+    phone: "(212) 691-8830",
+    title: "Managing Director — Manhattan Penthouses",
+    licenseNumber: "NY# 1040129384",
+    avatarUrl: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80",
+    bio: "A trusted advisor for private wealth offices and international collectors, Marcus orchestrates acquisitions in trophy residential towers and pre-war architectural masterpieces.",
+    experienceYears: 14,
+  },
+  {
+    id: "agent-3",
+    name: "Elena Rostova",
+    email: "elena.rostova@pdbhomes.com",
+    phone: "(305) 512-7809",
+    title: "Director of Waterfront & Island Properties",
+    licenseNumber: "FL# 3389201",
+    avatarUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80",
+    bio: "Elena specializes in premier oceanfront enclaves in Miami Beach, Fisher Island, and Palm Beach, offering discreet representation with unmatched localized market intelligence.",
+    experienceYears: 11,
+  },
+  {
+    id: "agent-4",
+    name: "David Chen",
+    email: "david.chen@pdbhomes.com",
+    phone: "(512) 438-9921",
+    title: "Principal Partner — Austin Contemporary",
+    licenseNumber: "TX# 671049",
+    avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+    bio: "Bridging architectural innovation and Hill Country waterfront acreage, David leads the tech-executive and luxury relocation division at PDB Homes.",
+    experienceYears: 9,
+  },
+];
