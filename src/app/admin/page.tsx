@@ -25,15 +25,27 @@ import {
   AlertCircle,
   Eye,
   Check,
+  Shield,
+  Key,
+  Settings,
 } from "lucide-react";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [adminEmail, setAdminEmail] = useState("");
+  const [adminEmail, setAdminEmail] = useState("precolat@gmail.com");
   const [adminPassword, setAdminPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [currentAdminEmail, setCurrentAdminEmail] = useState("");
 
-  const [activeTab, setActiveTab] = useState<"listings" | "consultations" | "requests" | "valuations" | "supabase">("listings");
+  const [activeTab, setActiveTab] = useState<"listings" | "consultations" | "requests" | "valuations" | "settings" | "supabase">("listings");
+
+  // Settings & Password Change States
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordLoading, setPasswordLoading] = useState(false);
 
   // Data states
   const [properties, setProperties] = useState<Property[]>([]);
@@ -63,27 +75,86 @@ export default function AdminPage() {
   // Check persisted auth session
   useEffect(() => {
     const saved = localStorage.getItem("pdb_admin_auth");
+    const savedEmail = localStorage.getItem("pdb_admin_email");
     if (saved === "true") {
       setIsAuthenticated(true);
+      if (savedEmail) setCurrentAdminEmail(savedEmail);
       fetchAllData();
     }
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (adminEmail === "admin@pdbhomes.com" && adminPassword === "admin123") {
-      setIsAuthenticated(true);
-      localStorage.setItem("pdb_admin_auth", "true");
-      setLoginError("");
-      fetchAllData();
-    } else {
-      setLoginError("Invalid admin credentials. Use admin@pdbhomes.com / admin123");
+    setLoginError("");
+    try {
+      const res = await fetch("/api/admin/auth?action=login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: adminEmail, password: adminPassword }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsAuthenticated(true);
+        const email = data.data.email;
+        setCurrentAdminEmail(email);
+        localStorage.setItem("pdb_admin_auth", "true");
+        localStorage.setItem("pdb_admin_email", email);
+        fetchAllData();
+      } else {
+        setLoginError(data.error || "Invalid admin credentials.");
+      }
+    } catch (err: any) {
+      setLoginError(err.message || "Failed to log in.");
+    }
+  };
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordMessage("");
+    setPasswordError("");
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New passwords do not match.");
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setPasswordError("New password must be at least 6 characters.");
+      return;
+    }
+
+    setPasswordLoading(true);
+    try {
+      const res = await fetch("/api/admin/auth?action=change_password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: currentAdminEmail || adminEmail,
+          currentPassword,
+          newPassword,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setPasswordMessage("Password updated successfully! Keep your new credentials safe.");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        setPasswordError(data.error || "Failed to update password.");
+      }
+    } catch (err: any) {
+      setPasswordError(err.message || "An error occurred.");
+    } finally {
+      setPasswordLoading(false);
     }
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem("pdb_admin_auth");
+    localStorage.removeItem("pdb_admin_email");
   };
 
   const fetchAllData = async () => {
@@ -269,7 +340,7 @@ export default function AdminPage() {
                 required
                 value={adminEmail}
                 onChange={(e) => setAdminEmail(e.target.value)}
-                placeholder="admin@pdbhomes.com"
+                placeholder="precolat@gmail.com or info@pdbhomes.com"
                 className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-navy"
               />
             </div>
@@ -296,9 +367,13 @@ export default function AdminPage() {
             </button>
           </form>
 
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center text-[11px] text-slate-500">
-            Default Demo Credentials: <br />
-            <strong>admin@pdbhomes.com</strong> / <strong>admin123</strong>
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 space-y-1">
+            <div className="font-bold text-slate-700">Seeded Admin Accounts:</div>
+            <div>• <strong>precolat@gmail.com</strong></div>
+            <div>• <strong>info@pdbhomes.com</strong></div>
+            <div className="text-[10px] text-slate-400 pt-1">
+              Passwords can be updated anytime inside Dashboard Settings.
+            </div>
           </div>
         </div>
       </div>
@@ -451,6 +526,18 @@ export default function AdminPage() {
           >
             <Database className="w-3.5 h-3.5" />
             <span>Supabase Sync</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("settings")}
+            className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-2 ${
+              activeTab === "settings"
+                ? "bg-brand-navy text-white shadow-sm"
+                : "bg-white text-slate-600 hover:bg-slate-200"
+            }`}
+          >
+            <Settings className="w-3.5 h-3.5" />
+            <span>Admin Settings & Security</span>
           </button>
         </div>
 
@@ -828,6 +915,147 @@ export default function AdminPage() {
 {`NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
               </pre>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 6: ADMIN SETTINGS & SECURITY */}
+        {activeTab === "settings" && (
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-8">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900 font-display">Admin Account & Security Settings</h2>
+              <p className="text-xs text-slate-500">
+                Manage your credentials, update your access password, and review authorized administrators.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              {/* Change Password Card */}
+              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-4">
+                <div className="flex items-center gap-2 text-brand-navy font-bold text-sm">
+                  <Key className="w-4 h-4 text-amber-500" />
+                  <span>Change Your Admin Password</span>
+                </div>
+
+                {passwordMessage && (
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 shrink-0 text-emerald-600" />
+                    <span>{passwordMessage}</span>
+                  </div>
+                )}
+
+                {passwordError && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs font-semibold text-red-700 flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+                    <span>{passwordError}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handlePasswordChange} className="space-y-3 text-xs">
+                  <div>
+                    <label className="block font-bold uppercase text-slate-600 mb-1">
+                      Account Email
+                    </label>
+                    <input
+                      type="email"
+                      disabled
+                      value={currentAdminEmail || "precolat@gmail.com"}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-100 text-slate-500 font-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold uppercase text-slate-600 mb-1">
+                      Current Password *
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      placeholder="Enter current password"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-brand-navy"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold uppercase text-slate-600 mb-1">
+                      New Password *
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="At least 6 characters"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-brand-navy"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold uppercase text-slate-600 mb-1">
+                      Confirm New Password *
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Re-enter new password"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-brand-navy"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={passwordLoading}
+                    className="w-full py-2.5 px-4 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition-colors disabled:opacity-50"
+                  >
+                    {passwordLoading ? "Updating Password..." : "Update Password"}
+                  </button>
+                </form>
+              </div>
+
+              {/* Authorized Administrators & Security Guidance */}
+              <div className="space-y-6 text-xs">
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-3">
+                  <div className="flex items-center gap-2 text-brand-navy font-bold text-sm">
+                    <Shield className="w-4 h-4 text-amber-500" />
+                    <span>Configured Admin Accounts</span>
+                  </div>
+                  <p className="text-slate-500 leading-relaxed">
+                    The platform is seeded with two administrative accounts for leadership and client desks:
+                  </p>
+                  <div className="space-y-2 pt-1">
+                    <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <div>
+                        <div className="font-bold text-slate-900">precolat@gmail.com</div>
+                        <div className="text-[11px] text-slate-400">Primary Administrator</div>
+                      </div>
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">
+                        Active
+                      </span>
+                    </div>
+
+                    <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                      <div>
+                        <div className="font-bold text-slate-900">info@pdbhomes.com</div>
+                        <div className="text-[11px] text-slate-400">Operations & Listing Desk</div>
+                      </div>
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">
+                        Active
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-amber-50/80 border border-amber-200/60 text-slate-700 space-y-1.5">
+                  <div className="font-bold text-brand-navy">Supabase Persistent Storage</div>
+                  <p className="leading-relaxed text-[11px]">
+                    When you run the <code>db/supabase_schema.sql</code> script in your Supabase SQL editor and connect your project URL and keys in Vercel, password updates will persist directly into your cloud database across all deployments.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         )}

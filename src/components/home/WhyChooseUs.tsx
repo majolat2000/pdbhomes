@@ -1,5 +1,6 @@
 import React from "react";
-import { Shield, Award, TrendingUp, Globe2 } from "lucide-react";
+import Link from "next/link";
+import { Shield, Award, TrendingUp, Globe2, MessageCircle, ArrowRight } from "lucide-react";
 
 export function WhyChooseUs() {
   const pillars = [
@@ -7,7 +8,7 @@ export function WhyChooseUs() {
       icon: Globe2,
       title: "Diaspora & Private Client Network",
       description:
-        "Direct access to qualified high-net-worth buyers, Nigerian diaspora executives in the UK/US, and family offices.",
+        "Direct access to qualified high-net-worth buyers, Nigerian diaspora executives in the UK/US/Canada, and private individuals.",
     },
     {
       icon: Award,
@@ -19,21 +20,14 @@ export function WhyChooseUs() {
       icon: TrendingUp,
       title: "Hyper-Local Market Pricing",
       description:
-        "Granular micro-market intelligence across Banana Island, Old Ikoyi, Lekki Phase 1, Victoria Island, and Maitama Abuja.",
+        "Granular micro-market intelligence across Mainland, Lekki, Ikoyi, Victoria Island, and Ajah to protect and grow client value.",
     },
     {
       icon: Shield,
       title: "Fiduciary Discretion",
       description:
-        "Trusted by discerning captains of industry, diplomatic representatives, and private individuals requiring confidential advisory.",
+        "Trusted advisory tailored for discerning clients requiring confidentiality, swift transactions, and verified documentation.",
     },
-  ];
-
-  const stats = [
-    { value: "₦45B+", label: "Transacted Sales Volume" },
-    { value: "99.4%", label: "List-to-Sale Ratio" },
-    { value: "21 Days", label: "Average Days to Contract" },
-    { value: "35+", label: "Years Combined Advisory" },
   ];
 
   return (
@@ -45,15 +39,15 @@ export function WhyChooseUs() {
             The PDB Homes Difference
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
-            Elevating the Standard of Luxury Real Estate in Nigeria
+            Elevating Real Estate Representation in Nigeria
           </h2>
           <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
-            We transcend conventional agency. PDB Homes delivers institutional rigor, bespoke architectural presentation, and an unmatched private network to protect and grow client wealth.
+            PDB Homes delivers genuine market insight, verified property documentation, and an accessible advisory desk across Sales, Rentals, and Shortlets.
           </p>
         </div>
 
         {/* Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {pillars.map((pillar, idx) => {
             const Icon = pillar.icon;
             return (
@@ -75,20 +69,33 @@ export function WhyChooseUs() {
           })}
         </div>
 
-        {/* Highlight Stats Ribbon */}
-        <div className="rounded-3xl bg-brand-navy text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden">
-          <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-brand-amber/10 blur-3xl pointer-events-none" />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
-            {stats.map((stat, idx) => (
-              <div key={idx} className="space-y-1">
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-400 font-display">
-                  {stat.value}
-                </div>
-                <div className="text-xs sm:text-sm text-slate-300 font-medium tracking-wide">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+        {/* Consultation Callout */}
+        <div className="rounded-3xl bg-brand-navy text-white p-8 sm:p-10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-1 text-center md:text-left">
+            <h3 className="text-xl sm:text-2xl font-bold font-display text-white">
+              Looking for a specific property or have a home to list?
+            </h3>
+            <p className="text-sm text-slate-300">
+              Our desk covers Mainland, Lekki, Ikoyi, VI, and Ajah from affordable options to luxury estates.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href="https://wa.link/ksxyrq"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md flex items-center gap-2"
+            >
+              <MessageCircle className="w-4 h-4 fill-white" />
+              <span>WhatsApp Us</span>
+            </a>
+            <Link
+              href="/request"
+              className="px-5 py-3 rounded-xl bg-brand-amber hover:bg-amber-600 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md flex items-center gap-2"
+            >
+              <span>Submit Request</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </div>

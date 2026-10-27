@@ -437,8 +437,8 @@ export default function ValuationPage() {
 
           <div className="p-6 rounded-2xl bg-white border border-slate-200 text-center space-y-2">
             <Award className="w-6 h-6 text-brand-amber mx-auto" />
-            <h4 className="text-sm font-bold text-slate-900 font-display">99.4% List-to-Sale</h4>
-            <p className="text-xs text-slate-500">Our strategic pricing methodology consistently delivers top-tier capital outcomes.</p>
+            <h4 className="text-sm font-bold text-slate-900 font-display">Verified Comparable Analysis</h4>
+            <p className="text-xs text-slate-500">We benchmark against verified recent transactions across your specific enclave.</p>
           </div>
 
           <div className="p-6 rounded-2xl bg-white border border-slate-200 text-center space-y-2">

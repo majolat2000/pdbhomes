@@ -45,7 +45,7 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-brand-amber shrink-0" />
-                <span>Direct: +234 803 849 2100 | +234 1 849 2100</span>
+                <span>Direct: +2348181017260</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-brand-amber shrink-0" />
@@ -188,10 +188,10 @@ export function Footer() {
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-amber-400" />
-            <span>PDB Homes: Sales | Rentals | Shortlets • Verified Titles & Trusted Advisory</span>
+            <span>PDB Homes: Sales | Rentals | Shortlets</span>
           </div>
           <div>
-            &copy; {new Date().getFullYear()} PDB Homes. All rights reserved.
+            Since 2024, PDB Homes. All rights reserved.
           </div>
         </div>
       </div>

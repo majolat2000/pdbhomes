@@ -98,6 +98,23 @@ CREATE TABLE IF NOT EXISTS public.property_valuations (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- 5. ADMINS TABLE (Authentication & Dashboard Control)
+CREATE TABLE IF NOT EXISTS public.admins (
+    id TEXT PRIMARY KEY DEFAULT uuid_generate_v4()::text,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT 'SUPER_ADMIN',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Seed default admins
+INSERT INTO public.admins (id, email, password, role)
+VALUES 
+    ('admin-1', 'precolat@gmail.com', 'PDB_Preco2024!', 'SUPER_ADMIN'),
+    ('admin-2', 'info@pdbhomes.com', 'PDB_Admin2024!', 'SUPER_ADMIN')
+ON CONFLICT (email) DO NOTHING;
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_properties_city ON public.properties (city);
 CREATE INDEX IF NOT EXISTS idx_properties_price ON public.properties (price);
@@ -109,6 +126,7 @@ ALTER TABLE public.properties ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.client_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.property_valuations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
 
 -- Allow anonymous select on active properties
 CREATE POLICY "Public can view properties" ON public.properties
@@ -135,4 +153,7 @@ CREATE POLICY "Admin full access client requests" ON public.client_requests
     FOR ALL USING (true);
 
 CREATE POLICY "Admin full access valuations" ON public.property_valuations
+    FOR ALL USING (true);
+
+CREATE POLICY "Admin full access admins" ON public.admins
     FOR ALL USING (true);

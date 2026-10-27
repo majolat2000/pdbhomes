@@ -46,23 +46,10 @@ export default function AboutPage() {
               Our partners bring institutional financial acumen, deep localized intelligence across Nigerian state land registries, and an unmatched private client network connecting Nigeria with London, Dubai, New York, and Toronto.
             </p>
 
-            <div className="grid grid-cols-2 gap-6 pt-4 border-t border-slate-200">
-              <div>
-                <span className="text-3xl font-extrabold text-brand-navy font-display block">
-                  ₦45B+
-                </span>
-                <span className="text-xs text-slate-500 font-medium">
-                  Cumulative Career Transacted Volume
-                </span>
-              </div>
-              <div>
-                <span className="text-3xl font-extrabold text-brand-navy font-display block">
-                  100%
-                </span>
-                <span className="text-xs text-slate-500 font-medium">
-                  Client Confidentiality
-                </span>
-              </div>
+            <div className="pt-4 border-t border-slate-200">
+              <p className="text-xs text-slate-500 font-medium italic">
+                Operating with strict fiduciary care, verified title guarantees, and complete client confidentiality.
+              </p>
             </div>
           </div>
         </div>

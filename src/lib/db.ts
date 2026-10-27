@@ -565,3 +565,155 @@ export async function getValuations(): Promise<ValuationRequest[]> {
 
   return memoryValuations;
 }
+
+// =========================================================================
+// ADMINS & CREDENTIALS
+// =========================================================================
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  password: string;
+  role: "SUPER_ADMIN" | "ADMIN";
+  createdAt: string;
+}
+
+// Default seeded memory admins (used if Supabase is offline or not yet connected)
+let memoryAdmins: AdminUser[] = [
+  {
+    id: "admin-1",
+    email: "precolat@gmail.com",
+    password: "PDB_Preco2024!",
+    role: "SUPER_ADMIN",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "admin-2",
+    email: "info@pdbhomes.com",
+    password: "PDB_Admin2024!",
+    role: "SUPER_ADMIN",
+    createdAt: new Date().toISOString(),
+  },
+];
+
+export async function verifyAdminCredentials(
+  email: string,
+  password: string
+): Promise<{ id: string; email: string; role: string } | null> {
+  const normEmail = email.trim().toLowerCase();
+
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("admins")
+        .select("*")
+        .eq("email", normEmail)
+        .single();
+
+      if (!error && data) {
+        if (data.password === password) {
+          return {
+            id: data.id,
+            email: data.email,
+            role: data.role || "ADMIN",
+          };
+        }
+        return null;
+      }
+    } catch (e) {
+      console.warn("Supabase admin lookup failed, falling back to memory:", e);
+    }
+  }
+
+  const found = memoryAdmins.find(
+    (a) => a.email.toLowerCase() === normEmail && a.password === password
+  );
+
+  if (found) {
+    return {
+      id: found.id,
+      email: found.email,
+      role: found.role,
+    };
+  }
+
+  return null;
+}
+
+export async function changeAdminPassword(
+  email: string,
+  currentPass: string,
+  newPass: string
+): Promise<{ success: boolean; error?: string }> {
+  const normEmail = email.trim().toLowerCase();
+
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("admins")
+        .select("*")
+        .eq("email", normEmail)
+        .single();
+
+      if (error || !data) {
+        return { success: false, error: "Admin account not found in database." };
+      }
+
+      if (data.password !== currentPass) {
+        return { success: false, error: "Current password does not match." };
+      }
+
+      const { error: updateError } = await supabase
+        .from("admins")
+        .update({ password: newPass, updated_at: new Date().toISOString() })
+        .eq("email", normEmail);
+
+      if (updateError) {
+        return { success: false, error: updateError.message };
+      }
+
+      return { success: true };
+    } catch (e: any) {
+      console.warn("Supabase password update failed:", e);
+      return { success: false, error: e.message || "Database update failed" };
+    }
+  }
+
+  const idx = memoryAdmins.findIndex(
+    (a) => a.email.toLowerCase() === normEmail && a.password === currentPass
+  );
+
+  if (idx !== -1) {
+    memoryAdmins[idx].password = newPass;
+    return { success: true };
+  }
+
+  return { success: false, error: "Invalid current password." };
+}
+
+export async function getAdminsList(): Promise<{ id: string; email: string; role: string; createdAt: string }[]> {
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      const { data } = await supabase
+        .from("admins")
+        .select("id, email, role, created_at");
+      if (data && data.length > 0) {
+        return data.map((d: any) => ({
+          id: d.id,
+          email: d.email,
+          role: d.role,
+          createdAt: d.created_at,
+        }));
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  return memoryAdmins.map((a) => ({
+    id: a.id,
+    email: a.email,
+    role: a.role,
+    createdAt: a.createdAt,
+  }));
+}
