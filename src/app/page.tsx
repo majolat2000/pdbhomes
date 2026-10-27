@@ -3,7 +3,7 @@ import { getProperties } from "@/lib/db";
 import { HeroSearch } from "@/components/home/HeroSearch";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
-import { ValuationBanner } from "@/components/home/ValuationBanner";
+import { ConsultationBanner } from "@/components/home/ConsultationBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +19,7 @@ export default async function HomePage() {
       <FeaturedSection properties={properties} />
 
       {/* 3. Book A Consultation (₦10,000 Commitment Session) */}
-      <ValuationBanner />
+      <ConsultationBanner />
 
       {/* 4. Why Choose Us / Service Pillars */}
       <WhyChooseUs />

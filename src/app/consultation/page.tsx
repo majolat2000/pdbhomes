@@ -55,7 +55,7 @@ export default function ConsultationPage() {
           leadType: "CONSULTATION",
           firstName: fullName.split(" ")[0] || fullName,
           lastName: fullName.split(" ").slice(1).join(" ") || "Client",
-          email: email || `${whatsappNumber.replace(/[^0-9]/g, "")}@consultation.pdbhomes.com`,
+          email: email || (whatsappNumber.replace(/[^0-9]/g, "") ? `${whatsappNumber.replace(/[^0-9]/g, "")}@consultation.pdbhomes.com` : "consultation@pdbhomes.com"),
           phone: whatsappNumber,
           preferredDate: preferredDate || null,
           message: `[CONSULTATION BOOKING - ₦10,000 COMMITMENT] Purpose: ${getPurposeLabel(purpose)}. WhatsApp: ${whatsappNumber}. Notes: ${notes || "None"}`,

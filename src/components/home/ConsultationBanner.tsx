@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Calendar, ArrowRight, ShieldCheck, Check, MessageCircle } from "lucide-react";
 
-export function ValuationBanner() {
+export function ConsultationBanner() {
   return (
     <section className="py-20 bg-gradient-to-br from-brand-navy via-slate-900 to-blue-950 text-white relative overflow-hidden">
       <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
