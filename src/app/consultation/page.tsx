@@ -9,7 +9,6 @@ import {
   ShieldCheck,
   CreditCard,
   MessageCircle,
-  Sparkles,
   ArrowRight,
   AlertCircle,
   HelpCircle,
@@ -31,13 +30,13 @@ export default function ConsultationPage() {
   const getPurposeLabel = (p: string) => {
     switch (p) {
       case "rent":
-        return "Rent a Property (Apartment / Duplex)";
+        return "Rent an Apartment / Flat / Self-Con / Duplex";
       case "land_purchase":
-        return "Land Purchase (Title Verification & Acquisition)";
+        return "Lands for Sale (Title Verification & Acquisition)";
       case "property_acquire":
-        return "Property Acquire (Buy House / Mansion / Duplex)";
+        return "Houses for Sale (Duplex, Terrace, Mansion)";
       case "shortlet_enquiry":
-        return "Shortlet Enquiry / Luxury Serviced Stay";
+        return "Shortlet Enquiries & Luxury Serviced Stays";
       default:
         return p;
     }
@@ -91,26 +90,22 @@ export default function ConsultationPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Dedicated Advisory Desk</span>
-          </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-navy tracking-tight font-display">
             Book A Consultation
           </h1>
           <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Schedule a private 1-on-1 strategy session with PDB Homes. Receive verified recommendations on buying, renting, land verification, or luxury shortlet reservations.
+            Schedule a private 1-on-1 strategy session with PDB Homes. Receive verified recommendations on houses for sale, lands for sale, renting, or luxury shortlet reservations.
           </p>
         </div>
 
         {/* Commitment Fee Callout */}
-        <div className="mb-8 p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-brand-navy via-slate-900 to-brand-navy text-white shadow-luxury border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="mb-8 p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-brand-navy via-slate-900 to-brand-blue text-white shadow-luxury border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-amber-400 text-brand-navy flex items-center justify-center font-extrabold text-xl shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-extrabold text-xl shrink-0">
               ₦
             </div>
             <div>
-              <span className="text-xs uppercase tracking-wider text-amber-300 font-semibold block">
+              <span className="text-xs uppercase tracking-wider text-emerald-400 font-semibold block">
                 Commitment Fee
               </span>
               <h3 className="text-2xl font-extrabold text-white font-display">
@@ -143,16 +138,16 @@ export default function ConsultationPage() {
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
-                    { id: "property_acquire", title: "Property Acquire", desc: "Buy a House, Duplex, Terrace, or Mansion" },
-                    { id: "land_purchase", title: "Land Purchase", desc: "Verified Title Search & Land Acquisition" },
-                    { id: "rent", title: "Rent a Property", desc: "Long-term residential or commercial leasing" },
-                    { id: "shortlet_enquiry", title: "Shortlet Enquiry", desc: "Luxury serviced apartments & temporary stays" },
+                    { id: "property_acquire", title: "Houses for Sale", desc: "Buy a Duplex, Terrace, Semi-Detached, or Mansion" },
+                    { id: "land_purchase", title: "Lands for Sale", desc: "Verified Title Search & Land Acquisition (Plots / Acres)" },
+                    { id: "rent", title: "Rent an Apartment / Self-Con", desc: "Self-contain, Mini Flat, Apartment, or Duplex for rent" },
+                    { id: "shortlet_enquiry", title: "Shortlet Enquiries", desc: "Luxury serviced apartments & temporary short stays" },
                   ].map((item) => (
                     <label
                       key={item.id}
                       className={`relative flex flex-col p-4 rounded-2xl border cursor-pointer transition-all ${
                         purpose === item.id
-                          ? "border-brand-navy bg-slate-50 ring-2 ring-brand-navy"
+                          ? "border-emerald-600 bg-emerald-50/40 ring-2 ring-emerald-600"
                           : "border-slate-200 hover:border-slate-300 bg-white"
                       }`}
                     >
@@ -164,7 +159,7 @@ export default function ConsultationPage() {
                           value={item.id}
                           checked={purpose === item.id}
                           onChange={() => setPurpose(item.id as any)}
-                          className="w-4 h-4 text-brand-navy accent-brand-navy"
+                          className="w-4 h-4 text-emerald-600 accent-emerald-600"
                         />
                       </div>
                       <span className="text-xs text-slate-500 leading-snug">{item.desc}</span>
@@ -185,7 +180,7 @@ export default function ConsultationPage() {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="e.g. Babatunde Adeleke"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-navy"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -199,7 +194,7 @@ export default function ConsultationPage() {
                     value={whatsappNumber}
                     onChange={(e) => setWhatsappNumber(e.target.value)}
                     placeholder="e.g. +234 803 123 4567"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-navy"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -215,7 +210,7 @@ export default function ConsultationPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-navy"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -227,7 +222,7 @@ export default function ConsultationPage() {
                     type="date"
                     value={preferredDate}
                     onChange={(e) => setPreferredDate(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-navy bg-white"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-emerald-600 bg-white"
                   />
                 </div>
               </div>
@@ -242,7 +237,7 @@ export default function ConsultationPage() {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="e.g. Looking for a 4-bedroom detached duplex in Lekki Phase 1 with a budget around ₦250M..."
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-navy"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-emerald-600"
                 />
               </div>
 
@@ -253,13 +248,8 @@ export default function ConsultationPage() {
                 className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-sm uppercase tracking-wider shadow-md transition-all active:scale-[0.99] disabled:opacity-50"
               >
                 <span>{submitting ? "Processing..." : "Proceed to ₦10,000 Commitment Payment"}</span>
-                <ArrowRight className="w-4 h-4 text-amber-300" />
+                <ArrowRight className="w-4 h-4 text-emerald-400" />
               </button>
-
-              <div className="flex items-center justify-center gap-2 text-xs text-slate-500 pt-1 text-center">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Secure payment gateway powered by Paystack. Direct receipts issued upon completion.</span>
-              </div>
             </form>
           </div>
         )}
@@ -268,7 +258,7 @@ export default function ConsultationPage() {
         {step === "PAYMENT" && (
           <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-luxury space-y-6">
             <div className="text-center space-y-2">
-              <div className="w-14 h-14 rounded-2xl bg-amber-50 text-brand-amber border border-amber-200 flex items-center justify-center mx-auto">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center mx-auto">
                 <CreditCard className="w-7 h-7" />
               </div>
               <h2 className="text-2xl font-extrabold text-brand-navy font-display">
@@ -295,7 +285,7 @@ export default function ConsultationPage() {
               </div>
               <div className="flex justify-between pt-1 text-base font-extrabold text-brand-navy">
                 <span>Total Due:</span>
-                <span className="text-amber-600">₦10,000 NGN</span>
+                <span className="text-emerald-700 font-extrabold">₦10,000 NGN</span>
               </div>
             </div>
 
@@ -313,7 +303,7 @@ export default function ConsultationPage() {
                 onClick={handlePaystackMockCheckout}
                 className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-md transition-all active:scale-95"
               >
-                <CreditCard className="w-4 h-4 text-amber-300" />
+                <CreditCard className="w-4 h-4 text-emerald-400" />
                 <span>Pay ₦10,000 via Paystack</span>
               </button>
 
@@ -353,7 +343,7 @@ export default function ConsultationPage() {
               Thank you, <strong>{fullName}</strong>. Your consultation request for <strong>{getPurposeLabel(purpose)}</strong> has been recorded under reference <strong className="font-mono text-brand-navy">{bookingId}</strong>.
             </p>
 
-            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 max-w-md mx-auto text-left space-y-1">
+            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 max-w-md mx-auto text-left space-y-1">
               <span className="font-bold block">Next Step:</span>
               <p>
                 Our lead advisor will contact your WhatsApp at <strong>{whatsappNumber}</strong> to provide your calendar invite and consultation schedule.

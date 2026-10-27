@@ -1,13 +1,17 @@
 export type PropertyType =
-  | 'DETACHED_DUPLEX'
-  | 'SEMI_DETACHED'
-  | 'TERRACE'
-  | 'PENTHOUSE'
-  | 'MANSION'
-  | 'MAISONETTE'
+  | 'SELF_CONTAINED'
+  | 'MINI_FLAT'
   | 'APARTMENT'
   | 'SERVICED_APARTMENT'
-  | 'SHORTLET_STUDIO';
+  | 'SHORTLET_STUDIO'
+  | 'TERRACE'
+  | 'SEMI_DETACHED'
+  | 'DETACHED_DUPLEX'
+  | 'MANSION'
+  | 'PENTHOUSE'
+  | 'MAISONETTE'
+  | 'LAND'
+  | 'COMMERCIAL';
 
 export type ListingStatus = 'FOR_SALE' | 'FOR_RENT' | 'SHORTLET' | 'PENDING' | 'SOLD';
 

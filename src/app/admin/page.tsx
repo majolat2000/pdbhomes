@@ -18,7 +18,6 @@ import {
   Database,
   RefreshCw,
   LogOut,
-  Sparkles,
   ExternalLink,
   Phone,
   Mail,
@@ -412,7 +411,7 @@ export default function AdminPage() {
             <Link
               href="/"
               target="_blank"
-              className="text-xs font-semibold text-amber-300 hover:underline flex items-center gap-1"
+              className="text-xs font-semibold text-emerald-400 hover:underline flex items-center gap-1"
             >
               <span>View Live Site</span>
               <ExternalLink className="w-3 h-3" />
@@ -456,7 +455,7 @@ export default function AdminPage() {
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Buy / Sell Mandates</span>
             <div className="text-3xl font-extrabold text-brand-navy font-display">{clientRequests.length}</div>
-            <span className="text-[11px] text-brand-amber font-semibold">{clientRequests.filter(r => r.status === "NEW").length} pending match</span>
+            <span className="text-[11px] text-blue-600 font-semibold">{clientRequests.filter(r => r.status === "NEW").length} pending match</span>
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
@@ -557,7 +556,7 @@ export default function AdminPage() {
                   onClick={() => setShowAddModal(true)}
                   className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-colors"
                 >
-                  <PlusCircle className="w-4 h-4 text-amber-300" />
+                  <PlusCircle className="w-4 h-4 text-emerald-400" />
                   <span>Add New Listing</span>
                 </button>
 
@@ -696,15 +695,15 @@ export default function AdminPage() {
                       {leads.map((l) => (
                         <tr key={l.id} className="hover:bg-slate-50/60">
                           <td className="py-3.5 px-4 font-bold text-slate-900">
-                            <div className="flex items-center gap-1.5 flex-wrap"><span>{l.firstName} {l.lastName}</span>{(l.leadType === "CONSULTATION" || l.message?.includes("CONSULTATION")) && (<span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 font-extrabold text-[9px] uppercase tracking-wider border border-amber-300">₦10k Consultation</span>)}</div>
+                            <div className="flex items-center gap-1.5 flex-wrap"><span>{l.firstName} {l.lastName}</span>{(l.leadType === "CONSULTATION" || l.message?.includes("CONSULTATION")) && (<span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 font-extrabold text-[9px] uppercase tracking-wider border border-emerald-300">₦10k Consultation</span>)}</div>
                           </td>
                           <td className="py-3.5 px-4 space-y-0.5">
                             <div className="flex items-center gap-1 text-slate-700">
-                              <Phone className="w-3 h-3 text-brand-amber" />
+                              <Phone className="w-3 h-3 text-emerald-600" />
                               <a href={`tel:${l.phone}`} className="hover:underline">{l.phone}</a>
                             </div>
                             <div className="flex items-center gap-1 text-slate-500">
-                              <Mail className="w-3 h-3 text-brand-amber" />
+                              <Mail className="w-3 h-3 text-emerald-600" />
                               <a href={`mailto:${l.email}`} className="hover:underline">{l.email}</a>
                             </div>
                           </td>
@@ -716,7 +715,7 @@ export default function AdminPage() {
                           </td>
                           <td className="py-3.5 px-4">
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                              l.status === "NEW" ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800"
+                              l.status === "NEW" ? "bg-blue-100 text-blue-800" : "bg-emerald-100 text-emerald-800"
                             }`}>
                               {l.status}
                             </span>
@@ -778,7 +777,7 @@ export default function AdminPage() {
                         <tr key={r.id} className="hover:bg-slate-50/60">
                           <td className="py-3.5 px-4">
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                              r.requestIntent === "BUY" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800"
+                              r.requestIntent === "BUY" ? "bg-blue-100 text-blue-800" : r.requestIntent === "RENT" ? "bg-emerald-100 text-emerald-800" : "bg-purple-100 text-purple-800"
                             }`}>
                               {r.requestIntent}
                             </span>
@@ -933,7 +932,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
               {/* Change Password Card */}
               <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-4">
                 <div className="flex items-center gap-2 text-brand-navy font-bold text-sm">
-                  <Key className="w-4 h-4 text-amber-500" />
+                  <Key className="w-4 h-4 text-blue-600" />
                   <span>Change Your Admin Password</span>
                 </div>
 
@@ -1020,7 +1019,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
               <div className="space-y-6 text-xs">
                 <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-3">
                   <div className="flex items-center gap-2 text-brand-navy font-bold text-sm">
-                    <Shield className="w-4 h-4 text-amber-500" />
+                    <Shield className="w-4 h-4 text-emerald-600" />
                     <span>Configured Admin Accounts</span>
                   </div>
                   <p className="text-slate-500 leading-relaxed">
@@ -1030,7 +1029,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
                     <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
                       <div>
                         <div className="font-bold text-slate-900">precolat@gmail.com</div>
-                        <div className="text-[11px] text-amber-600 font-bold">Super Admin</div>
+                        <div className="text-[11px] text-emerald-700 font-bold">Super Admin</div>
                       </div>
                       <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">
                         Active
@@ -1040,7 +1039,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
                     <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
                       <div>
                         <div className="font-bold text-slate-900">info@pdbhomes.com</div>
-                        <div className="text-[11px] text-amber-600 font-bold">Super Admin</div>
+                        <div className="text-[11px] text-emerald-700 font-bold">Super Admin</div>
                       </div>
                       <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">
                         Active
@@ -1049,7 +1048,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-amber-50/80 border border-amber-200/60 text-slate-700 space-y-1.5">
+                <div className="p-5 rounded-2xl bg-emerald-50/80 border border-emerald-200/60 text-slate-700 space-y-1.5">
                   <div className="font-bold text-brand-navy">Supabase Persistent Storage</div>
                   <p className="leading-relaxed text-[11px]">
                     When you run the <code>db/supabase_schema.sql</code> script in your Supabase SQL editor and connect your project URL and keys in Vercel, password updates will persist directly into your cloud database across all deployments.

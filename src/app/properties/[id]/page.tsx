@@ -48,7 +48,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
             href="/properties"
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-600 hover:text-brand-navy transition-colors"
           >
-            <ArrowLeft className="w-4 h-4 text-brand-amber" />
+            <ArrowLeft className="w-4 h-4 text-emerald-600" />
             <span>Back to Collection</span>
           </Link>
 
@@ -67,7 +67,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
                 {isRent ? "For Rent" : "For Sale"}
               </span>
               {property.isExclusive && (
-                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-amber text-white">
+                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-700 text-white">
                   Exclusive
                 </span>
               )}
@@ -82,7 +82,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
               {property.title}
             </h1>
             <div className="flex items-center gap-2 text-sm sm:text-base text-slate-600 mt-2 font-medium">
-              <MapPin className="w-4 h-4 text-brand-amber shrink-0" />
+              <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>
                 {property.address}, {property.city}, {property.state} {property.postalCode}
               </span>
@@ -140,21 +140,21 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
               <div>
                 <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Bedrooms</span>
                 <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Bed className="w-4 h-4 text-brand-amber" />
+                  <Bed className="w-4 h-4 text-emerald-600" />
                   <span>{property.bedrooms}</span>
                 </div>
               </div>
               <div>
                 <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Bathrooms</span>
                 <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Bath className="w-4 h-4 text-brand-amber" />
+                  <Bath className="w-4 h-4 text-emerald-600" />
                   <span>{property.bathrooms}</span>
                 </div>
               </div>
               <div>
                 <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Living Space</span>
                 <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Square className="w-4 h-4 text-brand-amber" />
+                  <Square className="w-4 h-4 text-emerald-600" />
                   <span>{formatNumber(property.squareFeet)}</span>
                 </div>
                 <span className="text-[10px] text-slate-400">Sq Ft</span>
@@ -162,21 +162,21 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
               <div>
                 <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Lot Size</span>
                 <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Compass className="w-4 h-4 text-brand-amber" />
+                  <Compass className="w-4 h-4 text-emerald-600" />
                   <span>{property.lotSizeAcres ? `${property.lotSizeAcres} Ac` : "N/A"}</span>
                 </div>
               </div>
               <div>
                 <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Year Built</span>
                 <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Calendar className="w-4 h-4 text-brand-amber" />
+                  <Calendar className="w-4 h-4 text-emerald-600" />
                   <span>{property.yearBuilt}</span>
                 </div>
               </div>
               <div>
                 <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Type</span>
                 <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Home className="w-4 h-4 text-brand-amber" />
+                  <Home className="w-4 h-4 text-emerald-600" />
                   <span>{property.propertyType}</span>
                 </div>
               </div>
@@ -200,7 +200,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {property.amenities.map((amenity, idx) => (
                   <div key={idx} className="flex items-center gap-2.5 text-sm text-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-brand-amber shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>{amenity}</span>
                   </div>
                 ))}
@@ -216,7 +216,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
             {/* Schedule a Viewing Card */}
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-luxury space-y-4">
               <div>
-                <div className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-amber-50 text-brand-amber text-[10px] font-bold uppercase tracking-wider mb-1">
+                <div className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider mb-1">
                   <span>Private In-Person or Virtual Tour</span>
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 font-display">
@@ -250,7 +250,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
                   <h4 className="text-base font-bold text-slate-900 font-display">
                     {property.agent.name}
                   </h4>
-                  <p className="text-xs text-brand-amber font-semibold">
+                  <p className="text-xs text-emerald-700 font-semibold">
                     {property.agent.title}
                   </p>
                   <span className="text-[11px] text-slate-400 block">
@@ -277,14 +277,14 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
                   href={`tel:${property.agent.phone}`}
                   className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-800 transition-colors"
                 >
-                  <Phone className="w-3.5 h-3.5 text-brand-amber" />
+                  <Phone className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Direct: {property.agent.phone}</span>
                 </a>
                 <a
                   href={`mailto:${property.agent.email}?subject=Inquiry for ${encodeURIComponent(property.title)}`}
                   className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-800 transition-colors"
                 >
-                  <Mail className="w-3.5 h-3.5 text-brand-amber" />
+                  <Mail className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Email Agent</span>
                 </a>
               </div>

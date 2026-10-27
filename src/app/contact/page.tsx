@@ -63,7 +63,7 @@ export default function ContactPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <span className="text-xs font-bold tracking-widest uppercase text-brand-amber mb-2 block">
+          <span className="text-xs font-bold tracking-widest uppercase text-emerald-700 mb-2 block">
             Direct Communications
           </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-navy tracking-tight font-display">
@@ -225,12 +225,12 @@ export default function ContactPage() {
                   disabled={submitting}
                   className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all disabled:opacity-50"
                 >
-                  <Send className="w-4 h-4 text-amber-300" />
+                  <Send className="w-4 h-4 text-emerald-400" />
                   <span>{submitting ? "Sending Inquiry..." : "Submit Confidential Inquiry"}</span>
                 </button>
 
                 <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 pt-1 text-center">
-                  <ShieldCheck className="w-3.5 h-3.5 text-brand-amber" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                   <span>All inquiries are treated with strict confidentiality and prompt follow-up.</span>
                 </div>
               </form>
@@ -269,8 +269,8 @@ export default function ContactPage() {
             </div>
 
             {/* Book A Consultation Card */}
-            <div className="p-6 rounded-3xl bg-amber-500/10 border border-amber-300/40 space-y-3">
-              <div className="flex items-center gap-2 text-brand-amber text-xs font-bold uppercase tracking-wider">
+            <div className="p-6 rounded-3xl bg-emerald-50 border border-emerald-200/80 space-y-3">
+              <div className="flex items-center gap-2 text-emerald-700 text-xs font-bold uppercase tracking-wider">
                 <Calendar className="w-4 h-4" />
                 <span>One-on-One Advisory</span>
               </div>
@@ -282,10 +282,10 @@ export default function ContactPage() {
               </p>
               <Link
                 href="/consultation"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-navy hover:text-brand-amber transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-navy hover:text-emerald-700 transition-colors"
               >
                 <span>Book a Consultation</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 text-emerald-600" />
               </Link>
             </div>
 
@@ -297,7 +297,7 @@ export default function ContactPage() {
 
               <div className="space-y-3 text-xs text-slate-600">
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-brand-amber shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-slate-800 block">Coverage Enclaves</span>
                     <span>Mainland • Lekki • Ikoyi • VI • Ajah, Lagos State, Nigeria</span>
@@ -305,23 +305,33 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Phone className="w-4 h-4 text-brand-amber shrink-0 mt-0.5" />
+                  <Phone className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-slate-800 block">Telephone & WhatsApp</span>
-                    <span>+234 803 849 2100 | +234 1 849 2100</span>
+                    <a
+                      href="tel:+2348181017260"
+                      className="text-slate-900 font-bold hover:text-emerald-700 hover:underline transition-colors block text-sm"
+                    >
+                      +2348181017260
+                    </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Mail className="w-4 h-4 text-brand-amber shrink-0 mt-0.5" />
+                  <Mail className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-slate-800 block">Official Email</span>
-                    <span>info@pdbhomes.com</span>
+                    <a
+                      href="mailto:info@pdbhomes.com"
+                      className="text-slate-900 hover:text-emerald-700 transition-colors block"
+                    >
+                      info@pdbhomes.com
+                    </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Clock className="w-4 h-4 text-brand-amber shrink-0 mt-0.5" />
+                  <Clock className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-slate-800 block">Working Hours</span>
                     <span>Monday &ndash; Saturday: 8:00 AM &ndash; 6:00 PM</span>

@@ -25,7 +25,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Brand Logo with actual pdb logo.jpeg */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-sm border border-slate-200 bg-white p-0.5 group-hover:border-brand-amber transition-colors duration-300 shrink-0">
+            <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-sm border border-slate-200 bg-white p-0.5 group-hover:border-emerald-600 transition-colors duration-300 shrink-0">
               <Image
                 src="/pdb-logo.jpeg"
                 alt="PDB Homes Logo"
@@ -36,7 +36,7 @@ export function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold tracking-tight text-brand-navy font-display">
-                PDB <span className="text-brand-amber font-light">HOMES</span>
+                PDB <span className="text-emerald-600 font-light">HOMES</span>
               </span>
               <span className="text-[10px] tracking-wider uppercase text-slate-500 font-semibold">
                 Sales &bull; Rentals &bull; Shortlets
@@ -52,8 +52,8 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-xs lg:text-sm font-medium transition-colors hover:text-brand-amber ${
-                    isActive ? "text-brand-amber font-semibold" : "text-slate-600"
+                  className={`text-xs lg:text-sm font-medium transition-colors hover:text-emerald-600 ${
+                    isActive ? "text-emerald-700 font-bold" : "text-slate-600"
                   }`}
                 >
                   {link.label}
@@ -82,7 +82,7 @@ export function Navbar() {
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold tracking-wide uppercase bg-brand-navy text-white hover:bg-slate-800 transition-all shadow-sm hover:shadow"
             >
               <span>Property Request</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-amber-300" />
+              <ArrowUpRight className="w-3.5 h-3.5 text-emerald-400" />
             </Link>
           </div>
 
@@ -119,7 +119,7 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2.5 rounded-md text-base font-medium text-slate-800 hover:bg-slate-50 hover:text-brand-amber transition-colors"
+              className="block px-3 py-2.5 rounded-md text-base font-medium text-slate-800 hover:bg-slate-50 hover:text-emerald-600 transition-colors"
             >
               {link.label}
             </Link>

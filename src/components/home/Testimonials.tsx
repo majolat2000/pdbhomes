@@ -34,14 +34,14 @@ export function Testimonials() {
     <section className="py-24 bg-slate-50 border-t border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-xs font-bold tracking-widest uppercase text-brand-amber mb-2 block">
+          <span className="text-xs font-bold tracking-widest uppercase text-emerald-700 mb-2 block">
             Client Experiences
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
-            Trusted by Leaders & Discerning Families
+            Trusted by Discerning Clients
           </h2>
           <p className="mt-3 text-slate-600 text-sm sm:text-base">
-            Read what our clients say about our confidential advisory and bespoke transaction process.
+            Read what our clients say about our dedicated service and transparent real estate processes.
           </p>
         </div>
 
@@ -53,9 +53,9 @@ export function Testimonials() {
             >
               <div>
                 {/* Star rating */}
-                <div className="flex items-center gap-1 mb-4 text-amber-400">
+                <div className="flex items-center gap-1 mb-4 text-emerald-500">
                   {[...Array(rev.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <Star key={i} className="w-4 h-4 fill-emerald-500 text-emerald-500" />
                   ))}
                 </div>
 

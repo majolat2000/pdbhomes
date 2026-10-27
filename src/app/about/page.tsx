@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck, MessageCircle, ArrowRight, Award, CheckCircle2, Sparkles } from "lucide-react";
+import { ShieldCheck, MessageCircle, ArrowRight, Award, CheckCircle2 } from "lucide-react";
 
 export default function AboutPage() {
   return (
@@ -9,8 +9,7 @@ export default function AboutPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-4">
             <span>About PDB Homes</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-navy tracking-tight font-display mb-6">
@@ -33,7 +32,7 @@ export default function AboutPage() {
           </div>
 
           <div className="space-y-6">
-            <span className="text-xs font-bold tracking-widest uppercase text-brand-amber block">
+            <span className="text-xs font-bold tracking-widest uppercase text-emerald-700 block">
               Our Commitment
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-navy font-display">
@@ -76,10 +75,10 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* MEET THE CEO SECTION (Replacing fake advisory team) */}
+        {/* MEET THE CEO SECTION */}
         <div className="mb-20 sm:mb-28">
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <span className="text-xs font-bold tracking-widest uppercase text-brand-amber mb-2 block">
+            <span className="text-xs font-bold tracking-widest uppercase text-emerald-700 mb-2 block">
               Leadership
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
@@ -103,7 +102,7 @@ export default function AboutPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden" />
                 <div className="absolute bottom-4 left-4 text-white md:hidden">
-                  <span className="text-xs font-semibold text-amber-300">Chief Executive Officer</span>
+                  <span className="text-xs font-semibold text-emerald-300">Chief Executive Officer</span>
                   <h3 className="text-xl font-bold font-display">PDB Homes</h3>
                 </div>
               </div>
@@ -111,14 +110,14 @@ export default function AboutPage() {
               {/* CEO Narrative & Bio */}
               <div className="md:col-span-7 p-8 sm:p-10 lg:p-12 space-y-6">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-brand-amber text-xs font-bold uppercase tracking-wider mb-2">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">
                     <Award className="w-3.5 h-3.5" />
                     <span>Founder & CEO</span>
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-brand-navy font-display">
                     PDB Homes Leadership
                   </h3>
-                  <p className="text-sm font-semibold text-brand-amber mt-1">
+                  <p className="text-sm font-semibold text-emerald-700 mt-1">
                     Sales | Rentals | Shortlets Specialist
                   </p>
                 </div>
@@ -131,7 +130,7 @@ export default function AboutPage() {
                   From everyday affordable accommodations across the Mainland and Ajah to prime residential enclaves in Lekki, Ikoyi, and Victoria Island, our mission is to ensure every client is served with utmost transparency, zero hidden surprises, and world-class professionalism.
                 </p>
 
-                <blockquote className="p-4 rounded-2xl bg-slate-50 border-l-4 border-brand-amber text-xs sm:text-sm text-slate-700 italic">
+                <blockquote className="p-4 rounded-2xl bg-slate-50 border-l-4 border-emerald-600 text-xs sm:text-sm text-slate-700 italic">
                   &ldquo;Your trust is our most valuable asset. Whether you are buying your dream home, renting an apartment, or staying in one of our serviced shortlets, we are committed to exceeding your expectations.&rdquo;
                 </blockquote>
 
@@ -151,7 +150,7 @@ export default function AboutPage() {
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all"
                   >
                     <span>Book a Consultation</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-amber-300" />
+                    <ArrowRight className="w-3.5 h-3.5 text-emerald-400" />
                   </Link>
                 </div>
               </div>
@@ -161,7 +160,7 @@ export default function AboutPage() {
 
         {/* Call to Action Banner */}
         <div className="rounded-3xl bg-brand-navy text-white p-8 sm:p-12 lg:p-16 text-center max-w-4xl mx-auto shadow-2xl space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-amber-300 text-xs font-semibold">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold">
             <ShieldCheck className="w-4 h-4" />
             <span>Mainland • Lekki • Ikoyi • VI • Ajah</span>
           </div>
@@ -169,7 +168,7 @@ export default function AboutPage() {
             Ready to Find Your Next Home or Investment?
           </h2>
           <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto font-light">
-            Connect directly with PDB Homes today for sales, verified rentals, or luxury shortlet reservations.
+            Connect directly with PDB Homes today for houses for sale, verified rentals, or luxury shortlet reservations.
           </p>
           <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
             <a
@@ -183,7 +182,7 @@ export default function AboutPage() {
             </a>
             <Link
               href="/consultation"
-              className="px-7 py-3 rounded-xl bg-brand-amber hover:bg-amber-600 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"
+              className="px-7 py-3 rounded-xl bg-blue-700 hover:bg-blue-600 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"
             >
               Book a Consultation
             </Link>

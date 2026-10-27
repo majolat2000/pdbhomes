@@ -98,15 +98,14 @@ function PropertiesPageContent() {
         {/* Page Title & Breadcrumb */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            {/* Tag (Logo removed per instruction) */}
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">
               <span>Curated Inventory</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
-              Nigerian Luxury Property Portfolio
+              Nigerian Property Portfolio
             </h1>
             <p className="text-slate-600 text-sm sm:text-base mt-1">
-              Architectural mansions, lagoon waterfront villas, and skyline penthouses.
+              Sales, Rentals & Shortlets across Mainland, Lekki, Ikoyi, VI, and Ajah.
             </p>
           </div>
 
@@ -114,8 +113,8 @@ function PropertiesPageContent() {
             href="/request"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-colors self-start sm:self-auto"
           >
-            <UserCheck className="w-4 h-4 text-amber-300" />
-            <span>Submit Buy / Sell Mandate</span>
+            <UserCheck className="w-4 h-4 text-emerald-400" />
+            <span>Submit Property Mandate</span>
           </Link>
         </div>
 
@@ -128,12 +127,12 @@ function PropertiesPageContent() {
                 Location (Nigeria)
               </label>
               <div className="relative flex items-center">
-                <Search className="w-4 h-4 text-brand-amber absolute left-3" />
+                <Search className="w-4 h-4 text-emerald-600 absolute left-3" />
                 <input
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  placeholder="Ikoyi, Banana Island, Maitama..."
+                  placeholder="Lekki, Ikoyi, VI, Ajah, Mainland..."
                   className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 focus:outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
                 />
               </div>
@@ -142,20 +141,23 @@ function PropertiesPageContent() {
             {/* Type */}
             <div>
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
-                Property Type
+                Property Type (Nigerian)
               </label>
               <select
                 value={propertyType}
                 onChange={(e) => setPropertyType(e.target.value)}
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 bg-white focus:outline-none focus:border-brand-navy"
               >
-                <option value="ALL">All Types</option>
-                <option value="MANSION">Mansion</option>
-                <option value="PENTHOUSE">Sky Penthouse</option>
-                <option value="DETACHED_DUPLEX">Detached Duplex</option>
+                <option value="ALL">All Categories</option>
+                <option value="SELF_CONTAINED">Self-Con (Self-Contained)</option>
+                <option value="MINI_FLAT">Mini Flat (1 Bedroom)</option>
+                <option value="APARTMENT">Apartment / Flat (2/3 Bed)</option>
+                <option value="SHORTLET_STUDIO">Serviced Shortlet / Studio</option>
                 <option value="TERRACE">Terrace Duplex</option>
-                <option value="MAISONETTE">Maisonette</option>
-                <option value="APARTMENT">Apartment</option>
+                <option value="DETACHED_DUPLEX">Detached Duplex</option>
+                <option value="MANSION">Mansion / Waterfront</option>
+                <option value="LAND">Lands for Sale</option>
+                <option value="COMMERCIAL">Commercial / Office</option>
               </select>
             </div>
 
@@ -170,9 +172,9 @@ function PropertiesPageContent() {
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 bg-white focus:outline-none focus:border-brand-navy"
               >
                 <option value="ALL">All Listings</option>
-                <option value="FOR_SALE">For Sale</option>
-                <option value="FOR_RENT">For Rent</option>
-                <option value="SHORTLET">Shortlets</option>
+                <option value="FOR_SALE">Houses & Lands for Sale</option>
+                <option value="FOR_RENT">Rentals & Apartments</option>
+                <option value="SHORTLET">Serviced Shortlets</option>
               </select>
             </div>
 
@@ -201,7 +203,7 @@ function PropertiesPageContent() {
                 onClick={() => setShowFiltersMobile(!showFiltersMobile)}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-slate-300 hover:bg-slate-50 text-xs font-bold text-slate-700"
               >
-                <SlidersHorizontal className="w-3.5 h-3.5 text-brand-amber" />
+                <SlidersHorizontal className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Amenities ({selectedAmenities.length})</span>
               </button>
 
@@ -303,7 +305,7 @@ function PropertiesPageContent() {
           </div>
         ) : properties.length === 0 ? (
           <div className="py-16 text-center bg-white rounded-3xl border border-slate-200 p-10 max-w-2xl mx-auto space-y-4 shadow-sm">
-            <div className="w-12 h-12 rounded-full bg-amber-50 text-brand-amber flex items-center justify-center mx-auto">
+            <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto">
               <Search className="w-6 h-6" />
             </div>
             <h3 className="text-xl font-bold text-slate-900 font-display">No Houses Listed Yet</h3>

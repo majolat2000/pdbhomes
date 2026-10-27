@@ -156,7 +156,7 @@ export function ScheduleViewingForm({
             Preferred Date
           </label>
           <div className="relative flex items-center">
-            <Calendar className="w-3.5 h-3.5 text-brand-amber absolute left-2.5 pointer-events-none" />
+            <Calendar className="w-3.5 h-3.5 text-emerald-600 absolute left-2.5 pointer-events-none" />
             <input
               type="date"
               value={preferredDate}
@@ -170,7 +170,7 @@ export function ScheduleViewingForm({
             Time Slot
           </label>
           <div className="relative flex items-center">
-            <Clock className="w-3.5 h-3.5 text-brand-amber absolute left-2.5 pointer-events-none" />
+            <Clock className="w-3.5 h-3.5 text-emerald-600 absolute left-2.5 pointer-events-none" />
             <select
               value={preferredTime}
               onChange={(e) => setPreferredTime(e.target.value)}
@@ -202,12 +202,12 @@ export function ScheduleViewingForm({
         disabled={submitting}
         className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all disabled:opacity-50"
       >
-        <Send className="w-3.5 h-3.5 text-amber-300" />
+        <Send className="w-3.5 h-3.5 text-emerald-400" />
         <span>{submitting ? "Booking Appointment..." : "Request Private Viewing"}</span>
       </button>
 
       <div className="flex items-center justify-center gap-1.5 text-[10px] text-slate-400 text-center">
-        <ShieldCheck className="w-3 h-3 text-brand-amber" />
+        <ShieldCheck className="w-3 h-3 text-emerald-600" />
         <span>Strict privacy protection. No unsolicited communications.</span>
       </div>
     </form>

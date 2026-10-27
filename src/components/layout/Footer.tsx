@@ -25,9 +25,9 @@ export function Footer() {
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold tracking-tight text-white font-display">
-                  PDB <span className="text-brand-amber font-light">HOMES</span>
+                  PDB <span className="text-emerald-400 font-light">HOMES</span>
                 </span>
-                <span className="text-[10px] tracking-wider uppercase text-amber-400 font-medium">
+                <span className="text-[10px] tracking-wider uppercase text-emerald-400 font-medium">
                   Sales • Rentals • Shortlets
                 </span>
               </div>
@@ -40,15 +40,21 @@ export function Footer() {
 
             <div className="pt-1 flex flex-col gap-2.5 text-xs text-slate-400">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-brand-amber shrink-0" />
+                <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Lekki • Ikoyi • VI • Ajah • Lagos Mainland, Nigeria</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-brand-amber shrink-0" />
-                <span>Direct: +234 803 849 2100 | +234 1 849 2100</span>
+                <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
+                <a
+                  href="tel:+2348181017260"
+                  className="hover:text-emerald-400 transition-colors font-medium text-slate-300"
+                  title="Call PDB Homes"
+                >
+                  +2348181017260
+                </a>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-brand-amber shrink-0" />
+                <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>info@pdbhomes.com</span>
               </div>
             </div>
@@ -68,7 +74,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-amber-400 font-sans">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-emerald-400 font-sans">
               Specializations
             </h4>
             <ul className="space-y-2.5 text-sm">
@@ -112,7 +118,7 @@ export function Footer() {
 
           {/* Key Locations */}
           <div className="space-y-4">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-amber-400 font-sans">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-emerald-400 font-sans">
               Key Locations
             </h4>
             <ul className="space-y-2.5 text-sm">
@@ -146,14 +152,14 @@ export function Footer() {
 
           {/* Newsletter / Consultation */}
           <div className="space-y-4">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-amber-400 font-sans">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-emerald-400 font-sans">
               Get Market Updates
             </h4>
             <p className="text-xs text-slate-400 leading-relaxed">
               Sign up for curated alerts on new listings, prime shortlets, and lucrative off-market property deals in Lagos.
             </p>
             {subscribed ? (
-              <div className="p-3 bg-slate-800 rounded-lg text-xs text-amber-300">
+              <div className="p-3 bg-slate-800 rounded-lg text-xs text-emerald-300">
                 Thank you for subscribing to PDB Homes real estate updates!
               </div>
             ) : (
@@ -169,12 +175,12 @@ export function Footer() {
                     type="email"
                     required
                     placeholder="Enter your email"
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-amber transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-brand-amber hover:bg-amber-600 text-white text-xs font-semibold tracking-wide uppercase transition-colors"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold tracking-wide uppercase transition-colors shadow-sm"
                 >
                   <span>Stay Updated</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -187,11 +193,11 @@ export function Footer() {
         {/* Bottom Disclosures */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-amber-400" />
-            <span>PDB Homes: Sales | Rentals | Shortlets • Verified Titles & Trusted Advisory</span>
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <span>PDB Homes: Sales | Rentals | Shortlets</span>
           </div>
           <div>
-            &copy; {new Date().getFullYear()} PDB Homes. All rights reserved.
+            Since 2024, PDB Homes. All rights reserved.
           </div>
         </div>
       </div>

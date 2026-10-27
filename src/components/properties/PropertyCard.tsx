@@ -28,7 +28,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
         {/* Status & Feature Badges */}
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
           {property.isExclusive && (
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-brand-amber text-white shadow-sm">
+            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-emerald-700 text-white shadow-sm">
               Exclusive
             </span>
           )}
@@ -62,7 +62,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
         <div>
           {/* Location */}
           <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium mb-1.5">
-            <MapPin className="w-3.5 h-3.5 text-brand-amber shrink-0" />
+            <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
             <span className="truncate">
               {property.city}, {property.state}
             </span>
@@ -70,7 +70,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
           {/* Title */}
           <Link href={`/properties/${property.id}`}>
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-brand-amber transition-colors line-clamp-1 mb-2 font-display">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-1 mb-2 font-display">
               {property.title}
             </h3>
           </Link>
@@ -110,10 +110,10 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
           <Link
             href={`/properties/${property.id}`}
-            className="inline-flex items-center gap-1 text-xs font-bold text-brand-navy hover:text-brand-amber transition-colors group-hover:translate-x-0.5 duration-200"
+            className="inline-flex items-center gap-1 text-xs font-bold text-brand-navy hover:text-emerald-700 transition-colors group-hover:translate-x-0.5 duration-200"
           >
             <span>View Details</span>
-            <ArrowUpRight className="w-3.5 h-3.5 text-brand-amber" />
+            <ArrowUpRight className="w-3.5 h-3.5 text-emerald-600" />
           </Link>
         </div>
       </div>

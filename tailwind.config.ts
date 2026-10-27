@@ -10,10 +10,14 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          navy: "#0F172A",
+          navy: "#0A192F",
+          blue: "#1E3A8A",
+          azure: "#2563EB",
+          green: "#059669",
+          emerald: "#10B981",
+          amber: "#059669", // Replaced yellow with rich Nigerian emerald green
           slate: "#1E293B",
-          gold: "#C5A880",
-          amber: "#D97706",
+          gold: "#047857",
           light: "#F8FAFC",
           card: "#FFFFFF",
           muted: "#64748B",

@@ -38,7 +38,7 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
     <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-card">
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-amber-50 text-brand-amber flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
             <Calculator className="w-4 h-4" />
           </div>
           <div>
@@ -73,7 +73,7 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
             style={{
               width: `${(monthlyPropertyTaxes / totalMonthlyPayment) * 100}%`,
             }}
-            className="bg-brand-amber h-full transition-all duration-300"
+            className="bg-blue-600 h-full transition-all duration-300"
             title="Property Taxes"
           />
           <div
@@ -91,7 +91,7 @@ export function MortgageCalculator({ initialPrice }: MortgageCalculatorProps) {
             <span>P&I: {formatCurrency(monthlyPrincipalAndInterest)}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-brand-amber" />
+            <div className="w-2.5 h-2.5 rounded-full bg-blue-600" />
             <span>Taxes: {formatCurrency(monthlyPropertyTaxes)}</span>
           </div>
           <div className="flex items-center gap-1.5">
