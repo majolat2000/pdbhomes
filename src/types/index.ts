@@ -5,9 +5,11 @@ export type PropertyType =
   | 'PENTHOUSE'
   | 'MANSION'
   | 'MAISONETTE'
-  | 'APARTMENT';
+  | 'APARTMENT'
+  | 'SERVICED_APARTMENT'
+  | 'SHORTLET_STUDIO';
 
-export type ListingStatus = 'FOR_SALE' | 'FOR_RENT' | 'PENDING' | 'SOLD';
+export type ListingStatus = 'FOR_SALE' | 'FOR_RENT' | 'SHORTLET' | 'PENDING' | 'SOLD';
 
 export interface Agent {
   id: string;
@@ -36,15 +38,15 @@ export interface Property {
   propertyType: PropertyType;
   listingStatus: ListingStatus;
   price: number; // in Naira (NGN)
-  rentalFrequency?: 'MONTHLY' | 'ANNUALLY';
+  rentalFrequency?: 'DAILY' | 'NIGHTLY' | 'WEEKLY' | 'MONTHLY' | 'ANNUALLY';
   bedrooms: number;
   bathrooms: number;
   squareFeet: number;
   lotSizeAcres?: number;
   yearBuilt: number;
   address: string;
-  city: string; // e.g. Ikoyi, Lekki Phase 1, Victoria Island, Maitama
-  state: string; // e.g. Lagos, Abuja FCT, Rivers
+  city: string; // e.g. Lekki, Ikoyi, Victoria Island, Ajah, Ikeja/Mainland
+  state: string; // e.g. Lagos, Abuja FCT
   postalCode?: string;
   country: string; // Nigeria
   latitude: number;
@@ -76,13 +78,13 @@ export interface Lead {
   createdAt: string;
 }
 
-export type RequestIntent = 'BUY' | 'SELL';
+export type RequestIntent = 'BUY' | 'SELL' | 'RENT' | 'SHORTLET';
 
 export interface ClientRequest {
   id: string;
-  requestIntent: RequestIntent; // BUY or SELL
-  propertyType: string; // e.g. 5-Bedroom Fully Detached Duplex
-  targetLocation: string; // e.g. Ikoyi, Lekki Phase 1, Banana Island, Maitama
+  requestIntent: RequestIntent; // BUY, SELL, RENT, SHORTLET
+  propertyType: string; // e.g. 2-Bedroom Shortlet, 5-Bedroom Detached Duplex
+  targetLocation: string; // e.g. Lekki Phase 1, Ajah, Ikoyi, Ikeja Mainland
   budgetMin?: number; // in Naira
   budgetMax?: number; // in Naira
   sellingPrice?: number; // in Naira (if selling)
@@ -92,7 +94,7 @@ export interface ClientRequest {
   clientName: string;
   email: string;
   phone: string;
-  preferredTimeline?: string; // e.g. Immediate, 1-3 Months, Exploring
+  preferredTimeline?: string; // e.g. Immediate, This Weekend, 1-3 Months
   status: 'NEW' | 'REVIEWING' | 'MATCHED' | 'CLOSED';
   createdAt: string;
 }

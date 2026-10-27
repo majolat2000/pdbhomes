@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Building2, Mail, Phone, MapPin, ShieldCheck, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Mail, Phone, MapPin, ShieldCheck, ArrowRight, MessageCircle } from "lucide-react";
 
 export function Footer() {
   const [subscribed, setSubscribed] = useState(false);
@@ -14,25 +15,33 @@ export function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400">
-                <Building2 className="w-5 h-5" />
+              <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-white/10 p-0.5 border border-white/20 shrink-0">
+                <Image
+                  src="/pdb-logo.jpeg"
+                  alt="PDB Homes Logo"
+                  fill
+                  className="object-cover rounded-lg"
+                />
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold tracking-tight text-white font-display">
                   PDB <span className="text-brand-amber font-light">HOMES</span>
                 </span>
-                <span className="text-[10px] tracking-widest uppercase text-slate-400">
-                  Private Client Real Estate Nigeria
+                <span className="text-[10px] tracking-wider uppercase text-amber-400 font-medium">
+                  Sales • Rentals • Shortlets
                 </span>
               </div>
             </Link>
-            <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
-              Representing premier architectural mansions, lagoon waterfronts, and trophy penthouses across Banana Island, Ikoyi, Victoria Island, Lekki, and Abuja.
+
+            <p className="text-sm text-slate-300 leading-relaxed max-w-sm">
+              <strong className="text-white block mb-1">Your trusted real estate brand.</strong>
+              We specialize in Sales | Rentals | Shortlets across Mainland • Lekki • Ikoyi • VI • Ajah. Providing seamless representation from affordable to luxury listings.
             </p>
-            <div className="pt-2 flex flex-col gap-2 text-xs text-slate-400">
+
+            <div className="pt-1 flex flex-col gap-2.5 text-xs text-slate-400">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-brand-amber shrink-0" />
-                <span>Plot 14, Admiralty Way, Lekki Phase 1, Lagos, Nigeria</span>
+                <span>Lekki • Ikoyi • VI • Ajah • Lagos Mainland, Nigeria</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-brand-amber shrink-0" />
@@ -40,105 +49,112 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-brand-amber shrink-0" />
-                <span>privateclients@pdbhomes.com</span>
+                <span>info@pdbhomes.com</span>
               </div>
+            </div>
+
+            <div className="pt-2">
+              <a
+                href="https://wa.link/ksxyrq"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md transition-all duration-200"
+              >
+                <MessageCircle className="w-4 h-4 fill-white" />
+                <span>Chat on WhatsApp Directly</span>
+              </a>
             </div>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-4">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-amber-400 font-sans">
-              Navigation
+              Specializations
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/properties" className="hover:text-white transition-colors">
-                  All Properties
-                </Link>
-              </li>
-              <li>
-                <Link href="/request" className="hover:text-white transition-colors">
-                  Buy / Sell Mandate
-                </Link>
-              </li>
-              <li>
                 <Link href="/properties?listingStatus=FOR_SALE" className="hover:text-white transition-colors">
-                  Homes for Sale
+                  Properties for Sale
                 </Link>
               </li>
               <li>
                 <Link href="/properties?listingStatus=FOR_RENT" className="hover:text-white transition-colors">
-                  Executive Rentals
+                  Annual Rentals
+                </Link>
+              </li>
+              <li>
+                <Link href="/properties?listingStatus=SHORTLET" className="hover:text-white transition-colors">
+                  Serviced Shortlets
+                </Link>
+              </li>
+              <li>
+                <Link href="/request" className="hover:text-white transition-colors">
+                  Client Buy / Sell Request
                 </Link>
               </li>
               <li>
                 <Link href="/valuation" className="hover:text-white transition-colors">
-                  Property Valuation (NGN)
+                  Free Property Valuation
                 </Link>
               </li>
               <li>
                 <Link href="/about" className="hover:text-white transition-colors">
-                  About Our Advisory
+                  About PDB Homes
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-white transition-colors">
-                  Contact & Offices
+                  Contact Our Desk
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Premier Nigerian Markets */}
+          {/* Key Locations */}
           <div className="space-y-4">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-amber-400 font-sans">
-              Prime Nigerian Enclaves
+              Key Locations
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/properties?location=Banana+Island" className="hover:text-white transition-colors">
-                  Banana Island, Ikoyi
+                <Link href="/properties?location=Lekki" className="hover:text-white transition-colors">
+                  Lekki Phase 1 & Environs
                 </Link>
               </li>
               <li>
                 <Link href="/properties?location=Ikoyi" className="hover:text-white transition-colors">
-                  Old Ikoyi & Bourguillon
-                </Link>
-              </li>
-              <li>
-                <Link href="/properties?location=Lekki" className="hover:text-white transition-colors">
-                  Lekki Phase 1 Waterfront
+                  Ikoyi & Banana Island
                 </Link>
               </li>
               <li>
                 <Link href="/properties?location=Victoria+Island" className="hover:text-white transition-colors">
-                  Victoria Island & Eko Atlantic
+                  Victoria Island (VI)
                 </Link>
               </li>
               <li>
-                <Link href="/properties?location=Maitama" className="hover:text-white transition-colors">
-                  Maitama & Asokoro, Abuja
+                <Link href="/properties?location=Ajah" className="hover:text-white transition-colors">
+                  Ajah & Sangotedo
                 </Link>
               </li>
               <li>
-                <Link href="/properties?location=Ikeja" className="hover:text-white transition-colors">
-                  Ikeja GRA Compounds
+                <Link href="/properties?location=Mainland" className="hover:text-white transition-colors">
+                  Lagos Mainland (Ikeja, Surulere, Yaba)
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Newsletter / Intelligence Desk */}
+          {/* Newsletter / Consultation */}
           <div className="space-y-4">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-amber-400 font-sans">
-              Private Market Intelligence
+              Get Market Updates
             </h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Quarterly reports on land value trends in Lagos and Abuja, verified Governor&apos;s Consent intelligence, and off-market mandates.
+              Sign up for curated alerts on new listings, prime shortlets, and lucrative off-market property deals in Lagos.
             </p>
             {subscribed ? (
               <div className="p-3 bg-slate-800 rounded-lg text-xs text-amber-300">
-                Thank you for subscribing to PDB Homes Private Intelligence.
+                Thank you for subscribing to PDB Homes real estate updates!
               </div>
             ) : (
               <form
@@ -160,7 +176,7 @@ export function Footer() {
                   type="submit"
                   className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-brand-amber hover:bg-amber-600 text-white text-xs font-semibold tracking-wide uppercase transition-colors"
                 >
-                  <span>Subscribe</span>
+                  <span>Stay Updated</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </form>
@@ -172,10 +188,10 @@ export function Footer() {
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-amber-400" />
-            <span>NIESV & ESVARBON Professional Practice Standards. Verified Title Guarantee.</span>
+            <span>PDB Homes: Sales | Rentals | Shortlets • Verified Titles & Trusted Advisory</span>
           </div>
           <div>
-            &copy; {new Date().getFullYear()} PDB Homes Nigeria Ltd. All rights reserved. Designed for elite real estate representation.
+            &copy; {new Date().getFullYear()} PDB Homes. All rights reserved.
           </div>
         </div>
       </div>

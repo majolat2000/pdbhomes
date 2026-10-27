@@ -142,6 +142,14 @@ export default function AboutPage() {
             Connect directly with our senior managing partners for confidential consultations.
           </p>
           <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="https://wa.link/ksxyrq"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"
+            >
+              Chat on WhatsApp
+            </a>
             <Link
               href="/contact"
               className="px-8 py-3.5 rounded-xl bg-brand-amber hover:bg-amber-600 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"

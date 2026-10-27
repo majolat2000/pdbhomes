@@ -243,6 +243,29 @@ export default function ContactPage() {
 
           {/* Office Directory & Info */}
           <div className="lg:col-span-5 space-y-6">
+            {/* WhatsApp Priority Card */}
+            <div className="p-6 rounded-2xl bg-emerald-700 text-white shadow-card flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+                  <MessageCircle className="w-6 h-6 fill-white" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-base">Instant WhatsApp Desk</h4>
+                  <p className="text-xs text-emerald-100">
+                    Need instant answers or want to book an inspection? Chat directly with our team.
+                  </p>
+                </div>
+              </div>
+              <a
+                href="https://wa.link/ksxyrq"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-xl bg-white text-emerald-800 font-bold text-xs uppercase tracking-wider hover:bg-emerald-50 shadow-md shrink-0 transition-colors"
+              >
+                Chat on WhatsApp
+              </a>
+            </div>
+
             <h3 className="text-xl font-bold text-brand-navy font-display mb-4">
               Regional Flagships
             </h3>

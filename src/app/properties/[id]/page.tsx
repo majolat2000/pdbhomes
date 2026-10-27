@@ -21,6 +21,7 @@ import {
   CheckCircle2,
   ArrowLeft,
   Compass,
+  MessageCircle,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -263,6 +264,15 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
               </p>
 
               <div className="pt-2 flex flex-col gap-2">
+                <a
+                  href={`https://wa.link/ksxyrq?text=${encodeURIComponent(`Hello PDB Homes, I would like to inquire about: ${property.title} located at ${property.address} (${formatCurrency(property.price)})`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white transition-colors shadow-sm"
+                >
+                  <MessageCircle className="w-4 h-4 fill-white" />
+                  <span>Chat on WhatsApp Directly</span>
+                </a>
                 <a
                   href={`tel:${property.agent.phone}`}
                   className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-800 transition-colors"

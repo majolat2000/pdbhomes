@@ -2,6 +2,7 @@ import React from "react";
 import { getProperties } from "@/lib/db";
 import { HeroSearch } from "@/components/home/HeroSearch";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
+import { InstagramListingsCarousel } from "@/components/home/InstagramListingsCarousel";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { ValuationBanner } from "@/components/home/ValuationBanner";
 import { Testimonials } from "@/components/home/Testimonials";
@@ -16,16 +17,19 @@ export default async function HomePage() {
       {/* 1. Hero with Dynamic Search */}
       <HeroSearch />
 
-      {/* 2. Featured Portfolio Carousel / Grid */}
+      {/* 2. Instagram Showcase Carousel */}
+      <InstagramListingsCarousel />
+
+      {/* 3. Featured Portfolio (Listings populated by Admin) */}
       <FeaturedSection properties={properties} />
 
-      {/* 3. Valuation Lead Capture Banner for Sellers */}
+      {/* 4. Valuation Lead Capture Banner for Sellers */}
       <ValuationBanner />
 
-      {/* 4. Why Choose Us / Proven Track Record */}
+      {/* 5. Why Choose Us / Proven Track Record */}
       <WhyChooseUs />
 
-      {/* 5. Client Testimonials */}
+      {/* 6. Client Testimonials */}
       <Testimonials />
     </div>
   );

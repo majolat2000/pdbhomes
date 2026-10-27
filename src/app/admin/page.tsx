@@ -236,9 +236,14 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-slate-100 space-y-6">
-          <div className="text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-brand-navy text-amber-300 flex items-center justify-center mx-auto shadow-md">
-              <Lock className="w-6 h-6" />
+          <div className="text-center space-y-3">
+            <div className="relative w-16 h-16 rounded-2xl overflow-hidden mx-auto shadow-md border border-slate-200">
+              <Image
+                src="/pdb-logo.jpeg"
+                alt="PDB Homes Logo"
+                fill
+                className="object-cover"
+              />
             </div>
             <h1 className="text-2xl font-extrabold text-brand-navy font-display">
               PDB Homes Admin Portal
@@ -307,8 +312,13 @@ export default function AdminPage() {
       <header className="bg-brand-navy text-white px-6 py-4 border-b border-slate-800 sticky top-0 z-40 shadow-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-amber-400 text-brand-navy flex items-center justify-center font-bold">
-              <Building2 className="w-4 h-4" />
+            <div className="relative w-9 h-9 rounded-lg overflow-hidden border border-white/20 shrink-0">
+              <Image
+                src="/pdb-logo.jpeg"
+                alt="PDB Homes Logo"
+                fill
+                className="object-cover"
+              />
             </div>
             <div>
               <div className="text-sm font-bold tracking-tight">PDB Homes Admin Control Desk</div>
