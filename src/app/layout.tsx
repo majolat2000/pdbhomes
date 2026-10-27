@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "Lagos Mainland Homes",
     "Victoria Island Rentals",
     "Ajah Properties for Sale",
-    "Property Valuation Lagos",
+    "Consultation Real Estate Lagos",
   ],
   icons: {
     icon: "/pdb-logo.jpeg",

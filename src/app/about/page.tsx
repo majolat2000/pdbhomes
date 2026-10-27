@@ -1,32 +1,32 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { agents } from "@/lib/data/agents";
-import { Building2, Award, ShieldCheck, Mail, Phone, ArrowUpRight, Sparkles } from "lucide-react";
+import { ShieldCheck, MessageCircle, ArrowRight, Award, CheckCircle2, Sparkles } from "lucide-react";
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-slate-50 py-12 lg:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-4">
-            <span>The Advisory</span>
+        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-4">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>About PDB Homes</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-brand-navy tracking-tight font-display mb-6">
-            Architectural Stewardship. Proven Discretion.
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-navy tracking-tight font-display mb-6">
+            Your Trusted Real Estate Brand in Nigeria.
           </h1>
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-light">
-            Founded on the principle that exceptional Nigerian homes require bespoke representation, PDB Homes connects discerning buyers, diaspora leaders, and institutional investors with the nation&apos;s most distinctive properties.
+            We specialize in <strong>Sales | Rentals | Shortlets</strong> across <strong>Mainland • Lekki • Ikoyi • VI • Ajah</strong>, delivering verified titles, seamless acquisitions, and exceptional property experiences from affordable to luxury listings.
           </p>
         </div>
 
-        {/* Narrative & Visual Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-luxury">
+        {/* Brand Mission & Values */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center mb-20 sm:mb-28">
+          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-luxury border border-slate-200">
             <Image
               src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
-              alt="PDB Homes luxury interior"
+              alt="PDB Homes Interior Architecture"
               fill
               className="object-cover"
             />
@@ -34,120 +34,164 @@ export default function AboutPage() {
 
           <div className="space-y-6">
             <span className="text-xs font-bold tracking-widest uppercase text-brand-amber block">
-              Our Philosophy
+              Our Commitment
             </span>
-            <h2 className="text-3xl font-extrabold text-brand-navy font-display">
-              We Don&apos;t Just Sell Real Estate. We Curate Living Works of Art.
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-navy font-display">
+              Transforming Real Estate with Integrity, Speed & Precision.
             </h2>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              Every home has an architectural soul. From lagoon waterfront mansions in Banana Island to grand pre-war residences in Old Ikoyi, contemporary estates in Lekki Phase 1, and palatial diplomatic hillside villas in Maitama Abuja, we approach each assignment with curatorial reverence.
-            </p>
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              Our partners bring institutional financial acumen, deep localized intelligence across Nigerian state land registries, and an unmatched private client network connecting Nigeria with London, Dubai, New York, and Toronto.
+              At PDB Homes, we believe everyone deserves reliable, stress-free real estate services in Nigeria. Whether you are searching for your first home on the Mainland, acquiring a prime commercial plot, booking a luxury shortlet apartment in Lekki, or investing in an Ikoyi waterfront duplex, we guarantee personalized guidance at every step.
             </p>
 
-            <div className="pt-4 border-t border-slate-200">
-              <p className="text-xs text-slate-500 font-medium italic">
-                Operating with strict fiduciary care, verified title guarantees, and complete client confidentiality.
-              </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900">Verified Titles Only</h4>
+                  <p className="text-xs text-slate-500">Rigorous governor&apos;s consent and C of O verification.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900">Full Spectrum Coverage</h4>
+                  <p className="text-xs text-slate-500">From affordable family gems to ultra-luxury estates.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900">Premium Shortlets</h4>
+                  <p className="text-xs text-slate-500">24/7 power, fiber WiFi, security & prime hospitality.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900">Seamless Transactions</h4>
+                  <p className="text-xs text-slate-500">Direct WhatsApp support and transparent advisory.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Leadership & Agent Team Bios */}
-        <div className="mb-20">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+        {/* MEET THE CEO SECTION (Replacing fake advisory team) */}
+        <div className="mb-20 sm:mb-28">
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
             <span className="text-xs font-bold tracking-widest uppercase text-brand-amber mb-2 block">
-              Leadership Team
+              Leadership
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
-              Meet Our Senior Advisory
+              Meet the CEO
             </h2>
             <p className="mt-3 text-slate-600 text-sm sm:text-base">
-              Industry leaders, trusted negotiators, and masters of the luxury market.
+              The visionary driving PDB Homes to redefine property standards in Nigeria.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {agents.map((agent) => (
-              <div
-                key={agent.id}
-                className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-card hover:shadow-luxury transition-all duration-300 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative aspect-[4/5] bg-slate-100 overflow-hidden">
-                    <Image
-                      src={agent.avatarUrl}
-                      alt={agent.name}
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-lg font-bold text-slate-900 font-display">
-                      {agent.name}
-                    </h3>
-                    <p className="text-xs font-semibold text-brand-amber mt-0.5">
-                      {agent.title}
-                    </p>
-                    <span className="text-[11px] text-slate-400 block mb-3 font-mono">
-                      {agent.licenseNumber}
-                    </span>
-                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                      {agent.bio}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-6 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between text-xs font-semibold text-brand-navy">
-                  <a
-                    href={`tel:${agent.phone}`}
-                    className="flex items-center gap-1.5 hover:text-brand-amber transition-colors"
-                  >
-                    <Phone className="w-3.5 h-3.5 text-brand-amber" />
-                    <span>Call</span>
-                  </a>
-                  <a
-                    href={`mailto:${agent.email}`}
-                    className="flex items-center gap-1.5 hover:text-brand-amber transition-colors"
-                  >
-                    <Mail className="w-3.5 h-3.5 text-brand-amber" />
-                    <span>Email</span>
-                  </a>
+          <div className="max-w-5xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-luxury overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-12 items-center">
+              {/* CEO Portrait */}
+              <div className="md:col-span-5 relative h-96 md:h-full min-h-[420px] bg-slate-900 overflow-hidden">
+                <Image
+                  src="/pdb-ceo.jpeg"
+                  alt="PDB Homes CEO"
+                  fill
+                  priority
+                  className="object-cover object-top hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden" />
+                <div className="absolute bottom-4 left-4 text-white md:hidden">
+                  <span className="text-xs font-semibold text-amber-300">Chief Executive Officer</span>
+                  <h3 className="text-xl font-bold font-display">PDB Homes</h3>
                 </div>
               </div>
-            ))}
+
+              {/* CEO Narrative & Bio */}
+              <div className="md:col-span-7 p-8 sm:p-10 lg:p-12 space-y-6">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-brand-amber text-xs font-bold uppercase tracking-wider mb-2">
+                    <Award className="w-3.5 h-3.5" />
+                    <span>Founder & CEO</span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-brand-navy font-display">
+                    PDB Homes Leadership
+                  </h3>
+                  <p className="text-sm font-semibold text-brand-amber mt-1">
+                    Sales | Rentals | Shortlets Specialist
+                  </p>
+                </div>
+
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                  Welcome to PDB Homes. When founding this company, my driving passion was simple yet resolute: to establish a real estate brand rooted in honesty, excellence, and genuine client care. Real estate in Nigeria is about more than just transactions—it is about securing your hard-earned wealth, creating sanctuaries for families, and enabling flourishing lifestyles.
+                </p>
+
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                  From everyday affordable accommodations across the Mainland and Ajah to prime residential enclaves in Lekki, Ikoyi, and Victoria Island, our mission is to ensure every client is served with utmost transparency, zero hidden surprises, and world-class professionalism.
+                </p>
+
+                <blockquote className="p-4 rounded-2xl bg-slate-50 border-l-4 border-brand-amber text-xs sm:text-sm text-slate-700 italic">
+                  &ldquo;Your trust is our most valuable asset. Whether you are buying your dream home, renting an apartment, or staying in one of our serviced shortlets, we are committed to exceeding your expectations.&rdquo;
+                </blockquote>
+
+                <div className="pt-2 flex flex-wrap items-center gap-4">
+                  <a
+                    href="https://wa.link/ksxyrq"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all active:scale-95"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-white" />
+                    <span>Chat with the CEO Desk on WhatsApp</span>
+                  </a>
+
+                  <Link
+                    href="/consultation"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all"
+                  >
+                    <span>Book a Consultation</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-amber-300" />
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Call to action */}
-        <div className="rounded-3xl bg-brand-navy text-white p-10 sm:p-14 text-center max-w-4xl mx-auto shadow-2xl space-y-6">
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-display">
-            Ready to Discuss Your Next Acquisition or Sale?
+        {/* Call to Action Banner */}
+        <div className="rounded-3xl bg-brand-navy text-white p-8 sm:p-12 lg:p-16 text-center max-w-4xl mx-auto shadow-2xl space-y-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-amber-300 text-xs font-semibold">
+            <ShieldCheck className="w-4 h-4" />
+            <span>Mainland • Lekki • Ikoyi • VI • Ajah</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-display">
+            Ready to Find Your Next Home or Investment?
           </h2>
           <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto font-light">
-            Connect directly with our senior managing partners for confidential consultations.
+            Connect directly with PDB Homes today for sales, verified rentals, or luxury shortlet reservations.
           </p>
           <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
             <a
               href="https://wa.link/ksxyrq"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"
+              className="px-7 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg flex items-center gap-2"
             >
-              Chat on WhatsApp
+              <MessageCircle className="w-4 h-4 fill-white" />
+              <span>WhatsApp Direct</span>
             </a>
             <Link
-              href="/contact"
-              className="px-8 py-3.5 rounded-xl bg-brand-amber hover:bg-amber-600 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"
+              href="/consultation"
+              className="px-7 py-3 rounded-xl bg-brand-amber hover:bg-amber-600 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"
             >
-              Contact Our Office
+              Book a Consultation
             </Link>
             <Link
               href="/properties"
-              className="px-8 py-3.5 rounded-xl border border-white/30 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider transition-colors"
+              className="px-7 py-3 rounded-xl border border-white/30 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider transition-colors"
             >
-              Explore Portfolio
+              Explore Listings
             </Link>
           </div>
         </div>

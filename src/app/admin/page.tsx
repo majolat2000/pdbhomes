@@ -696,7 +696,7 @@ export default function AdminPage() {
                       {leads.map((l) => (
                         <tr key={l.id} className="hover:bg-slate-50/60">
                           <td className="py-3.5 px-4 font-bold text-slate-900">
-                            {l.firstName} {l.lastName}
+                            <div className="flex items-center gap-1.5 flex-wrap"><span>{l.firstName} {l.lastName}</span>{(l.leadType === "CONSULTATION" || l.message?.includes("CONSULTATION")) && (<span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 font-extrabold text-[9px] uppercase tracking-wider border border-amber-300">₦10k Consultation</span>)}</div>
                           </td>
                           <td className="py-3.5 px-4 space-y-0.5">
                             <div className="flex items-center gap-1 text-slate-700">
@@ -912,8 +912,8 @@ export default function AdminPage() {
               </ol>
 
               <pre className="p-4 bg-slate-900 text-slate-200 rounded-xl text-xs overflow-x-auto font-mono mt-3">
-{`NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
+{`NEXT_PUBLIC_SUPABASE_URL=https://tsilssuugqcbkgkcdipz.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
               </pre>
             </div>
           </div>
@@ -1024,13 +1024,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
                     <span>Configured Admin Accounts</span>
                   </div>
                   <p className="text-slate-500 leading-relaxed">
-                    The platform is seeded with two administrative accounts for leadership and client desks:
+                    The platform is configured with two Super Admin accounts for executive oversight and operations:
                   </p>
                   <div className="space-y-2 pt-1">
                     <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
                       <div>
                         <div className="font-bold text-slate-900">precolat@gmail.com</div>
-                        <div className="text-[11px] text-slate-400">Primary Administrator</div>
+                        <div className="text-[11px] text-amber-600 font-bold">Super Admin</div>
                       </div>
                       <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">
                         Active
@@ -1040,7 +1040,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
                     <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
                       <div>
                         <div className="font-bold text-slate-900">info@pdbhomes.com</div>
-                        <div className="text-[11px] text-slate-400">Operations & Listing Desk</div>
+                        <div className="text-[11px] text-amber-600 font-bold">Super Admin</div>
                       </div>
                       <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">
                         Active
@@ -1107,6 +1107,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
                   >
                     <option value="FOR_SALE">For Sale</option>
                     <option value="FOR_RENT">For Rent</option>
+                    <option value="SHORTLET">Serviced Shortlet</option>
                     <option value="PENDING">Pending Escrow</option>
                     <option value="SOLD">Sold</option>
                   </select>
@@ -1121,7 +1122,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
                     required
                     value={newLocationCity}
                     onChange={(e) => setNewLocationCity(e.target.value)}
-                    placeholder="Ikoyi / Lekki / Banana Island / Maitama"
+                    placeholder="Ikoyi / Lekki / VI / Ajah / Mainland"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200"
                   />
                 </div>
@@ -1143,6 +1144,9 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
                     onChange={(e) => setNewPropertyType(e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white"
                   >
+                    <option value="SHORTLET_STUDIO">Serviced Shortlet / Studio</option>
+                    <option value="SERVICED_APARTMENT">Serviced Apartment</option>
+                    <option value="TERRACE">Terrace Duplex</option>
                     <option value="DETACHED_DUPLEX">Detached Duplex</option>
                     <option value="MANSION">Waterfront Mansion</option>
                     <option value="PENTHOUSE">Sky Penthouse</option>

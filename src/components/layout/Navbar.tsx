@@ -13,8 +13,8 @@ export function Navbar() {
   const navLinks = [
     { href: "/properties", label: "Properties" },
     { href: "/properties?listingStatus=SHORTLET", label: "Shortlets" },
+    { href: "/consultation", label: "Book Consultation" },
     { href: "/request", label: "Buy / Sell / Rent" },
-    { href: "/valuation", label: "Home Valuation" },
     { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact" },
   ];

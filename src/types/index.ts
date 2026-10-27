@@ -66,7 +66,7 @@ export interface Lead {
   id: string;
   propertyId?: string;
   agentId?: string;
-  leadType: 'SCHEDULE_VIEWING' | 'INQUIRY' | 'VALUATION' | 'CONTACT';
+  leadType: 'SCHEDULE_VIEWING' | 'INQUIRY' | 'VALUATION' | 'CONTACT' | 'CONSULTATION';
   firstName: string;
   lastName: string;
   email: string;

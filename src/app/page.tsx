@@ -18,7 +18,7 @@ export default async function HomePage() {
       {/* 2. Featured Portfolio (Listings posted and approved by Admin) */}
       <FeaturedSection properties={properties} />
 
-      {/* 3. Valuation Lead Capture Banner for Sellers */}
+      {/* 3. Book A Consultation (₦10,000 Commitment Session) */}
       <ValuationBanner />
 
       {/* 4. Why Choose Us / Service Pillars */}
