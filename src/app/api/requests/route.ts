@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClientRequest, getClientRequests, updateClientRequestStatus } from "@/lib/db";
+import { notifyNewPropertyRequest } from "@/lib/notifications";
 
 export async function GET() {
   try {
@@ -38,6 +39,11 @@ export async function POST(req: NextRequest) {
       email: body.email,
       phone: body.phone,
       preferredTimeline: body.preferredTimeline || "Immediate",
+    });
+
+    // Notify admins (precolat@gmail.com and info@pdbhomes.com) without blocking
+    notifyNewPropertyRequest(saved).catch((err) => {
+      console.warn("Notification dispatch error:", err);
     });
 
     return NextResponse.json(

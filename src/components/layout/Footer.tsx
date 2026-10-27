@@ -55,7 +55,13 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>info@pdbhomes.com</span>
+                <a
+                  href="mailto:info@pdbhomes.com"
+                  className="hover:text-emerald-400 transition-colors font-medium text-slate-300"
+                  title="Email PDB Homes"
+                >
+                  info@pdbhomes.com
+                </a>
               </div>
             </div>
 

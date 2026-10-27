@@ -4,7 +4,7 @@ export const agents: Agent[] = [
   {
     id: "agent-1",
     name: "Babatunde Adeyemi",
-    email: "babatunde.adeyemi@pdbhomes.com",
+    email: "info@pdbhomes.com",
     phone: "+2348181017260",
     title: "Senior Partner — Ikoyi & Banana Island Private Estates",
     licenseNumber: "NIESV / ESVARBON Reg# 019284",

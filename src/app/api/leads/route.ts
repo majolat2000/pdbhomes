@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createLead, getLeads, updateLeadStatus } from "@/lib/db";
+import { notifyNewLead } from "@/lib/notifications";
 
 export async function GET() {
   try {
@@ -35,6 +36,11 @@ export async function POST(req: NextRequest) {
       message: body.message,
       preferredDate: body.preferredDate,
       preferredTime: body.preferredTime,
+    });
+
+    // Notify admins (precolat@gmail.com and info@pdbhomes.com) without blocking
+    notifyNewLead(lead).catch((err) => {
+      console.warn("Notification dispatch error:", err);
     });
 
     return NextResponse.json(

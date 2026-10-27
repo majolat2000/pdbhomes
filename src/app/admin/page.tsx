@@ -27,7 +27,14 @@ import {
   Shield,
   Key,
   Settings,
+  MessageCircle,
 } from "lucide-react";
+
+function getWhatsAppUrl(phone: string, text?: string) {
+  const clean = (phone || "").replace(/[^0-9]/g, "");
+  const wa = clean.startsWith("0") ? ("234" + clean.slice(1)) : clean;
+  return "https://wa.me/" + wa + (text ? ("?text=" + encodeURIComponent(text)) : "");
+}
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -36,7 +43,7 @@ export default function AdminPage() {
   const [loginError, setLoginError] = useState("");
   const [currentAdminEmail, setCurrentAdminEmail] = useState("");
 
-  const [activeTab, setActiveTab] = useState<"listings" | "consultations" | "requests" | "valuations" | "settings" | "supabase">("listings");
+  const [activeTab, setActiveTab] = useState<"listings" | "consultations" | "inquiries" | "requests" | "settings" | "supabase">("listings");
 
   // Settings & Password Change States
   const [currentPassword, setCurrentPassword] = useState("");
@@ -51,6 +58,12 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [clientRequests, setClientRequests] = useState<ClientRequest[]>([]);
   const [valuations, setValuations] = useState<ValuationRequest[]>([]);
+  const consultationLeads = leads.filter(
+    (l) => l.leadType === "CONSULTATION" || l.message?.includes("CONSULTATION")
+  );
+  const generalInquiries = leads.filter(
+    (l) => l.leadType !== "CONSULTATION" && !l.message?.includes("CONSULTATION")
+  );
   const [loading, setLoading] = useState(false);
   const [actionMessage, setActionMessage] = useState("");
 
@@ -443,25 +456,25 @@ export default function AdminPage() {
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Public Listings</span>
             <div className="text-3xl font-extrabold text-brand-navy font-display">{properties.length}</div>
-            <span className="text-[11px] text-slate-500">Only admin-listed homes appear</span>
+            <span className="text-[11px] text-slate-500">Active public inventory</span>
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Viewings & Consultations</span>
-            <div className="text-3xl font-extrabold text-brand-navy font-display">{leads.length}</div>
-            <span className="text-[11px] text-emerald-600 font-semibold">{leads.filter(l => l.status === "NEW").length} new requests</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">₦10k Consultations</span>
+            <div className="text-3xl font-extrabold text-emerald-700 font-display">{consultationLeads.length}</div>
+            <span className="text-[11px] text-emerald-600 font-semibold">{consultationLeads.filter(l => l.status === "NEW").length} pending review</span>
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Buy / Sell Mandates</span>
-            <div className="text-3xl font-extrabold text-brand-navy font-display">{clientRequests.length}</div>
-            <span className="text-[11px] text-blue-600 font-semibold">{clientRequests.filter(r => r.status === "NEW").length} pending match</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Buy / Rent / Sell Mandates</span>
+            <div className="text-3xl font-extrabold text-blue-700 font-display">{clientRequests.length}</div>
+            <span className="text-[11px] text-blue-600 font-semibold">{clientRequests.filter(r => r.status === "NEW").length} pending matching</span>
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Valuation Inquiries</span>
-            <div className="text-3xl font-extrabold text-brand-navy font-display">{valuations.length}</div>
-            <span className="text-[11px] text-slate-500">Seller equity assessments</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Viewings & Inquiries</span>
+            <div className="text-3xl font-extrabold text-brand-navy font-display">{generalInquiries.length}</div>
+            <span className="text-[11px] text-slate-500">{generalInquiries.filter(l => l.status === "NEW").length} new messages</span>
           </div>
         </div>
 
@@ -488,7 +501,7 @@ export default function AdminPage() {
             }`}
           >
             <Clock className="w-3.5 h-3.5" />
-            <span>Consultations & Viewings ({leads.length})</span>
+            <span>₦10k Consultations ({consultationLeads.length})</span>
           </button>
 
           <button
@@ -500,19 +513,19 @@ export default function AdminPage() {
             }`}
           >
             <UserCheck className="w-3.5 h-3.5" />
-            <span>Client Buy / Sell Mandates ({clientRequests.length})</span>
+            <span>Buy / Rent / Sell Mandates ({clientRequests.length})</span>
           </button>
 
           <button
-            onClick={() => setActiveTab("valuations")}
+            onClick={() => setActiveTab("inquiries")}
             className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-2 ${
-              activeTab === "valuations"
+              activeTab === "inquiries"
                 ? "bg-brand-navy text-white shadow-sm"
                 : "bg-white text-slate-600 hover:bg-slate-200"
             }`}
           >
-            <TrendingUp className="w-3.5 h-3.5" />
-            <span>Valuations ({valuations.length})</span>
+            <MessageCircle className="w-3.5 h-3.5" />
+            <span>Viewings & Inquiries ({generalInquiries.length})</span>
           </button>
 
           <button
@@ -664,18 +677,25 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* TAB 2: CONSULTATIONS & VIEWINGS */}
+        {/* TAB 2: ₦10K CONSULTATIONS */}
         {activeTab === "consultations" && (
           <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 font-display">Client Viewing & Consultation Inquiries</h2>
-              <p className="text-xs text-slate-500">Real-time appointments booked by prospective buyers and renters.</p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900 font-display">Client ₦10,000 Consultation Bookings</h2>
+                <p className="text-xs text-slate-500">
+                  Dedicated 1-on-1 advisory sessions booked by clients for sales, rentals, shortlets, or land acquisition.
+                </p>
+              </div>
+              <div className="text-xs font-bold px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-800 border border-emerald-300 w-fit">
+                {consultationLeads.length} Total Bookings Received
+              </div>
             </div>
 
-            {leads.length === 0 ? (
+            {consultationLeads.length === 0 ? (
               <div className="bg-white rounded-3xl p-12 text-center border border-slate-200">
                 <Clock className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-                <p className="text-xs text-slate-500">No viewing requests submitted yet.</p>
+                <p className="text-xs text-slate-500">No consultation bookings submitted yet.</p>
               </div>
             ) : (
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -684,38 +704,78 @@ export default function AdminPage() {
                     <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider">
                       <tr>
                         <th className="py-3.5 px-4">Client</th>
-                        <th className="py-3.5 px-4">Contact</th>
-                        <th className="py-3.5 px-4">Preferred Slot</th>
-                        <th className="py-3.5 px-4">Notes</th>
+                        <th className="py-3.5 px-4">Contact & Direct Action</th>
+                        <th className="py-3.5 px-4">Advisory Purpose / Slot</th>
                         <th className="py-3.5 px-4">Status</th>
-                        <th className="py-3.5 px-4 text-right">Action</th>
+                        <th className="py-3.5 px-4 text-right">Update Status</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {leads.map((l) => (
+                      {consultationLeads.map((l) => (
                         <tr key={l.id} className="hover:bg-slate-50/60">
                           <td className="py-3.5 px-4 font-bold text-slate-900">
-                            <div className="flex items-center gap-1.5 flex-wrap"><span>{l.firstName} {l.lastName}</span>{(l.leadType === "CONSULTATION" || l.message?.includes("CONSULTATION")) && (<span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 font-extrabold text-[9px] uppercase tracking-wider border border-emerald-300">₦10k Consultation</span>)}</div>
-                          </td>
-                          <td className="py-3.5 px-4 space-y-0.5">
-                            <div className="flex items-center gap-1 text-slate-700">
-                              <Phone className="w-3 h-3 text-emerald-600" />
-                              <a href={`tel:${l.phone}`} className="hover:underline">{l.phone}</a>
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="text-sm">{l.firstName} {l.lastName}</span>
+                              <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-extrabold text-[9px] uppercase tracking-wider border border-emerald-300">
+                                ₦10k Consultation
+                              </span>
                             </div>
-                            <div className="flex items-center gap-1 text-slate-500">
-                              <Mail className="w-3 h-3 text-emerald-600" />
-                              <a href={`mailto:${l.email}`} className="hover:underline">{l.email}</a>
+                            <div className="text-[10px] text-slate-400 font-normal mt-0.5">
+                              Received: {new Date(l.createdAt || Date.now()).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' })}
                             </div>
                           </td>
-                          <td className="py-3.5 px-4 text-slate-600">
-                            {l.preferredDate || "Anytime"} &bull; {l.preferredTime || "Flexible"}
+                          <td className="py-3.5 px-4 space-y-1.5">
+                            <div className="flex items-center gap-2">
+                              <a
+                                href={`tel:${l.phone}`}
+                                className="text-slate-800 font-semibold hover:text-emerald-700 hover:underline flex items-center gap-1"
+                                title="Call Client Phone"
+                              >
+                                <Phone className="w-3 h-3 text-emerald-600" />
+                                <span>{l.phone}</span>
+                              </a>
+                              <a
+                                href={getWhatsAppUrl(l.phone, `Hello ${l.firstName}, thank you for booking a consultation with PDB Homes. We are following up regarding your session.`)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold shadow-xs transition-colors"
+                                title="Chat directly on WhatsApp"
+                              >
+                                <MessageCircle className="w-3 h-3 fill-white" />
+                                <span>WhatsApp</span>
+                              </a>
+                            </div>
+                            <div>
+                              <a
+                                href={`mailto:${l.email}`}
+                                className="text-slate-500 hover:text-emerald-700 hover:underline flex items-center gap-1 text-[11px]"
+                                title="Email Client"
+                              >
+                                <Mail className="w-3 h-3 text-emerald-600" />
+                                <span>{l.email}</span>
+                              </a>
+                            </div>
                           </td>
-                          <td className="py-3.5 px-4 text-slate-500 max-w-xs truncate">
-                            {l.message || "Viewing scheduled"}
+                          <td className="py-3.5 px-4 text-slate-700 max-w-sm">
+                            <div className="font-medium text-slate-900 mb-0.5">
+                              {l.message || "Dedicated Real Estate Consultation"}
+                            </div>
+                            {(l.preferredDate || l.preferredTime) && (
+                              <div className="text-[11px] text-slate-500 flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-slate-400" />
+                                <span>{l.preferredDate || "Anytime"} &bull; {l.preferredTime || "Flexible"}</span>
+                              </div>
+                            )}
                           </td>
                           <td className="py-3.5 px-4">
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                              l.status === "NEW" ? "bg-blue-100 text-blue-800" : "bg-emerald-100 text-emerald-800"
+                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
+                              l.status === "NEW"
+                                ? "bg-blue-100 text-blue-800 border border-blue-200"
+                                : l.status === "CONTACTED"
+                                ? "bg-amber-100 text-amber-800 border border-amber-200"
+                                : l.status === "QUALIFIED"
+                                ? "bg-purple-100 text-purple-800 border border-purple-200"
+                                : "bg-emerald-100 text-emerald-800 border border-emerald-200"
                             }`}>
                               {l.status}
                             </span>
@@ -724,7 +784,7 @@ export default function AdminPage() {
                             <select
                               value={l.status}
                               onChange={(e) => handleUpdateLeadStatus(l.id, e.target.value as any)}
-                              className="px-2 py-1 rounded border border-slate-200 text-xs bg-white"
+                              className="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs bg-white font-medium shadow-xs focus:outline-none focus:border-brand-navy"
                             >
                               <option value="NEW">New</option>
                               <option value="CONTACTED">Contacted</option>
@@ -742,14 +802,19 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* TAB 3: CLIENT BUY & SELL MANDATES */}
+        {/* TAB 3: CLIENT BUY, RENT & SELL MANDATES */}
         {activeTab === "requests" && (
           <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 font-display">Client Buy / Sell House Mandates</h2>
-              <p className="text-xs text-slate-500">
-                Direct submissions where clients specified the exact type of home they are looking to buy or sell.
-              </p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900 font-display">Client Property Mandates (Buy / Rent / Sell / Shortlet)</h2>
+                <p className="text-xs text-slate-500">
+                  Custom criteria submitted by clients specifying exact house, apartment, or land requirements.
+                </p>
+              </div>
+              <div className="text-xs font-bold px-3 py-1.5 rounded-xl bg-blue-100 text-blue-800 border border-blue-300 w-fit">
+                {clientRequests.length} Total Mandates
+              </div>
             </div>
 
             {clientRequests.length === 0 ? (
@@ -764,37 +829,87 @@ export default function AdminPage() {
                     <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider">
                       <tr>
                         <th className="py-3.5 px-4">Intent</th>
-                        <th className="py-3.5 px-4">Client</th>
-                        <th className="py-3.5 px-4">Property Type Requested</th>
-                        <th className="py-3.5 px-4">Location</th>
-                        <th className="py-3.5 px-4">Budget / Price</th>
+                        <th className="py-3.5 px-4">Client & Direct Action</th>
+                        <th className="py-3.5 px-4">Property Type & Specs</th>
+                        <th className="py-3.5 px-4">Target Location</th>
+                        <th className="py-3.5 px-4">Budget / Selling Price</th>
                         <th className="py-3.5 px-4">Status</th>
-                        <th className="py-3.5 px-4 text-right">Action</th>
+                        <th className="py-3.5 px-4 text-right">Update Status</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {clientRequests.map((r) => (
                         <tr key={r.id} className="hover:bg-slate-50/60">
                           <td className="py-3.5 px-4">
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                              r.requestIntent === "BUY" ? "bg-blue-100 text-blue-800" : r.requestIntent === "RENT" ? "bg-emerald-100 text-emerald-800" : "bg-purple-100 text-purple-800"
+                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase border ${
+                              r.requestIntent === "BUY"
+                                ? "bg-blue-100 text-blue-800 border-blue-200"
+                                : r.requestIntent === "RENT"
+                                ? "bg-emerald-100 text-emerald-800 border-emerald-200"
+                                : r.requestIntent === "SHORTLET"
+                                ? "bg-amber-100 text-amber-800 border-amber-200"
+                                : "bg-purple-100 text-purple-800 border-purple-200"
                             }`}>
                               {r.requestIntent}
                             </span>
                           </td>
+                          <td className="py-3.5 px-4 space-y-1">
+                            <div className="font-bold text-slate-900 text-sm">{r.clientName}</div>
+                            <div className="flex items-center gap-2">
+                              <a
+                                href={`tel:${r.phone}`}
+                                className="text-slate-700 hover:text-emerald-700 hover:underline flex items-center gap-1 font-semibold"
+                                title="Call Phone"
+                              >
+                                <Phone className="w-3 h-3 text-emerald-600" />
+                                <span>{r.phone}</span>
+                              </a>
+                              <a
+                                href={getWhatsAppUrl(r.phone, `Hello ${r.clientName}, regarding your ${r.requestIntent} property mandate on PDB Homes...`)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold shadow-xs transition-colors"
+                                title="Chat directly on WhatsApp"
+                              >
+                                <MessageCircle className="w-3 h-3 fill-white" />
+                                <span>WhatsApp</span>
+                              </a>
+                            </div>
+                            <div>
+                              <a
+                                href={`mailto:${r.email}`}
+                                className="text-slate-500 hover:text-emerald-700 hover:underline flex items-center gap-1 text-[11px]"
+                                title="Email Client"
+                              >
+                                <Mail className="w-3 h-3 text-emerald-600" />
+                                <span>{r.email}</span>
+                              </a>
+                            </div>
+                          </td>
                           <td className="py-3.5 px-4">
-                            <div className="font-bold text-slate-900">{r.clientName}</div>
-                            <div className="text-[11px] text-slate-500">{r.phone}</div>
+                            <div className="font-bold text-slate-800">{r.propertyType}</div>
+                            <div className="text-[11px] text-slate-500">
+                              {r.bedrooms ? `${r.bedrooms} Bedrooms` : "Flexible bed count"}
+                              {r.bathrooms ? ` &bull; ${r.bathrooms} Baths` : ""}
+                            </div>
+                            {r.additionalNotes && (
+                              <div className="text-[11px] text-slate-600 italic mt-0.5 max-w-xs">
+                                &ldquo;{r.additionalNotes}&rdquo;
+                              </div>
+                            )}
                           </td>
-                          <td className="py-3.5 px-4 font-medium text-slate-800">
-                            {r.propertyType} ({r.bedrooms || 4} Beds)
+                          <td className="py-3.5 px-4 text-slate-700 font-medium">
+                            {r.targetLocation}
                           </td>
-                          <td className="py-3.5 px-4 text-slate-600">{r.targetLocation}</td>
                           <td className="py-3.5 px-4 font-bold text-brand-navy">
-                            {r.sellingPrice ? formatCurrency(r.sellingPrice) : r.budgetMin ? `${formatCompactCurrency(r.budgetMin)} - ${formatCompactCurrency(r.budgetMax || 0)}` : "Competitive"}
+                            {r.sellingPrice
+                              ? formatCurrency(r.sellingPrice)
+                              : r.budgetMin
+                              ? `${formatCompactCurrency(r.budgetMin)} - ${formatCompactCurrency(r.budgetMax || 0)}`
+                              : "Open / Competitive"}
                           </td>
                           <td className="py-3.5 px-4">
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-slate-100 text-slate-800">
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-slate-100 text-slate-800 border border-slate-200">
                               {r.status}
                             </span>
                           </td>
@@ -802,7 +917,7 @@ export default function AdminPage() {
                             <select
                               value={r.status}
                               onChange={(e) => handleUpdateRequestStatus(r.id, e.target.value as any)}
-                              className="px-2 py-1 rounded border border-slate-200 text-xs bg-white"
+                              className="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs bg-white font-medium shadow-xs focus:outline-none focus:border-brand-navy"
                             >
                               <option value="NEW">New</option>
                               <option value="REVIEWING">Reviewing</option>
@@ -820,18 +935,25 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* TAB 4: VALUATIONS */}
-        {activeTab === "valuations" && (
+        {/* TAB 4: PROPERTY VIEWINGS & CONTACT INQUIRIES */}
+        {activeTab === "inquiries" && (
           <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 font-display">Seller Home Valuation Assessments</h2>
-              <p className="text-xs text-slate-500">Calculated algorithmic equity estimates for homeowner leads.</p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900 font-display">Property Viewings & Contact Inquiries</h2>
+                <p className="text-xs text-slate-500">
+                  In-person/virtual tour requests and general contact messages submitted across PDB Homes.
+                </p>
+              </div>
+              <div className="text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-100 text-slate-800 border border-slate-300 w-fit">
+                {generalInquiries.length} Inquiries Received
+              </div>
             </div>
 
-            {valuations.length === 0 ? (
+            {generalInquiries.length === 0 ? (
               <div className="bg-white rounded-3xl p-12 text-center border border-slate-200">
-                <TrendingUp className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-                <p className="text-xs text-slate-500">No valuation inquiries received yet.</p>
+                <MessageCircle className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                <p className="text-xs text-slate-500">No viewing or contact inquiries received yet.</p>
               </div>
             ) : (
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -839,26 +961,97 @@ export default function AdminPage() {
                   <table className="w-full text-left text-xs">
                     <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider">
                       <tr>
-                        <th className="py-3.5 px-4">Owner</th>
-                        <th className="py-3.5 px-4">Property Address</th>
-                        <th className="py-3.5 px-4">Specs & Condition</th>
-                        <th className="py-3.5 px-4">Estimated Range (NGN)</th>
-                        <th className="py-3.5 px-4">Contact</th>
+                        <th className="py-3.5 px-4">Client</th>
+                        <th className="py-3.5 px-4">Contact & Direct Action</th>
+                        <th className="py-3.5 px-4">Type & Preferred Window</th>
+                        <th className="py-3.5 px-4">Message / Notes</th>
+                        <th className="py-3.5 px-4">Status</th>
+                        <th className="py-3.5 px-4 text-right">Update Status</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {valuations.map((v) => (
-                        <tr key={v.id} className="hover:bg-slate-50/60">
-                          <td className="py-3.5 px-4 font-bold text-slate-900">{v.ownerName}</td>
-                          <td className="py-3.5 px-4 text-slate-700">{v.address}, {v.city}</td>
-                          <td className="py-3.5 px-4 text-slate-600">
-                            {v.bedrooms} Beds &bull; {v.squareFeet} sqft &bull; {v.condition}
+                      {generalInquiries.map((l) => (
+                        <tr key={l.id} className="hover:bg-slate-50/60">
+                          <td className="py-3.5 px-4 font-bold text-slate-900">
+                            <div className="text-sm">{l.firstName} {l.lastName}</div>
+                            <div className="text-[10px] text-slate-400 font-normal mt-0.5">
+                              Received: {new Date(l.createdAt || Date.now()).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' })}
+                            </div>
                           </td>
-                          <td className="py-3.5 px-4 font-bold text-brand-navy">
-                            {formatCurrency(v.estimatedMinValue)} – {formatCurrency(v.estimatedMaxValue)}
+                          <td className="py-3.5 px-4 space-y-1">
+                            <div className="flex items-center gap-2">
+                              <a
+                                href={`tel:${l.phone}`}
+                                className="text-slate-800 font-semibold hover:text-emerald-700 hover:underline flex items-center gap-1"
+                                title="Call Phone"
+                              >
+                                <Phone className="w-3 h-3 text-emerald-600" />
+                                <span>{l.phone}</span>
+                              </a>
+                              <a
+                                href={getWhatsAppUrl(l.phone, `Hello ${l.firstName}, this is PDB Homes following up on your inquiry...`)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold shadow-xs transition-colors"
+                                title="Chat directly on WhatsApp"
+                              >
+                                <MessageCircle className="w-3 h-3 fill-white" />
+                                <span>WhatsApp</span>
+                              </a>
+                            </div>
+                            <div>
+                              <a
+                                href={`mailto:${l.email}`}
+                                className="text-slate-500 hover:text-emerald-700 hover:underline flex items-center gap-1 text-[11px]"
+                                title="Email Client"
+                              >
+                                <Mail className="w-3 h-3 text-emerald-600" />
+                                <span>{l.email}</span>
+                              </a>
+                            </div>
                           </td>
-                          <td className="py-3.5 px-4 text-slate-500">
-                            {v.phone} | {v.email}
+                          <td className="py-3.5 px-4">
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-extrabold uppercase ${
+                              l.leadType === "SCHEDULE_VIEWING"
+                                ? "bg-blue-100 text-blue-800 border border-blue-200"
+                                : "bg-slate-100 text-slate-800 border border-slate-200"
+                            }`}>
+                              {l.leadType === "SCHEDULE_VIEWING" ? "Tour / Viewing" : "Confidential Inquiry"}
+                            </span>
+                            {(l.preferredDate || l.preferredTime) && (
+                              <div className="text-[11px] text-slate-500 mt-1 flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-slate-400" />
+                                <span>{l.preferredDate || "Anytime"} &bull; {l.preferredTime || "Flexible"}</span>
+                              </div>
+                            )}
+                          </td>
+                          <td className="py-3.5 px-4 text-slate-600 max-w-sm truncate" title={l.message}>
+                            {l.message || "Viewing appointment requested"}
+                          </td>
+                          <td className="py-3.5 px-4">
+                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
+                              l.status === "NEW"
+                                ? "bg-blue-100 text-blue-800 border border-blue-200"
+                                : l.status === "CONTACTED"
+                                ? "bg-amber-100 text-amber-800 border border-amber-200"
+                                : l.status === "QUALIFIED"
+                                ? "bg-purple-100 text-purple-800 border border-purple-200"
+                                : "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                            }`}>
+                              {l.status}
+                            </span>
+                          </td>
+                          <td className="py-3.5 px-4 text-right">
+                            <select
+                              value={l.status}
+                              onChange={(e) => handleUpdateLeadStatus(l.id, e.target.value as any)}
+                              className="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs bg-white font-medium shadow-xs focus:outline-none focus:border-brand-navy"
+                            >
+                              <option value="NEW">New</option>
+                              <option value="CONTACTED">Contacted</option>
+                              <option value="QUALIFIED">Qualified</option>
+                              <option value="CLOSED">Completed</option>
+                            </select>
                           </td>
                         </tr>
                       ))}
