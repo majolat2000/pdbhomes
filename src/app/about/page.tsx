@@ -24,8 +24,8 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center mb-20 sm:mb-28">
           <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-luxury border border-slate-200">
             <Image
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
-              alt="PDB Homes Interior Architecture"
+              src="/apartment.jpeg"
+              alt="PDB Homes Apartment"
               fill
               className="object-cover"
             />
