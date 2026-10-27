@@ -2,6 +2,17 @@ import { Agent } from "@/types";
 
 export const agents: Agent[] = [
   {
+    id: "agent-ceo",
+    name: "Precious Olatimilehin",
+    email: "info@pdbhomes.com",
+    phone: "+2348181017260",
+    title: "Founder & CEO — PDB Homes",
+    licenseNumber: "PDB Homes Principal",
+    avatarUrl: "/pdb-ceo.jpeg",
+    bio: "Founder and Chief Executive Officer of PDB Homes, driving excellence in verified property acquisitions, premium rentals, and serviced shortlets across Lagos and Nigeria.",
+    experienceYears: 10,
+  },
+  {
     id: "agent-1",
     name: "Babatunde Adeyemi",
     email: "info@pdbhomes.com",

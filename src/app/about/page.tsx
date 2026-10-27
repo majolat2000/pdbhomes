@@ -95,15 +95,15 @@ export default function AboutPage() {
               <div className="md:col-span-5 relative h-96 md:h-full min-h-[420px] bg-slate-900 overflow-hidden">
                 <Image
                   src="/pdb-ceo.jpeg"
-                  alt="PDB Homes CEO"
+                  alt="Precious Olatimilehin - Founder & CEO, PDB Homes"
                   fill
                   priority
                   className="object-cover object-top hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden" />
                 <div className="absolute bottom-4 left-4 text-white md:hidden">
-                  <span className="text-xs font-semibold text-emerald-300">Chief Executive Officer</span>
-                  <h3 className="text-xl font-bold font-display">PDB Homes</h3>
+                  <span className="text-xs font-semibold text-emerald-300">Founder & CEO</span>
+                  <h3 className="text-xl font-bold font-display">Precious Olatimilehin</h3>
                 </div>
               </div>
 
@@ -115,10 +115,10 @@ export default function AboutPage() {
                     <span>Founder & CEO</span>
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-brand-navy font-display">
-                    PDB Homes Leadership
+                    Precious Olatimilehin
                   </h3>
                   <p className="text-sm font-semibold text-emerald-700 mt-1">
-                    Sales | Rentals | Shortlets Specialist
+                    Founder &amp; CEO &bull; Sales | Rentals | Shortlets Specialist
                   </p>
                 </div>
 
