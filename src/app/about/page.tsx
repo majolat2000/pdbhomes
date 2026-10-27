@@ -10,15 +10,14 @@ export default function AboutPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-4">
             <span>The Advisory</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-brand-navy tracking-tight font-display mb-6">
             Architectural Stewardship. Proven Discretion.
           </h1>
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-light">
-            Founded on the principle that exceptional homes require bespoke representation, PDB Homes connects discerning buyers and sellers with the world’s most distinctive properties.
+            Founded on the principle that exceptional Nigerian homes require bespoke representation, PDB Homes connects discerning buyers, diaspora leaders, and institutional investors with the nation&apos;s most distinctive properties.
           </p>
         </div>
 
@@ -38,22 +37,22 @@ export default function AboutPage() {
               Our Philosophy
             </span>
             <h2 className="text-3xl font-extrabold text-brand-navy font-display">
-              We Don’t Just Sell Real Estate. We Curate Living Works of Art.
+              We Don&apos;t Just Sell Real Estate. We Curate Living Works of Art.
             </h2>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              Every home has an architectural soul. From mid-century modern masterpieces in the Hollywood Hills to historic Beaux-Arts townhouses in Manhattan and contemporary waterfront sanctuaries in Miami Beach, we approach each assignment with curatorial reverence.
+              Every home has an architectural soul. From lagoon waterfront mansions in Banana Island to grand pre-war residences in Old Ikoyi, contemporary estates in Lekki Phase 1, and palatial diplomatic hillside villas in Maitama Abuja, we approach each assignment with curatorial reverence.
             </p>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              Our partners bring institutional financial acumen, deep localized intelligence, and a private client network spanning North America, Europe, Asia, and Latin America.
+              Our partners bring institutional financial acumen, deep localized intelligence across Nigerian state land registries, and an unmatched private client network connecting Nigeria with London, Dubai, New York, and Toronto.
             </p>
 
             <div className="grid grid-cols-2 gap-6 pt-4 border-t border-slate-200">
               <div>
                 <span className="text-3xl font-extrabold text-brand-navy font-display block">
-                  $1.85B+
+                  ₦45B+
                 </span>
                 <span className="text-xs text-slate-500 font-medium">
-                  Cumulative Career Sales
+                  Cumulative Career Transacted Volume
                 </span>
               </div>
               <div>

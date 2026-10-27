@@ -1,29 +1,36 @@
-# PDB Homes — Luxury Real Estate Web Application
+# PDB Homes — Nigerian Luxury Real Estate Platform
 
-A modern, high-converting digital storefront and property platform built for **PDB Homes**, engineered with **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**, and **PostgreSQL**.
+A premier, high-converting digital storefront and property platform built for **PDB Homes**, engineered with **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**, and **Supabase / PostgreSQL**.
+
+Specializing in prime Nigerian residential enclaves including **Banana Island**, **Old Ikoyi**, **Victoria Island**, **Lekki Phase 1**, **Eko Atlantic**, and **Maitama & Asokoro, Abuja**.
 
 ---
 
 ## 🌟 Key Features
 
-* **Brand Vibe & Design:** Sophisticated architectural layout with deep slate navy (`#0F172A`), champagne gold accents (`#C5A880`), clean typography, and high-resolution imagery.
-* **Dynamic Search & Filtering:** Filter listings by city, state, postal code, property type (Estate, Penthouse, Villa, House, Townhouse), status (For Sale, For Rent), price range, bedrooms, and architectural amenities.
-* **Interactive Mapping:** Split-screen map view with interactive pins displaying active price badges and preview cards.
-* **Single Listing Experience:** High-resolution mosaic photo gallery, architectural specifications bar, detailed description, interactive mortgage/financing calculator, and sticky viewing scheduler.
-* **Seller Valuation Engine:** Step-by-step interactive home valuation questionnaire providing immediate market value ranges and capturing high-intent seller leads.
-* **Lead Capture & Inquiries:** Strategically placed forms routing viewing appointments, general inquiries, and agent contacts to database storage (`/api/leads`).
-* **IDX / MLS Integration Readiness:** Standardized RESO-compliant database schema with JSONB metadata attributes and automated ingestion endpoint (`/api/idx/sync`).
-* **PostgreSQL Architecture:** Production-ready schema in `db/schema.sql` with zero-config fallback for seamless local execution out of the box.
+* **Nigerian Currency & Prime Markets:** All prices formatted in **Nigerian Naira (₦ / NGN)** with localized enclaves across Lagos, Abuja, and Port Harcourt.
+* **Admin-Controlled Public Listings:** Per strict brokerage guidelines, **no house is displayed publicly until the administrator creates or publishes it from the Admin Dashboard**.
+* **Hidden Admin Portal (`/admin`):**
+  * Direct secret URL access (no visible button or link anywhere on the public website).
+  * Secure administrative authentication (`admin@pdbhomes.com` / `admin123`).
+  * Add, edit, and delete luxury property listings.
+  * 1-click **"Load Demo Nigerian Estates"** button to preview Banana Island and Maitama trophy properties.
+  * Real-time tracking of **Consultation & Viewing Requests** (`leads`).
+  * Real-time tracking of **Client Buy / Sell Property Mandates** (`client_requests`).
+  * Real-time tracking of **Seller Property Valuations** (`property_valuations`).
+* **Client Buy / Sell Request Engine (`/request`):** Clients can submit exact requirements for houses they want to buy or list for sale (target location, budget in Naira, bedrooms, and contact info).
+* **Supabase Cloud Integration:**
+  * Uses `@supabase/supabase-js` for real-time tracking of consultations, viewings, and property mandates.
+  * Complete turnkey SQL DDL in [`db/supabase_schema.sql`](./db/supabase_schema.sql).
+  * Zero-downtime in-memory fallback for local development before Supabase keys are added.
+* **Instant Home Valuation Engine (`/valuation`):** 3-step interactive questionnaire calculating equity estimates in Naira based on localized land registry averages.
+* **Clean Brand Presentation:** Clean luxury aesthetic with deep slate navy (`#0F172A`) and warm champagne accents (`#C5A880`), free of unwanted decorative icons.
 
 ---
 
 ## 🚀 Getting Started
 
-### 1. Prerequisites
-* **Node.js** v18+ (tested on Node v20/v26)
-* **npm** or **pnpm** / **yarn**
-
-### 2. Installation
+### 1. Installation
 ```bash
 # Clone the repository
 git clone https://github.com/majolat2000/pdbhomes.git
@@ -33,66 +40,33 @@ cd pdbhomes
 npm install
 ```
 
-### 3. Environment Variables (Optional)
-Copy `.env.example` to `.env.local`:
+### 2. Connect Supabase (Optional for Live Database)
+1. Create a free project at [supabase.com](https://supabase.com).
+2. In Supabase **SQL Editor**, paste and execute [`db/supabase_schema.sql`](./db/supabase_schema.sql).
+3. Copy `.env.example` to `.env.local` and add your keys:
 ```bash
-cp .env.example .env.local
-```
-If `DATABASE_URL` is configured, PDB Homes will query your PostgreSQL instance. Otherwise, it uses the high-fidelity in-memory luxury properties dataset.
-
-### 4. Database Setup (For PostgreSQL)
-Execute the provided DDL script:
-```bash
-psql -d pdbhomes -f db/schema.sql
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-### 5. Running Development Server
+### 3. Run Development Server
 ```bash
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
----
-
-## 📂 Project Structure
-
+### 4. Access Admin Portal
+Go directly to:
 ```
-pdbhomes/
-├── db/
-│   └── schema.sql                # Production PostgreSQL DDL Schema
-├── src/
-│   ├── app/
-│   │   ├── api/
-│   │   │   ├── properties/       # Property listings & filter API
-│   │   │   ├── properties/[id]/  # Single property API
-│   │   │   ├── leads/            # Viewing & contact lead capture API
-│   │   │   ├── valuations/       # Seller instant valuation engine
-│   │   │   └── idx/sync/         # RESO / MLS feed ingestion webhook
-│   │   ├── layout.tsx            # Global layout with Navbar & Footer
-│   │   ├── page.tsx              # Home Page (Hero, Search, Featured, Why Us, Reviews)
-│   │   ├── properties/           # Search Catalog & Split Map
-│   │   │   └── [id]/             # Single Listing Detail
-│   │   ├── valuation/            # Sellers Free Home Valuation Wizard
-│   │   ├── about/                # About PDB Homes & Leadership Bios
-│   │   └── contact/              # Regional Flagships & Inquiry Form
-│   ├── components/
-│   │   ├── layout/               # Navbar & Footer
-│   │   ├── home/                 # HeroSearch, FeaturedSection, WhyChooseUs, etc.
-│   │   ├── properties/           # PropertyCard, PropertyMap, MortgageCalculator
-│   │   └── forms/                # ScheduleViewingForm
-│   ├── lib/
-│   │   ├── db.ts                 # PostgreSQL & In-Memory Data Service
-│   │   ├── data/                 # Seed properties & agent profiles
-│   │   └── utils.ts              # Formatters & helpers
-│   └── types/                    # TypeScript interfaces
-└── tailwind.config.ts            # Custom brand tokens & luxury palette
+http://localhost:3000/admin
 ```
+* **Default Email:** `admin@pdbhomes.com`
+* **Default Password:** `admin123`
 
 ---
 
-## 🧪 Testing the Build
+## 🧪 Testing the Production Build
 
-To test the production build locally:
 ```bash
 npm run build
 npm start

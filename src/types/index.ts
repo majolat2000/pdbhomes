@@ -1,10 +1,11 @@
 export type PropertyType =
-  | 'HOUSE'
-  | 'CONDO'
-  | 'TOWNHOUSE'
-  | 'VILLA'
+  | 'DETACHED_DUPLEX'
+  | 'SEMI_DETACHED'
+  | 'TERRACE'
   | 'PENTHOUSE'
-  | 'ESTATE';
+  | 'MANSION'
+  | 'MAISONETTE'
+  | 'APARTMENT';
 
 export type ListingStatus = 'FOR_SALE' | 'FOR_RENT' | 'PENDING' | 'SOLD';
 
@@ -34,7 +35,7 @@ export interface Property {
   description: string;
   propertyType: PropertyType;
   listingStatus: ListingStatus;
-  price: number;
+  price: number; // in Naira (NGN)
   rentalFrequency?: 'MONTHLY' | 'ANNUALLY';
   bedrooms: number;
   bathrooms: number;
@@ -42,10 +43,10 @@ export interface Property {
   lotSizeAcres?: number;
   yearBuilt: number;
   address: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
+  city: string; // e.g. Ikoyi, Lekki Phase 1, Victoria Island, Maitama
+  state: string; // e.g. Lagos, Abuja FCT, Rivers
+  postalCode?: string;
+  country: string; // Nigeria
   latitude: number;
   longitude: number;
   isFeatured: boolean;
@@ -75,13 +76,34 @@ export interface Lead {
   createdAt: string;
 }
 
+export type RequestIntent = 'BUY' | 'SELL';
+
+export interface ClientRequest {
+  id: string;
+  requestIntent: RequestIntent; // BUY or SELL
+  propertyType: string; // e.g. 5-Bedroom Fully Detached Duplex
+  targetLocation: string; // e.g. Ikoyi, Lekki Phase 1, Banana Island, Maitama
+  budgetMin?: number; // in Naira
+  budgetMax?: number; // in Naira
+  sellingPrice?: number; // in Naira (if selling)
+  bedrooms?: number;
+  bathrooms?: number;
+  additionalNotes?: string;
+  clientName: string;
+  email: string;
+  phone: string;
+  preferredTimeline?: string; // e.g. Immediate, 1-3 Months, Exploring
+  status: 'NEW' | 'REVIEWING' | 'MATCHED' | 'CLOSED';
+  createdAt: string;
+}
+
 export interface ValuationRequest {
   id: string;
   address: string;
   city: string;
   state: string;
-  postalCode: string;
-  propertyType: PropertyType;
+  postalCode?: string;
+  propertyType: PropertyType | string;
   bedrooms: number;
   bathrooms: number;
   squareFeet: number;

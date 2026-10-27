@@ -60,25 +60,25 @@ export default function ContactPage() {
 
   const offices = [
     {
-      city: "Beverly Hills Flagship",
-      address: "9440 Santa Monica Blvd, Penthouse 800",
-      region: "Beverly Hills, CA 90210",
-      phone: "(310) 849-2100",
-      email: "beverlyhills@pdbhomes.com",
+      city: "Lagos Flagship Advisory",
+      address: "Plot 14, Admiralty Way, Lekki Phase 1",
+      region: "Lagos State, Nigeria",
+      phone: "+234 803 849 2100",
+      email: "lagos@pdbhomes.com",
     },
     {
-      city: "Manhattan Gallery",
-      address: "432 Park Avenue, Suite 2600",
-      region: "New York, NY 10022",
-      phone: "(212) 691-8830",
-      email: "manhattan@pdbhomes.com",
+      city: "Ikoyi Private Client Suite",
+      address: "Alfred Rewane Road (Kingsway), Old Ikoyi",
+      region: "Ikoyi, Lagos, Nigeria",
+      phone: "+234 802 691 8830",
+      email: "ikoyi@pdbhomes.com",
     },
     {
-      city: "Miami Beach Enclave",
-      address: "1111 Lincoln Road, 7th Floor",
-      region: "Miami Beach, FL 33139",
-      phone: "(305) 512-7800",
-      email: "miamibeach@pdbhomes.com",
+      city: "Abuja Diplomatic Gallery",
+      address: "Gana Street Enclave, Maitama",
+      region: "Abuja FCT, Nigeria",
+      phone: "+234 805 512 7800",
+      email: "abuja@pdbhomes.com",
     },
   ];
 
@@ -187,7 +187,7 @@ export default function ContactPage() {
                       required
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="(212) 555-0182"
+                      placeholder="+234 803 000 0000"
                       className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-navy"
                     />
                   </div>
@@ -202,11 +202,11 @@ export default function ContactPage() {
                     onChange={(e) => setInterest(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:border-brand-navy"
                   >
-                    <option value="BUYING">Acquisition / Purchasing Luxury Property</option>
-                    <option value="SELLING">Listing / Selling an Estate</option>
-                    <option value="VALUATION">Confidential Portfolio Valuation</option>
-                    <option value="LEASING">Executive Long-Term Lease</option>
-                    <option value="PRESS">Media & Press Inquiries</option>
+                    <option value="BUYING">Acquisition / Purchasing Nigerian Luxury Estate</option>
+                    <option value="SELLING">Listing / Selling an Estate (Ikoyi / Lekki / Abuja)</option>
+                    <option value="VALUATION">Confidential Title & Portfolio Valuation</option>
+                    <option value="LEASING">Executive Long-Term Corporate Lease</option>
+                    <option value="DIASPORA">Diaspora Investment & Advisory Desk</option>
                   </select>
                 </div>
 

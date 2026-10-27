@@ -1,38 +1,38 @@
 import React from "react";
-import { Shield, Sparkles, TrendingUp, Globe2, CheckCircle2 } from "lucide-react";
+import { Shield, Award, TrendingUp, Globe2 } from "lucide-react";
 
 export function WhyChooseUs() {
   const pillars = [
     {
       icon: Globe2,
-      title: "Global Private Network",
+      title: "Diaspora & Private Client Network",
       description:
-        "Direct access to qualified high-net-worth buyers, family offices, and discreet off-market pocket listings worldwide.",
+        "Direct access to qualified high-net-worth buyers, Nigerian diaspora executives in the UK/US, and family offices.",
     },
     {
-      icon: Sparkles,
-      title: "Bespoke Architectural Marketing",
+      icon: Award,
+      title: "Title Perfection & Due Diligence",
       description:
-        "Every residence receives custom editorial photography, cinematic 4K video storytelling, and targeted global PR placements.",
+        "Every listing undergoes rigorous legal verification: Governor's Consent, C of O, Gazette, and survey coordinates checked at the Lands Registry.",
     },
     {
       icon: TrendingUp,
-      title: "Micro-Market Intelligence",
+      title: "Hyper-Local Market Pricing",
       description:
-        "Granular algorithmic valuation combined with decades of street-level transaction experience across trophy zip codes.",
+        "Granular micro-market intelligence across Banana Island, Old Ikoyi, Lekki Phase 1, Victoria Island, and Maitama Abuja.",
     },
     {
       icon: Shield,
-      title: "Absolute Discretion",
+      title: "Fiduciary Discretion",
       description:
-        "Trusted by discerning buyers, international founders, and private individuals requiring confidential advisory.",
+        "Trusted by discerning captains of industry, diplomatic representatives, and private individuals requiring confidential advisory.",
     },
   ];
 
   const stats = [
-    { value: "$1.85B+", label: "Career Sales Volume" },
+    { value: "₦45B+", label: "Transacted Sales Volume" },
     { value: "99.4%", label: "List-to-Sale Ratio" },
-    { value: "18 Days", label: "Average Days to Contract" },
+    { value: "21 Days", label: "Average Days to Contract" },
     { value: "35+", label: "Years Combined Advisory" },
   ];
 
@@ -45,10 +45,10 @@ export function WhyChooseUs() {
             The PDB Homes Difference
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
-            Elevating the Standard of Luxury Real Estate
+            Elevating the Standard of Luxury Real Estate in Nigeria
           </h2>
           <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
-            We transcend conventional brokerage. PDB Homes delivers institutional rigor, bespoke marketing, and an unmatched global buyer network to maximize value for every client.
+            We transcend conventional agency. PDB Homes delivers institutional rigor, bespoke architectural presentation, and an unmatched private network to protect and grow client wealth.
           </p>
         </div>
 

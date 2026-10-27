@@ -19,13 +19,13 @@ export default function ValuationPage() {
 
   // Property details
   const [address, setAddress] = useState("");
-  const [city, setCity] = useState("Beverly Hills");
-  const [state, setState] = useState("CA");
-  const [postalCode, setPostalCode] = useState("90210");
-  const [propertyType, setPropertyType] = useState("HOUSE");
-  const [bedrooms, setBedrooms] = useState("4");
-  const [bathrooms, setBathrooms] = useState("4.5");
-  const [squareFeet, setSquareFeet] = useState("4800");
+  const [city, setCity] = useState("Ikoyi");
+  const [state, setState] = useState("Lagos");
+  const [postalCode, setPostalCode] = useState("");
+  const [propertyType, setPropertyType] = useState("DETACHED_DUPLEX");
+  const [bedrooms, setBedrooms] = useState("5");
+  const [bathrooms, setBathrooms] = useState("5.5");
+  const [squareFeet, setSquareFeet] = useState("5500");
   const [condition, setCondition] = useState<"EXCELLENT" | "UPDATED" | "ORIGINAL" | "NEEDS_WORK">("EXCELLENT");
 
   // Owner details
@@ -87,15 +87,14 @@ export default function ValuationPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-4">
-            <Calculator className="w-3.5 h-3.5" />
-            <span>Seller Strategic Advisory</span>
+          <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-4">
+            <span>Seller Strategic Valuation Advisory</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-navy tracking-tight font-display">
-            What Is Your Property Worth in Today’s Market?
+            What Is Your Property Worth in Nigerian Naira?
           </h1>
           <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Get an instant institutional valuation estimate based on local MLS transactions, active buyer demand, and premium architectural features.
+            Get an instant institutional valuation estimate based on verified Land Registry transactions in Banana Island, Ikoyi, Victoria Island, Lekki, and Maitama Abuja.
           </p>
         </div>
 
@@ -147,7 +146,7 @@ export default function ValuationPage() {
                   required
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="e.g. 10450 Wilshire Blvd, Unit 12A"
+                  placeholder="e.g. Plot 12, Admiralty Way, Lekki Phase 1"
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
                 />
               </div>
@@ -331,7 +330,7 @@ export default function ValuationPage() {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="(310) 555-0199"
+                    placeholder="+234 803 000 0000"
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-navy"
                   />
                 </div>
@@ -351,8 +350,7 @@ export default function ValuationPage() {
                   disabled={loading}
                   className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-brand-amber hover:bg-amber-600 text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all disabled:opacity-50"
                 >
-                  <Sparkles className="w-4 h-4" />
-                  <span>{loading ? "Calculating Market Data..." : "Generate My Instant Valuation"}</span>
+                  <span>{loading ? "Calculating Market Data..." : "Generate Instant Valuation (NGN)"}</span>
                 </button>
               </div>
 

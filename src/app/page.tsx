@@ -6,7 +6,7 @@ import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { ValuationBanner } from "@/components/home/ValuationBanner";
 import { Testimonials } from "@/components/home/Testimonials";
 
-export const revalidate = 60; // Refresh cache every minute
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const properties = await getProperties();

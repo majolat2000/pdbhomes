@@ -19,18 +19,14 @@ import {
   Phone,
   Mail,
   CheckCircle2,
-  Sparkles,
   ArrowLeft,
   Compass,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 interface PropertyPageProps {
   params: { id: string };
-}
-
-export async function generateStaticParams() {
-  const properties = await getProperties();
-  return properties.map((p) => ({ id: p.id }));
 }
 
 export default async function PropertyDetailPage({ params }: PropertyPageProps) {
@@ -219,8 +215,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
             {/* Schedule a Viewing Card */}
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-luxury space-y-4">
               <div>
-                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-50 text-brand-amber text-[10px] font-bold uppercase tracking-wider mb-1">
-                  <Sparkles className="w-3 h-3" />
+                <div className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-amber-50 text-brand-amber text-[10px] font-bold uppercase tracking-wider mb-1">
                   <span>Private In-Person or Virtual Tour</span>
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 font-display">

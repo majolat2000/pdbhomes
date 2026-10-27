@@ -1,5 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createValuation } from "@/lib/db";
+import { createValuation, getValuations } from "@/lib/db";
+
+export async function GET() {
+  try {
+    const valuations = await getValuations();
+    return NextResponse.json({ success: true, count: valuations.length, data: valuations });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message || "Failed to load valuations" },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,12 +26,12 @@ export async function POST(req: NextRequest) {
 
     const valuation = await createValuation({
       address: body.address,
-      city: body.city || "Beverly Hills",
-      state: body.state || "CA",
-      postalCode: body.postalCode || "90210",
-      propertyType: body.propertyType || "HOUSE",
-      bedrooms: Number(body.bedrooms) || 3,
-      bathrooms: Number(body.bathrooms) || 2.5,
+      city: body.city || "Ikoyi",
+      state: body.state || "Lagos",
+      postalCode: body.postalCode || "",
+      propertyType: body.propertyType || "DETACHED_DUPLEX",
+      bedrooms: Number(body.bedrooms) || 4,
+      bathrooms: Number(body.bathrooms) || 4.5,
       squareFeet: Number(body.squareFeet),
       condition: body.condition || "EXCELLENT",
       ownerName: body.ownerName,
@@ -30,7 +42,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: "Your home valuation report is ready. A detailed comparative market analysis will be emailed to you.",
+        message: "Your home valuation assessment has been generated. A private advisory report will be emailed to you.",
         data: valuation,
       },
       { status: 201 }

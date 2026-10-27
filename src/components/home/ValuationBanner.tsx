@@ -10,17 +10,16 @@ export function ValuationBanner() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Text Content */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-bold tracking-wider uppercase">
-              <Calculator className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-bold tracking-wider uppercase">
               <span>Complimentary Home Valuation</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight font-display text-white">
-              Discover What Your Estate Is Truly Worth in Today’s Market
+              Discover What Your Estate Is Truly Worth in Today&apos;s Market
             </h2>
 
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl font-light">
-              Utilize our algorithmic intelligence and real-time comparable sales analysis to receive an accurate, confidential valuation report in under 60 seconds.
+              Utilize our micro-market intelligence across Banana Island, Ikoyi, Lekki Phase 1, and Maitama Abuja to receive an accurate, confidential valuation report in Nigerian Naira (NGN).
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-300 pt-2">
@@ -30,15 +29,15 @@ export function ValuationBanner() {
               </div>
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-brand-amber shrink-0" />
-                <span>Comparative MLS market data</span>
+                <span>Title verification analysis</span>
               </div>
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-brand-amber shrink-0" />
-                <span>Custom neighborhood trend analysis</span>
+                <span>Micro-location street trend analysis</span>
               </div>
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-brand-amber shrink-0" />
-                <span>Senior estate director review</span>
+                <span>Senior managing director review</span>
               </div>
             </div>
           </div>
@@ -55,7 +54,7 @@ export function ValuationBanner() {
                   Instant Valuation Tool
                 </h3>
                 <p className="text-xs text-slate-300 mt-1">
-                  Enter your address to compute estimated equity and buyer demand.
+                  Enter your address and square footage to compute current equity in Naira.
                 </p>
               </div>
 

@@ -145,7 +145,7 @@ export function ScheduleViewingForm({
           required
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="(310) 555-0199"
+          placeholder="+234 803 000 0000"
           className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
         />
       </div>

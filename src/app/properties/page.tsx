@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { Property, PropertyFilterParams } from "@/types";
 import { PropertyCard } from "@/components/properties/PropertyCard";
 import { PropertyMap } from "@/components/properties/PropertyMap";
@@ -10,9 +11,8 @@ import {
   SlidersHorizontal,
   Map as MapIcon,
   Grid as GridIcon,
-  X,
-  Sparkles,
   RotateCcw,
+  UserCheck,
 } from "lucide-react";
 
 function PropertiesPageContent() {
@@ -20,7 +20,7 @@ function PropertiesPageContent() {
 
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState<"grid" | "split">("split");
+  const [viewMode, setViewMode] = useState<"grid" | "split">("grid");
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
 
   // Filter States
@@ -34,14 +34,14 @@ function PropertiesPageContent() {
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
 
   const availableAmenities = [
-    "Infinity Pool",
-    "Wine Cellar",
-    "Smart Home Automation",
-    "Private Deep-Water Yacht Dock",
-    "Private Elevator to All Floors",
-    "Ski-in / Ski-out Access",
-    "Rooftop Observatory",
-    "Guard-Gated Community",
+    "Swimming Pool",
+    "Private Boat Jetty & Lagoon Frontage",
+    "Governor's Consent Title (C of O)",
+    "24/7 Security & CCTV",
+    "Solar + Inverter Backup",
+    "Private Elevator",
+    "Fitted Kitchen with Miele / Bosch",
+    "Cinema Room",
   ];
 
   const fetchFilteredProperties = async () => {
@@ -96,17 +96,27 @@ function PropertiesPageContent() {
     <div className="min-h-screen bg-slate-50 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page Title & Breadcrumb */}
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Curated Inventory</span>
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            {/* Tag (Logo removed per instruction) */}
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-brand-amber text-xs font-bold uppercase tracking-wider mb-2">
+              <span>Curated Inventory</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
+              Nigerian Luxury Property Portfolio
+            </h1>
+            <p className="text-slate-600 text-sm sm:text-base mt-1">
+              Architectural mansions, lagoon waterfront villas, and skyline penthouses.
+            </p>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
-            Exclusive Property Portfolio
-          </h1>
-          <p className="text-slate-600 text-sm sm:text-base mt-1">
-            Explore architectural residences, oceanfront villas, and trophy penthouses.
-          </p>
+
+          <Link
+            href="/request"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-colors self-start sm:self-auto"
+          >
+            <UserCheck className="w-4 h-4 text-amber-300" />
+            <span>Submit Buy / Sell Mandate</span>
+          </Link>
         </div>
 
         {/* Global Filter Bar */}
@@ -115,7 +125,7 @@ function PropertiesPageContent() {
             {/* Search Location */}
             <div className="relative">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
-                Location
+                Location (Nigeria)
               </label>
               <div className="relative flex items-center">
                 <Search className="w-4 h-4 text-brand-amber absolute left-3" />
@@ -123,7 +133,7 @@ function PropertiesPageContent() {
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  placeholder="City, State, Zip"
+                  placeholder="Ikoyi, Banana Island, Maitama..."
                   className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 focus:outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
                 />
               </div>
@@ -140,11 +150,12 @@ function PropertiesPageContent() {
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 bg-white focus:outline-none focus:border-brand-navy"
               >
                 <option value="ALL">All Types</option>
-                <option value="ESTATE">Estate</option>
-                <option value="PENTHOUSE">Penthouse</option>
-                <option value="VILLA">Villa</option>
-                <option value="HOUSE">Contemporary House</option>
-                <option value="TOWNHOUSE">Townhouse</option>
+                <option value="MANSION">Mansion</option>
+                <option value="PENTHOUSE">Sky Penthouse</option>
+                <option value="DETACHED_DUPLEX">Detached Duplex</option>
+                <option value="TERRACE">Terrace Duplex</option>
+                <option value="MAISONETTE">Maisonette</option>
+                <option value="APARTMENT">Apartment</option>
               </select>
             </div>
 
@@ -236,7 +247,7 @@ function PropertiesPageContent() {
         {/* View Controls & Result Count */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 gap-4">
           <div className="text-sm font-semibold text-slate-700">
-            Showing <span className="text-brand-navy font-bold">{properties.length}</span> properties
+            Showing <span className="text-brand-navy font-bold">{properties.length}</span> listed properties
           </div>
 
           <div className="flex items-center gap-4">
@@ -290,20 +301,28 @@ function PropertiesPageContent() {
             <p className="text-sm font-medium">Loading luxury portfolio...</p>
           </div>
         ) : properties.length === 0 ? (
-          <div className="py-20 text-center bg-white rounded-3xl border border-slate-200 p-12">
-            <div className="w-12 h-12 rounded-full bg-amber-50 text-brand-amber flex items-center justify-center mx-auto mb-4">
+          <div className="py-16 text-center bg-white rounded-3xl border border-slate-200 p-10 max-w-2xl mx-auto space-y-4 shadow-sm">
+            <div className="w-12 h-12 rounded-full bg-amber-50 text-brand-amber flex items-center justify-center mx-auto">
               <Search className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-slate-900 font-display">No Properties Match Your Search</h3>
-            <p className="text-sm text-slate-500 max-w-md mx-auto mt-1 mb-6">
-              Try adjusting your price range, location, or clearing specific amenities to see more listings.
+            <h3 className="text-xl font-bold text-slate-900 font-display">No Houses Listed Yet</h3>
+            <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+              Per our private brokerage guidelines, listings are added directly by our administration. You can submit your exact property requirements and our private client desk will match you with off-market pocket listings.
             </p>
-            <button
-              onClick={handleResetFilters}
-              className="px-5 py-2.5 rounded-xl bg-brand-navy text-white text-xs font-bold uppercase tracking-wider hover:bg-slate-800 transition-colors"
-            >
-              Reset All Filters
-            </button>
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/request"
+                className="px-6 py-3 rounded-xl bg-brand-navy text-white text-xs font-bold uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-sm"
+              >
+                Submit What You Want to Buy or Sell
+              </Link>
+              <button
+                onClick={handleResetFilters}
+                className="px-5 py-3 rounded-xl border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-colors"
+              >
+                Reset Filters
+              </button>
+            </div>
           </div>
         ) : viewMode === "grid" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -4,22 +4,23 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "PDB Homes | Luxury Real Estate & Trophy Estates",
+  title: "PDB Homes | Nigerian Luxury Real Estate & Trophy Estates",
   description:
-    "Discover premier luxury estates, waterfront retreats, and architectural penthouses with PDB Homes. Schedule private viewings or get an instant home valuation.",
+    "Discover premier luxury estates, lagoon waterfronts, and penthouses across Banana Island, Ikoyi, Victoria Island, Lekki, and Maitama Abuja with PDB Homes.",
   keywords: [
     "PDB Homes",
-    "Luxury Real Estate",
-    "Beverly Hills Estates",
-    "Manhattan Penthouses",
-    "Miami Waterfront Homes",
-    "Home Valuation",
+    "Luxury Real Estate Nigeria",
+    "Banana Island Mansions",
+    "Ikoyi Luxury Apartments",
+    "Lekki Phase 1 Waterfront Duplex",
+    "Maitama Abuja Real Estate",
+    "Property Valuation Nigeria",
   ],
   openGraph: {
-    title: "PDB Homes | Luxury Real Estate",
-    description: "Exceptional architecture. Unrivaled representation.",
+    title: "PDB Homes | Nigeria Luxury Real Estate",
+    description: "Exceptional architecture. Unrivaled Nigerian representation.",
     siteName: "PDB Homes",
-    locale: "en_US",
+    locale: "en_NG",
     type: "website",
   },
 };

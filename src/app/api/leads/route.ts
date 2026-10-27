@@ -1,5 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createLead } from "@/lib/db";
+import { createLead, getLeads, updateLeadStatus } from "@/lib/db";
+
+export async function GET() {
+  try {
+    const leads = await getLeads();
+    return NextResponse.json({ success: true, count: leads.length, data: leads });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message || "Failed to load inquiries" },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -38,5 +50,19 @@ export async function POST(req: NextRequest) {
       { success: false, error: error.message || "Failed to process inquiry" },
       { status: 500 }
     );
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const body = await req.json();
+    if (!body.id || !body.status) {
+      return NextResponse.json({ success: false, error: "ID and status are required" }, { status: 400 });
+    }
+
+    await updateLeadStatus(body.id, body.status);
+    return NextResponse.json({ success: true, message: "Lead status updated" });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

@@ -1,31 +1,31 @@
 import React from "react";
 import Image from "next/image";
-import { Star, Quote } from "lucide-react";
+import { Star } from "lucide-react";
 
 export function Testimonials() {
   const reviews = [
     {
-      name: "Arthur & Evelyn Pendelton",
-      role: "Sellers — Bel Air Promontory",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
-      content:
-        "Victoria and the PDB Homes team orchestrated a discreet, competitive bidding process that resulted in an all-cash sale above asking within 14 days. Their market depth is simply unmatched.",
-      rating: 5,
-    },
-    {
-      name: "Jonathan Vance-Holloway",
-      role: "Buyer — TriBeCa Duplex Penthouse",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
-      content:
-        "Marcus negotiated our Manhattan acquisition with surgical precision. PDB Homes gave us access to off-market inventory that never surfaced publicly. Truly white-glove advisory.",
-      rating: 5,
-    },
-    {
-      name: "Sophia Rodriguez-Kahn",
-      role: "Buyer & Seller — Venetian Islands, Miami",
+      name: "Chief & Dr. (Mrs.) Folashade Alakija-Coker",
+      role: "Sellers — Banana Island Oceanfront Estate, Ikoyi",
       avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
       content:
-        "From the architectural photography to the private yacht tour previews, Elena presented our waterfront villa like an art piece. We will never transact without PDB Homes.",
+        "Babatunde and the PDB Homes team orchestrated a discreet, competitive bidding process that resulted in an all-cash sale above asking within 18 days. Their title vetting and high-net-worth network is unmatched in Lagos.",
+      rating: 5,
+    },
+    {
+      name: "Engr. Emeka Okonkwo",
+      role: "Buyer — Maitama Diplomatic Villa, Abuja",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+      content:
+        "Damilola negotiated our Abuja acquisition with remarkable precision. PDB Homes gave our family office access to off-market inventory with clean FCDA C of O that never surfaced publicly.",
+      rating: 5,
+    },
+    {
+      name: "Hajia Amina Danjuma",
+      role: "Buyer & Seller — Bourguillon Sky Penthouse, Old Ikoyi",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+      content:
+        "From the architectural photography to the private buyer previews, Oluchi presented our Ikoyi penthouse with curatorial reverence. We will never transact without PDB Homes.",
       rating: 5,
     },
   ];
@@ -38,10 +38,10 @@ export function Testimonials() {
             Client Experiences
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
-            Trusted by Leaders & Visionaries
+            Trusted by Leaders & Discerning Families
           </h2>
           <p className="mt-3 text-slate-600 text-sm sm:text-base">
-            Read what our clients say about our bespoke advisory and white-glove transaction process.
+            Read what our clients say about our confidential advisory and bespoke transaction process.
           </p>
         </div>
 
