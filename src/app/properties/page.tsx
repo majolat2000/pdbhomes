@@ -3,16 +3,16 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Property, PropertyFilterParams } from "@/types";
+import { Property } from "@/types";
 import { PropertyCard } from "@/components/properties/PropertyCard";
 import { PropertyMap } from "@/components/properties/PropertyMap";
 import {
   Search,
-  SlidersHorizontal,
   Map as MapIcon,
   Grid as GridIcon,
   RotateCcw,
-  UserCheck,
+  MessageCircle,
+  ArrowRight,
 } from "lucide-react";
 
 function PropertiesPageContent() {
@@ -21,7 +21,6 @@ function PropertiesPageContent() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"grid" | "split">("grid");
-  const [showFiltersMobile, setShowFiltersMobile] = useState(false);
 
   // Filter States
   const [location, setLocation] = useState(searchParams.get("location") || "");
@@ -31,18 +30,6 @@ function PropertiesPageContent() {
   const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
   const [bedrooms, setBedrooms] = useState(searchParams.get("bedrooms") || "ALL");
   const [sortBy, setSortBy] = useState<"newest" | "price_asc" | "price_desc" | "sqft_desc">("newest");
-  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-
-  const availableAmenities = [
-    "Swimming Pool",
-    "Private Boat Jetty & Lagoon Frontage",
-    "Governor's Consent Title (C of O)",
-    "24/7 Security & CCTV",
-    "Solar + Inverter Backup",
-    "Private Elevator",
-    "Fitted Kitchen with Miele / Bosch",
-    "Cinema Room",
-  ];
 
   const fetchFilteredProperties = async () => {
     setLoading(true);
@@ -55,7 +42,6 @@ function PropertiesPageContent() {
       if (maxPrice) q.set("maxPrice", maxPrice);
       if (bedrooms !== "ALL") q.set("bedrooms", bedrooms);
       if (sortBy) q.set("sortBy", sortBy);
-      if (selectedAmenities.length > 0) q.set("amenities", selectedAmenities.join(","));
 
       const res = await fetch(`/api/properties?${q.toString()}`);
       const json = await res.json();
@@ -71,7 +57,7 @@ function PropertiesPageContent() {
 
   useEffect(() => {
     fetchFilteredProperties();
-  }, [location, propertyType, listingStatus, minPrice, maxPrice, bedrooms, sortBy, selectedAmenities]);
+  }, [location, propertyType, listingStatus, minPrice, maxPrice, bedrooms, sortBy]);
 
   const handleResetFilters = () => {
     setLocation("");
@@ -80,16 +66,7 @@ function PropertiesPageContent() {
     setMinPrice("");
     setMaxPrice("");
     setBedrooms("ALL");
-    setSelectedAmenities([]);
     setSortBy("newest");
-  };
-
-  const toggleAmenity = (amenity: string) => {
-    if (selectedAmenities.includes(amenity)) {
-      setSelectedAmenities(selectedAmenities.filter((a) => a !== amenity));
-    } else {
-      setSelectedAmenities([...selectedAmenities, amenity]);
-    }
   };
 
   return (
@@ -98,33 +75,35 @@ function PropertiesPageContent() {
         {/* Page Title & Breadcrumb */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">
-              <span>Curated Inventory</span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
-              Nigerian Property Portfolio
+            <span className="text-xs font-bold tracking-widest uppercase text-emerald-700 mb-1 block">
+              Active Inventory
+            </span>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
+              Available Properties in Lagos
             </h1>
             <p className="text-slate-600 text-sm sm:text-base mt-1">
-              Sales, Rentals & Shortlets across Mainland, Lekki, Ikoyi, VI, and Ajah.
+              Browse houses for sale, rental apartments, serviced shortlets, and verified land.
             </p>
           </div>
 
-          <Link
-            href="/request"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-colors self-start sm:self-auto"
-          >
-            <UserCheck className="w-4 h-4 text-emerald-400" />
-            <span>Submit Property Mandate</span>
-          </Link>
+          <div className="flex items-center gap-2.5 self-start sm:self-auto">
+            <Link
+              href="/request"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-semibold text-xs transition-colors shadow-xs"
+            >
+              <span>Custom Property Search</span>
+              <ArrowRight className="w-3.5 h-3.5 text-emerald-400" />
+            </Link>
+          </div>
         </div>
 
         {/* Global Filter Bar */}
-        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-card mb-8">
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs mb-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
             {/* Search Location */}
             <div className="relative">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
-                Location (Nigeria)
+                Area
               </label>
               <div className="relative flex items-center">
                 <Search className="w-4 h-4 text-emerald-600 absolute left-3" />
@@ -141,23 +120,23 @@ function PropertiesPageContent() {
             {/* Type */}
             <div>
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
-                Property Type (Nigerian)
+                Property Type
               </label>
               <select
                 value={propertyType}
                 onChange={(e) => setPropertyType(e.target.value)}
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 bg-white focus:outline-none focus:border-brand-navy"
               >
-                <option value="ALL">All Categories</option>
-                <option value="SELF_CONTAINED">Self-Con (Self-Contained)</option>
-                <option value="MINI_FLAT">Mini Flat (1 Bedroom)</option>
-                <option value="APARTMENT">Apartment / Flat (2/3 Bed)</option>
-                <option value="SHORTLET_STUDIO">Serviced Shortlet / Studio</option>
-                <option value="TERRACE">Terrace Duplex</option>
+                <option value="ALL">All Types</option>
                 <option value="DETACHED_DUPLEX">Detached Duplex</option>
+                <option value="SEMI_DETACHED">Semi-Detached Duplex</option>
+                <option value="TERRACE">Terrace Duplex</option>
+                <option value="SERVICED_APARTMENT">Serviced Apartment</option>
+                <option value="APARTMENT">Apartment / Flat</option>
+                <option value="SHORTLET_STUDIO">Serviced Shortlet</option>
+                <option value="LAND">Land / Plot</option>
                 <option value="MANSION">Mansion / Waterfront</option>
-                <option value="LAND">Lands for Sale</option>
-                <option value="COMMERCIAL">Commercial / Office</option>
+                <option value="COMMERCIAL">Commercial</option>
               </select>
             </div>
 
@@ -172,8 +151,8 @@ function PropertiesPageContent() {
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 bg-white focus:outline-none focus:border-brand-navy"
               >
                 <option value="ALL">All Listings</option>
-                <option value="FOR_SALE">Houses & Lands for Sale</option>
-                <option value="FOR_RENT">Rentals & Apartments</option>
+                <option value="FOR_SALE">Houses &amp; Lands for Sale</option>
+                <option value="FOR_RENT">Rentals &amp; Apartments</option>
                 <option value="SHORTLET">Serviced Shortlets</option>
               </select>
             </div>
@@ -188,84 +167,48 @@ function PropertiesPageContent() {
                 onChange={(e) => setBedrooms(e.target.value)}
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 bg-white focus:outline-none focus:border-brand-navy"
               >
-                <option value="ALL">Any Beds</option>
+                <option value="ALL">Any Number of Beds</option>
+                <option value="1">1+ Bed</option>
+                <option value="2">2+ Beds</option>
                 <option value="3">3+ Beds</option>
                 <option value="4">4+ Beds</option>
                 <option value="5">5+ Beds</option>
-                <option value="6">6+ Beds</option>
               </select>
             </div>
 
-            {/* Actions: Mobile filters trigger & Reset */}
+            {/* Reset Action */}
             <div className="flex items-end gap-2">
               <button
                 type="button"
-                onClick={() => setShowFiltersMobile(!showFiltersMobile)}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-slate-300 hover:bg-slate-50 text-xs font-bold text-slate-700"
-              >
-                <SlidersHorizontal className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Amenities ({selectedAmenities.length})</span>
-              </button>
-
-              <button
-                type="button"
                 onClick={handleResetFilters}
-                title="Reset Filters"
-                className="p-2 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors"
+                className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors"
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
+                <span>Reset Filters</span>
               </button>
             </div>
           </div>
-
-          {/* Expanded Amenities Drawer */}
-          {showFiltersMobile && (
-            <div className="mt-4 pt-4 border-t border-slate-100 animate-in fade-in duration-200">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                Filter by Architectural Amenities
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {availableAmenities.map((amenity) => {
-                  const active = selectedAmenities.includes(amenity);
-                  return (
-                    <button
-                      key={amenity}
-                      type="button"
-                      onClick={() => toggleAmenity(amenity)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                        active
-                          ? "bg-brand-navy text-white shadow-sm"
-                          : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                      }`}
-                    >
-                      {amenity}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* View Controls & Result Count */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 gap-4">
           <div className="text-sm font-semibold text-slate-700">
-            Showing <span className="text-brand-navy font-bold">{properties.length}</span> listed properties
+            Showing <span className="text-brand-navy font-bold">{properties.length}</span> properties
           </div>
 
           <div className="flex items-center gap-4">
             {/* Sort Selector */}
             <div className="flex items-center gap-2 text-xs font-medium text-slate-600">
-              <span>Sort By:</span>
+              <span>Sort:</span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
                 className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-bold text-slate-800 focus:outline-none"
               >
-                <option value="newest">Featured & Newest</option>
+                <option value="newest">Newest First</option>
                 <option value="price_asc">Price: Low to High</option>
                 <option value="price_desc">Price: High to Low</option>
-                <option value="sqft_desc">Largest Square Footage</option>
+                <option value="sqft_desc">Largest Area</option>
               </select>
             </div>
 
@@ -277,7 +220,7 @@ function PropertiesPageContent() {
                 className={`p-1.5 rounded-md text-xs font-bold flex items-center gap-1 transition-colors ${
                   viewMode === "grid" ? "bg-brand-navy text-white" : "text-slate-600 hover:text-slate-900"
                 }`}
-                title="Grid Only"
+                title="Grid View"
               >
                 <GridIcon className="w-4 h-4" />
                 <span className="hidden md:inline text-[11px]">Grid</span>
@@ -288,53 +231,61 @@ function PropertiesPageContent() {
                 className={`p-1.5 rounded-md text-xs font-bold flex items-center gap-1 transition-colors ${
                   viewMode === "split" ? "bg-brand-navy text-white" : "text-slate-600 hover:text-slate-900"
                 }`}
-                title="Split Map View"
+                title="Map View"
               >
                 <MapIcon className="w-4 h-4" />
-                <span className="hidden md:inline text-[11px]">Split Map</span>
+                <span className="hidden md:inline text-[11px]">Map</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Properties Content Area */}
+        {/* Content Area */}
         {loading ? (
           <div className="py-24 text-center text-slate-500">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-navy mx-auto mb-4" />
-            <p className="text-sm font-medium">Loading luxury portfolio...</p>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-navy mx-auto mb-3" />
+            <p className="text-xs font-medium">Loading properties...</p>
           </div>
         ) : properties.length === 0 ? (
-          <div className="py-16 text-center bg-white rounded-3xl border border-slate-200 p-10 max-w-2xl mx-auto space-y-4 shadow-sm">
+          <div className="py-16 text-center bg-white rounded-2xl border border-slate-200 p-8 max-w-xl mx-auto space-y-4">
             <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto">
               <Search className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 font-display">No Houses Listed Yet</h3>
-            <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
-              Per our private brokerage guidelines, listings are added directly by our administration. You can submit your exact property requirements and our private client desk will match you with off-market pocket listings.
+            <h3 className="text-lg font-bold text-slate-900 font-display">No properties match your filter</h3>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              We frequently update our inventory with off-market pocket listings. Tell us what you are looking for, or contact us directly on WhatsApp and we will find matching options for you.
             </p>
             <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/request"
-                className="px-6 py-3 rounded-xl bg-brand-navy text-white text-xs font-bold uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-sm"
+                className="px-5 py-2.5 rounded-xl bg-brand-navy text-white text-xs font-semibold hover:bg-slate-800 transition-colors"
               >
-                Submit What You Want to Buy or Sell
+                Submit Custom Search
               </Link>
+              <a
+                href="https://wa.link/ksxyrq"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-500 transition-colors flex items-center gap-1.5"
+              >
+                <MessageCircle className="w-3.5 h-3.5 fill-white" />
+                <span>Chat on WhatsApp</span>
+              </a>
               <button
                 onClick={handleResetFilters}
-                className="px-5 py-3 rounded-xl border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-colors"
+                className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors"
               >
                 Reset Filters
               </button>
             </div>
           </div>
         ) : viewMode === "grid" ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {properties.map((property) => (
               <PropertyCard key={property.id} property={property} />
             ))}
           </div>
         ) : (
-          /* Split Screen: Listings Grid on Left, Sticky Map on Right */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {properties.map((property) => (
@@ -357,8 +308,8 @@ export default function PropertiesPage() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-slate-50 py-20 text-center text-slate-500">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-navy mx-auto mb-4" />
-          <p className="text-sm font-medium">Loading collection...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-navy mx-auto mb-3" />
+          <p className="text-xs font-medium">Loading properties...</p>
         </div>
       }
     >

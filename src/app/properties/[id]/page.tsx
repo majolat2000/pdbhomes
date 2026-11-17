@@ -2,7 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getPropertyById, getProperties } from "@/lib/db";
+import { getPropertyById } from "@/lib/db";
 import { formatCurrency, formatNumber } from "@/lib/utils";
 import { ScheduleViewingForm } from "@/components/forms/ScheduleViewingForm";
 import { MortgageCalculator } from "@/components/properties/MortgageCalculator";
@@ -13,9 +13,6 @@ import {
   Calendar,
   Home,
   MapPin,
-  Share2,
-  Heart,
-  ShieldCheck,
   Phone,
   Mail,
   CheckCircle2,
@@ -38,6 +35,35 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
   }
 
   const isRent = property.listingStatus === "FOR_RENT";
+  const isShortlet = property.listingStatus === "SHORTLET";
+
+  const getPriceSuffix = () => {
+    if (isShortlet) return " / night";
+    if (isRent) return " / year";
+    return "";
+  };
+
+  const getStatusBadge = () => {
+    if (isShortlet) {
+      return (
+        <span className="px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-800 border border-blue-200">
+          Serviced Shortlet
+        </span>
+      );
+    }
+    if (isRent) {
+      return (
+        <span className="px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-indigo-100 text-indigo-800 border border-indigo-200">
+          For Rent
+        </span>
+      );
+    }
+    return (
+      <span className="px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-200">
+        For Sale
+      </span>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 py-8 lg:py-12">
@@ -49,26 +75,18 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-600 hover:text-brand-navy transition-colors"
           >
             <ArrowLeft className="w-4 h-4 text-emerald-600" />
-            <span>Back to Collection</span>
+            <span>Back to All Properties</span>
           </Link>
 
           <div className="flex items-center gap-3">
             <span className="text-xs text-slate-500 font-mono hidden sm:inline">
-              MLS #{property.mlsId}
+              Ref: #{property.mlsId}
             </span>
             <div className="flex items-center gap-1.5">
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                  isRent
-                    ? "bg-indigo-100 text-indigo-800 border border-indigo-200"
-                    : "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                }`}
-              >
-                {isRent ? "For Rent" : "For Sale"}
-              </span>
+              {getStatusBadge()}
               {property.isExclusive && (
-                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-700 text-white">
-                  Exclusive
+                <span className="px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-brand-navy text-white">
+                  Verified
                 </span>
               )}
             </div>
@@ -76,51 +94,51 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
         </div>
 
         {/* Title & Price Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between pb-8 border-b border-slate-200 gap-4 mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between pb-6 border-b border-slate-200 gap-4 mb-8">
           <div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-navy tracking-tight font-display">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
               {property.title}
             </h1>
             <div className="flex items-center gap-2 text-sm sm:text-base text-slate-600 mt-2 font-medium">
               <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>
-                {property.address}, {property.city}, {property.state} {property.postalCode}
+                {property.address}, {property.city}, {property.state}
               </span>
             </div>
           </div>
 
           <div className="text-left lg:text-right">
             <span className="text-xs uppercase tracking-wider text-slate-400 font-bold block">
-              Listing Price
+              Price
             </span>
-            <div className="text-3xl sm:text-4xl font-extrabold text-brand-navy font-display">
+            <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-navy font-display">
               {formatCurrency(property.price)}
-              {isRent && <span className="text-base font-normal text-slate-500"> / month</span>}
+              <span className="text-sm font-normal text-slate-500">{getPriceSuffix()}</span>
             </div>
           </div>
         </div>
 
-        {/* Mosaic Image Gallery */}
-        <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-3 h-[420px] sm:h-[520px] lg:h-[580px] rounded-3xl overflow-hidden mb-12 shadow-luxury">
-          {/* Main Hero Photo (Takes 2 cols & 2 rows) */}
-          <div className="relative md:col-span-2 md:row-span-2 bg-slate-200 overflow-hidden group">
+        {/* Image Gallery */}
+        <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-3 h-[380px] sm:h-[480px] lg:h-[520px] rounded-2xl overflow-hidden mb-10 shadow-sm">
+          {/* Main Photo */}
+          <div className="relative md:col-span-2 md:row-span-2 bg-slate-200 overflow-hidden">
             <Image
               src={property.primaryImage}
               alt={property.title}
               fill
               priority
-              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              className="object-cover"
             />
           </div>
 
-          {/* Sub photos */}
+          {/* Additional Photos */}
           {property.images.slice(1, 5).map((img, idx) => (
-            <div key={idx} className="relative bg-slate-200 overflow-hidden group hidden md:block">
+            <div key={idx} className="relative bg-slate-200 overflow-hidden hidden md:block">
               <Image
                 src={img.url}
                 alt={img.caption || property.title}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                className="object-cover"
               />
               {img.caption && (
                 <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/70 to-transparent text-[11px] text-white truncate">
@@ -131,99 +149,90 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
           ))}
         </div>
 
-        {/* 2-Column Content Layout: Left Details, Right Sticky Inquiry */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        {/* 2-Column Content Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           {/* Main Details Column (8 cols) */}
-          <div className="lg:col-span-8 space-y-12">
-            {/* Key Specs Bar */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-card grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-center">
-              <div>
-                <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Bedrooms</span>
-                <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Bed className="w-4 h-4 text-emerald-600" />
-                  <span>{property.bedrooms}</span>
+          <div className="lg:col-span-8 space-y-10">
+            {/* Key Specs Bar (only show if specs > 0) */}
+            {(property.bedrooms > 0 || property.bathrooms > 0) && (
+              <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                <div>
+                  <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Bedrooms</span>
+                  <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-base">
+                    <Bed className="w-4 h-4 text-emerald-600" />
+                    <span>{property.bedrooms} Beds</span>
+                  </div>
+                </div>
+                <div>
+                  <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Bathrooms</span>
+                  <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-base">
+                    <Bath className="w-4 h-4 text-emerald-600" />
+                    <span>{property.bathrooms} Baths</span>
+                  </div>
+                </div>
+                <div>
+                  <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Floor Area</span>
+                  <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-base">
+                    <Square className="w-4 h-4 text-emerald-600" />
+                    <span>{formatNumber(property.squareFeet)} Sq Ft</span>
+                  </div>
+                </div>
+                <div>
+                  <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Property Type</span>
+                  <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-base">
+                    <Home className="w-4 h-4 text-emerald-600" />
+                    <span className="truncate">{property.propertyType}</span>
+                  </div>
                 </div>
               </div>
-              <div>
-                <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Bathrooms</span>
-                <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Bath className="w-4 h-4 text-emerald-600" />
-                  <span>{property.bathrooms}</span>
-                </div>
-              </div>
-              <div>
-                <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Living Space</span>
-                <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Square className="w-4 h-4 text-emerald-600" />
-                  <span>{formatNumber(property.squareFeet)}</span>
-                </div>
-                <span className="text-[10px] text-slate-400">Sq Ft</span>
-              </div>
-              <div>
-                <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Lot Size</span>
-                <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Compass className="w-4 h-4 text-emerald-600" />
-                  <span>{property.lotSizeAcres ? `${property.lotSizeAcres} Ac` : "N/A"}</span>
-                </div>
-              </div>
-              <div>
-                <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Year Built</span>
-                <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Calendar className="w-4 h-4 text-emerald-600" />
-                  <span>{property.yearBuilt}</span>
-                </div>
-              </div>
-              <div>
-                <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold block">Type</span>
-                <div className="flex items-center justify-center gap-1.5 mt-1 text-slate-900 font-bold text-lg">
-                  <Home className="w-4 h-4 text-emerald-600" />
-                  <span>{property.propertyType}</span>
-                </div>
-              </div>
-            </div>
+            )}
 
-            {/* Architectural Overview */}
-            <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-card space-y-4">
-              <h2 className="text-2xl font-bold text-brand-navy font-display">
-                Architectural Overview
+            {/* Property Overview */}
+            <div className="bg-white rounded-2xl p-7 border border-slate-200/90 shadow-xs space-y-3">
+              <h2 className="text-xl font-bold text-brand-navy font-display">
+                Property Description
               </h2>
               <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
                 {property.description}
               </p>
             </div>
 
-            {/* Amenities Grid */}
-            <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-card space-y-6">
-              <h2 className="text-2xl font-bold text-brand-navy font-display">
-                Premier Features & Amenities
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {property.amenities.map((amenity, idx) => (
-                  <div key={idx} className="flex items-center gap-2.5 text-sm text-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>{amenity}</span>
-                  </div>
-                ))}
+            {/* Features & Amenities */}
+            {property.amenities.length > 0 && (
+              <div className="bg-white rounded-2xl p-7 border border-slate-200/90 shadow-xs space-y-5">
+                <h2 className="text-xl font-bold text-brand-navy font-display">
+                  Key Features &amp; Amenities
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {property.amenities.map((amenity, idx) => (
+                    <div key={idx} className="flex items-center gap-2.5 text-sm text-slate-800">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>{amenity}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Financing Estimator */}
-            {!isRent && <MortgageCalculator initialPrice={property.price} />}
+            {/* Nigerian Payment Guide */}
+            {!isRent && !isShortlet && (
+              <MortgageCalculator initialPrice={property.price} />
+            )}
           </div>
 
           {/* Right Sticky Sidebar (4 cols) */}
           <div className="lg:col-span-4 sticky top-28 space-y-6">
-            {/* Schedule a Viewing Card */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-luxury space-y-4">
+            {/* Book an Inspection Card */}
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm space-y-4">
               <div>
-                <div className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider mb-1">
-                  <span>Private In-Person or Virtual Tour</span>
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 font-display">
-                  Schedule a Viewing
+                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 block mb-1">
+                  Physical &amp; Video Inspection
+                </span>
+                <h3 className="text-lg font-bold text-slate-900 font-display">
+                  Schedule an Inspection
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Select your preferred preview window with our listing director.
+                  Select your preferred date to inspect this property with an agent.
                 </p>
               </div>
 
@@ -235,57 +244,42 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
               />
             </div>
 
-            {/* Assigned Listing Agent Card */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-card space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="relative w-16 h-16 rounded-2xl overflow-hidden border border-slate-200 shrink-0">
-                  <Image
-                    src={property.agent.avatarUrl}
-                    alt={property.agent.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <h4 className="text-base font-bold text-slate-900 font-display">
-                    {property.agent.name}
-                  </h4>
-                  <p className="text-xs text-emerald-700 font-semibold">
-                    {property.agent.title}
-                  </p>
-                  <span className="text-[11px] text-slate-400 block">
-                    {property.agent.licenseNumber}
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
-                {property.agent.bio}
+            {/* Fast WhatsApp & Contact Card */}
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs space-y-4">
+              <h4 className="text-sm font-bold text-slate-900 font-display">
+                Have Quick Questions?
+              </h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Reach our team directly on WhatsApp for real-time video clips, title verification checks, and prompt replies.
               </p>
 
-              <div className="pt-2 flex flex-col gap-2">
+              <div className="pt-1 flex flex-col gap-2.5">
                 <a
-                  href={`https://wa.link/ksxyrq?text=${encodeURIComponent(`Hello PDB Homes, I would like to inquire about: ${property.title} located at ${property.address} (${formatCurrency(property.price)})`)}`}
+                  href={`https://wa.link/ksxyrq?text=${encodeURIComponent(
+                    `Hello PDB Homes, I would like to inquire about: "${property.title}" in ${property.city}, Lagos (${formatCurrency(property.price)}${getPriceSuffix()}). Please share inspection details.`
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white transition-colors shadow-sm"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white transition-colors shadow-xs"
                 >
                   <MessageCircle className="w-4 h-4 fill-white" />
                   <span>Chat on WhatsApp Directly</span>
                 </a>
+
                 <a
-                  href={`tel:${property.agent.phone}`}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-800 transition-colors"
+                  href="tel:+2348181017260"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-800 transition-colors"
                 >
                   <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Direct: {property.agent.phone}</span>
+                  <span>Call: +2348181017260</span>
                 </a>
+
                 <a
-                  href={`mailto:${property.agent.email}?subject=Inquiry for ${encodeURIComponent(property.title)}`}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-800 transition-colors"
+                  href={`mailto:info@pdbhomes.com?subject=${encodeURIComponent(`Inquiry for ${property.title}`)}`}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-800 transition-colors"
                 >
                   <Mail className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Email Agent</span>
+                  <span>Email: info@pdbhomes.com</span>
                 </a>
               </div>
             </div>

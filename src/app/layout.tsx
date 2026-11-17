@@ -5,18 +5,18 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 
 export const metadata: Metadata = {
-  title: "PDB Homes | Your Trusted Real Estate Brand",
+  title: "PDB Homes | Sales, Rentals & Serviced Shortlets in Lagos",
   description:
-    "Your trusted real estate brand specializing in Sales | Rentals | Shortlets across Mainland • Lekki • Ikoyi • VI • Ajah. From affordable to luxury listings.",
+    "Find verified properties, houses for sale, annual rentals, and serviced shortlets across Lekki, Ikoyi, Victoria Island, Ajah, and Lagos Mainland with PDB Homes.",
   keywords: [
     "PDB Homes",
-    "Real Estate Nigeria",
+    "Real Estate Lagos",
+    "Houses for sale Lekki",
     "Lekki Shortlets",
     "Ikoyi Apartments",
-    "Lagos Mainland Homes",
     "Victoria Island Rentals",
     "Ajah Properties for Sale",
-    "Consultation Real Estate Lagos",
+    "Mainland Lagos Homes",
   ],
   icons: {
     icon: "/pdb-logo.jpeg",
@@ -24,8 +24,9 @@ export const metadata: Metadata = {
     apple: "/pdb-logo.jpeg",
   },
   openGraph: {
-    title: "PDB Homes | Your Trusted Real Estate Brand",
-    description: "Specializing in Sales | Rentals | Shortlets across Mainland • Lekki • Ikoyi • VI • Ajah.",
+    title: "PDB Homes | Sales, Rentals & Serviced Shortlets in Lagos",
+    description:
+      "Find verified properties, houses for sale, annual rentals, and serviced shortlets across Lekki, Ikoyi, Victoria Island, Ajah, and Lagos Mainland with PDB Homes.",
     siteName: "PDB Homes",
     locale: "en_NG",
     type: "website",

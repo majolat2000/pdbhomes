@@ -291,9 +291,9 @@ export default function ConsultationPage() {
 
             {/* Paystack Notice & CTA */}
             <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 space-y-1">
-              <strong className="block">Paystack API Integration Mode</strong>
+              <strong className="block">Payment Options</strong>
               <p>
-                Paystack live key integration is active. You can simulate direct card / transfer confirmation or complete payment directly on WhatsApp with our finance desk.
+                Complete your ₦10,000 consultation payment online or connect directly on WhatsApp with our finance desk for instant confirmation.
               </p>
             </div>
 

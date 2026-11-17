@@ -70,7 +70,7 @@ export function ScheduleViewingForm({
           <CheckCircle className="w-6 h-6" />
         </div>
         <h4 className="text-base font-bold text-emerald-950 font-display">
-          Private Viewing Requested
+          Inspection Request Submitted
         </h4>
         <p className="text-xs text-emerald-800 leading-relaxed">
           Thank you, {firstName}. {agentName} has received your appointment request for <strong>{propertyTitle}</strong> and will reach out via phone or email within 2 business hours.
@@ -103,7 +103,7 @@ export function ScheduleViewingForm({
             required
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            placeholder="Victoria"
+            placeholder="e.g. Babatunde"
             className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
           />
         </div>
@@ -116,7 +116,7 @@ export function ScheduleViewingForm({
             required
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            placeholder="Sterling"
+            placeholder="e.g. Adeleke"
             className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
           />
         </div>
@@ -131,7 +131,7 @@ export function ScheduleViewingForm({
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="client@domain.com"
+          placeholder="name@example.com"
           className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
         />
       </div>
@@ -192,7 +192,7 @@ export function ScheduleViewingForm({
           rows={2}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Interested in private walkthrough or virtual tour..."
+          placeholder="e.g. Would like to inspect this Saturday morning or request a live video tour..."
           className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
         />
       </div>
@@ -203,12 +203,12 @@ export function ScheduleViewingForm({
         className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all disabled:opacity-50"
       >
         <Send className="w-3.5 h-3.5 text-emerald-400" />
-        <span>{submitting ? "Booking Appointment..." : "Request Private Viewing"}</span>
+        <span>{submitting ? "Submitting Inspection Request..." : "Schedule Inspection"}</span>
       </button>
 
       <div className="flex items-center justify-center gap-1.5 text-[10px] text-slate-400 text-center">
         <ShieldCheck className="w-3 h-3 text-emerald-600" />
-        <span>Strict privacy protection. No unsolicited communications.</span>
+        <span>We will confirm your inspection time on WhatsApp or phone.</span>
       </div>
     </form>
   );

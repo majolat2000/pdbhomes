@@ -3,8 +3,8 @@ import { agents as seedAgents } from "./data/agents";
 import { demoNigerianProperties } from "./data/properties";
 import { supabase, isSupabaseConfigured } from "./supabase";
 
-// In-memory fallback stores (Zero public properties by default until admin adds them)
-let memoryProperties: Property[] = [];
+// In-memory fallback stores populated with authentic Nigerian properties by default
+let memoryProperties: Property[] = [...demoNigerianProperties];
 let memoryLeads: Lead[] = [];
 let memoryValuations: ValuationRequest[] = [];
 let memoryClientRequests: ClientRequest[] = [];

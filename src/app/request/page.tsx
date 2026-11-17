@@ -125,10 +125,10 @@ export default function ClientPropertyRequestPage() {
             <span>Client Property Mandate</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-navy tracking-tight font-display">
-            Find Your Ideal Nigerian Property
+            Tell Us What You Are Looking For
           </h1>
           <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Whether you are looking to rent a self-con or serviced flat, buy a duplex, purchase verified land, or list your property, our team handles your mandate with speed and discretion across Lagos and beyond.
+            Whether you are looking to rent, buy a home or land, or list your property, submit your criteria below and our team will match you with verified options across Lagos.
           </p>
         </div>
 

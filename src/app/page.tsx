@@ -2,6 +2,7 @@ import React from "react";
 import { getProperties } from "@/lib/db";
 import { HeroSearch } from "@/components/home/HeroSearch";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
+import { ProcessSection } from "@/components/home/ProcessSection";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { ConsultationBanner } from "@/components/home/ConsultationBanner";
 
@@ -15,14 +16,17 @@ export default async function HomePage() {
       {/* 1. Hero with Dynamic Search */}
       <HeroSearch />
 
-      {/* 2. Featured Portfolio (Listings posted and approved by Admin) */}
+      {/* 2. Featured Portfolio & Video Tours */}
       <FeaturedSection properties={properties} />
 
-      {/* 3. Book A Consultation (₦10,000 Commitment Session) */}
-      <ConsultationBanner />
+      {/* 3. How Finding a Property Works */}
+      <ProcessSection />
 
-      {/* 4. Why Choose Us / Service Pillars */}
+      {/* 4. Grounded Benefits / Why PDB Homes */}
       <WhyChooseUs />
+
+      {/* 5. One-on-One Consultation CTA */}
+      <ConsultationBanner />
     </div>
   );
 }
