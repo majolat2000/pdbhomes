@@ -13,6 +13,7 @@ import {
   MessageCircle,
   Calendar,
   ArrowRight,
+  Instagram,
 } from "lucide-react";
 
 export default function ContactPage() {

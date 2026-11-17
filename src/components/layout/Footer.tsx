@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, Phone, MapPin, Clock, ArrowRight, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, ArrowRight, MessageCircle, Instagram } from "lucide-react";
 
 export function Footer() {
   const [subscribed, setSubscribed] = useState(false);
@@ -43,7 +43,7 @@ export function Footer() {
                 <span>Lekki &bull; Ikoyi &bull; VI &bull; Ajah &bull; Lagos Mainland, Nigeria</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
+                <Phone className="w-5 h-5 text-emerald-400 shrink-0" />
                 <a
                   href="tel:+2348181017260"
                   className="hover:text-emerald-400 transition-colors font-medium text-slate-300"
@@ -55,7 +55,7 @@ export function Footer() {
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
                 <a
-                  href="mailto:info@pdbhomes.com"
+                  href="mailto:info@pdbhomes.com.ng"
                   className="hover:text-emerald-400 transition-colors font-medium text-slate-300"
                   title="Email PDB Homes"
                 >
