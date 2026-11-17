@@ -15,6 +15,7 @@ export function Navbar() {
     { href: "/properties?listingStatus=FOR_SALE", label: "Buy" },
     { href: "/properties?listingStatus=FOR_RENT", label: "Rent" },
     { href: "/properties?listingStatus=SHORTLET", label: "Shortlets" },
+    { href: "/request", label: "Request" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
   ];

@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, Phone, MapPin, Clock, ArrowRight, MessageCircle, Instagram } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, ArrowRight, MessageCircle } from "lucide-react";
+import { InstagramIcon } from "@/components/common/InstagramIcon";
 
 export function Footer() {
   const [subscribed, setSubscribed] = useState(false);
@@ -59,7 +60,7 @@ export function Footer() {
                   className="hover:text-emerald-400 transition-colors font-medium text-slate-300"
                   title="Email PDB Homes"
                 >
-                  info@pdbhomes.com
+                  info@pdbhomes.com.ng
                 </a>
               </div>
               <div className="flex items-center gap-2">
@@ -68,15 +69,24 @@ export function Footer() {
               </div>
             </div>
 
-            <div className="pt-2">
+            <div className="pt-2 flex flex-wrap items-center gap-2.5">
               <a
                 href="https://wa.link/ksxyrq"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors shadow-sm"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Chat on WhatsApp Directly</span>
+                <span>Chat on WhatsApp</span>
+              </a>
+              <a
+                href="https://instagram.com/pdb_homes"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-95 text-white text-xs font-semibold transition-opacity shadow-sm"
+              >
+                <InstagramIcon className="w-4 h-4 text-white" />
+                <span>Follow on Instagram</span>
               </a>
             </div>
           </div>

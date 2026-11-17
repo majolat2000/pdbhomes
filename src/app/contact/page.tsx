@@ -13,8 +13,8 @@ import {
   MessageCircle,
   Calendar,
   ArrowRight,
-  Instagram,
 } from "lucide-react";
+import { InstagramIcon } from "@/components/common/InstagramIcon";
 
 export default function ContactPage() {
   const [firstName, setFirstName] = useState("");
@@ -258,15 +258,26 @@ export default function ContactPage() {
                 Connect directly with our real estate desk for instant response on active sales, rentals, and shortlets.
               </p>
 
-              <a
-                href="https://wa.link/ksxyrq"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-emerald-800 font-bold text-xs uppercase tracking-wider hover:bg-emerald-50 shadow-md transition-all active:scale-95"
-              >
-                <MessageCircle className="w-4 h-4 fill-emerald-800" />
-                <span>Chat on WhatsApp Directly</span>
-              </a>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                <a
+                  href="https://wa.link/ksxyrq"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-emerald-800 font-bold text-xs uppercase tracking-wider hover:bg-emerald-50 shadow-md transition-all active:scale-95 text-center"
+                >
+                  <MessageCircle className="w-4 h-4 fill-emerald-800 shrink-0" />
+                  <span>WhatsApp Chat</span>
+                </a>
+                <a
+                  href="https://instagram.com/pdb_homes"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white/15 border border-white/30 text-white font-bold text-xs uppercase tracking-wider hover:bg-white/25 shadow-md transition-all active:scale-95 text-center"
+                >
+                  <InstagramIcon className="w-4 h-4 text-white shrink-0" />
+                  <span>Instagram</span>
+                </a>
+              </div>
             </div>
 
             {/* Book A Consultation Card */}
@@ -305,28 +316,77 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <Phone className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                {/* Highlighted Telephone & WhatsApp - Bigger in size */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-emerald-50/90 border-2 border-emerald-500/40 shadow-sm space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
+                    <span className="font-extrabold text-brand-navy text-xs uppercase tracking-wider">
+                      Telephone &amp; WhatsApp Desk
+                    </span>
+                    <span className="ml-auto px-2 py-0.5 rounded-full bg-emerald-200/70 text-emerald-900 text-[10px] font-bold">
+                      Direct Line
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3 pt-1">
+                    <div className="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                      <Phone className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <a
+                        href="tel:+2348181017260"
+                        className="text-slate-900 font-extrabold hover:text-emerald-700 transition-colors block text-2xl sm:text-3xl tracking-tight font-display"
+                        title="Click to call +2348181017260"
+                      >
+                        +234 818 101 7260
+                      </a>
+                      <div className="flex items-center gap-3 pt-1 text-xs">
+                        <a
+                          href="tel:+2348181017260"
+                          className="font-bold text-emerald-800 hover:underline flex items-center gap-1"
+                        >
+                          <Phone className="w-3.5 h-3.5" />
+                          <span>Call Directly</span>
+                        </a>
+                        <span className="text-slate-300">&bull;</span>
+                        <a
+                          href="https://wa.link/ksxyrq"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-bold text-emerald-800 hover:underline flex items-center gap-1"
+                        >
+                          <MessageCircle className="w-3.5 h-3.5 fill-emerald-800" />
+                          <span>WhatsApp Chat</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 pt-2">
+                  <Mail className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold text-slate-800 block">Telephone & WhatsApp</span>
+                    <span className="font-bold text-slate-800 block text-xs">Official Email</span>
                     <a
-                      href="tel:+2348181017260"
-                      className="text-slate-900 font-bold hover:text-emerald-700 hover:underline transition-colors block text-sm"
+                      href="mailto:info@pdbhomes.com.ng"
+                      className="text-slate-900 hover:text-emerald-700 transition-colors block text-xs font-medium"
                     >
-                      +2348181017260
+                      info@pdbhomes.com.ng
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Mail className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <InstagramIcon className="w-4 h-4 text-pink-600 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold text-slate-800 block">Official Email</span>
+                    <span className="font-bold text-slate-800 block text-xs">Instagram</span>
                     <a
-                      href="mailto:info@pdbhomes.com"
-                      className="text-slate-900 hover:text-emerald-700 transition-colors block"
+                      href="https://instagram.com/pdb_homes"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-900 hover:text-emerald-700 transition-colors block text-xs font-medium"
                     >
-                      info@pdbhomes.com
+                      @pdb_homes
                     </a>
                   </div>
                 </div>

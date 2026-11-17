@@ -24,8 +24,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "Georgia", "serif"],
+        sans: ["'Plus Jakarta Sans'", "system-ui", "-apple-system", "sans-serif"],
+        display: ["'Outfit'", "'Plus Jakarta Sans'", "system-ui", "sans-serif"],
       },
       boxShadow: {
         luxury: "0 10px 40px -10px rgba(15, 23, 42, 0.08)",

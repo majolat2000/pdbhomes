@@ -175,10 +175,10 @@ export function FeaturedSection({ properties }: FeaturedSectionProps) {
               Active Portfolio
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-navy tracking-tight font-display">
-              Featured Properties &amp; Video Walkthroughs
+              Property Video Walkthroughs
             </h2>
             <p className="mt-2 text-slate-600 text-sm sm:text-base max-w-2xl leading-relaxed">
-              Take an interior video tour of selected properties or browse our active listings across Lekki, Ikoyi, Victoria Island, Ajah, and the Mainland.
+              Take an interior video walkthrough of our properties across Lekki, Ikoyi, Victoria Island, Ajah, and the Mainland.
             </p>
           </div>
 
@@ -222,34 +222,31 @@ export function FeaturedSection({ properties }: FeaturedSectionProps) {
           </div>
         </div>
 
-        {/* Available Properties Grid */}
-        {displayProperties.length > 0 && (
-          <div className="pt-8 border-t border-slate-200">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-brand-navy font-display">
-                  Available Properties
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-                  Verified houses, apartments, shortlets, and lands with direct inspection availability.
-                </p>
-              </div>
-              <Link
-                href="/properties"
-                className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:underline"
-              >
-                <span>Browse all {properties.length} listings</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {displayProperties.map((property) => (
-                <PropertyCard key={property.id} property={property} />
-              ))}
-            </div>
+        {/* Action Callout */}
+        <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+          <div>
+            <h3 className="text-lg sm:text-xl font-bold text-brand-navy font-display">
+              Looking for a specific property or location?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              Tell us your exact budget, preferred area (Lekki, Ikoyi, VI, Ajah, Mainland), and requirements.
+            </p>
           </div>
-        )}
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <Link
+              href="/request"
+              className="px-5 py-2.5 rounded-xl bg-brand-navy hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
+            >
+              Submit Property Request
+            </Link>
+            <Link
+              href="/properties"
+              className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold uppercase tracking-wider transition-colors"
+            >
+              Browse Listings
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );
