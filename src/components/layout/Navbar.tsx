@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ArrowRight, MessageCircle } from "lucide-react";
+import { InstagramIcon } from "@/components/common/InstagramIcon";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -69,11 +70,22 @@ export function Navbar() {
               href="https://wa.link/ksxyrq"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 transition-colors"
               title="Chat with us on WhatsApp"
             >
               <MessageCircle className="w-4 h-4 text-emerald-600" />
               <span>WhatsApp</span>
+            </a>
+
+            <a
+              href="https://instagram.com/pdb_homes"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-pink-700 bg-pink-50 hover:bg-pink-100 transition-colors"
+              title="Follow us on Instagram"
+            >
+              <InstagramIcon className="w-4 h-4 text-pink-600" />
+              <span>Follow on Instagram</span>
             </a>
 
             <Link
@@ -86,7 +98,7 @@ export function Navbar() {
           </div>
 
           {/* Mobile menu trigger */}
-          <div className="flex md:hidden items-center gap-2">
+          <div className="flex md:hidden items-center gap-1.5">
             <a
               href="https://wa.link/ksxyrq"
               target="_blank"
@@ -95,6 +107,15 @@ export function Navbar() {
               aria-label="WhatsApp"
             >
               <MessageCircle className="w-5 h-5" />
+            </a>
+            <a
+              href="https://instagram.com/pdb_homes"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg bg-pink-50 text-pink-600"
+              aria-label="Follow on Instagram"
+            >
+              <InstagramIcon className="w-5 h-5" />
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -130,6 +151,15 @@ export function Navbar() {
             >
               <MessageCircle className="w-4 h-4 fill-white" />
               <span>Chat on WhatsApp</span>
+            </a>
+            <a
+              href="https://instagram.com/pdb_homes"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-95 transition-opacity"
+            >
+              <InstagramIcon className="w-4 h-4 text-white" />
+              <span>Follow on Instagram</span>
             </a>
             <Link
               href="/request"

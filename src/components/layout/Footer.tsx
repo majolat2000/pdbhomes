@@ -202,8 +202,21 @@ export function Footer() {
           <div>
             PDB Homes &bull; Sales, Rentals &amp; Serviced Shortlets in Lagos, Nigeria
           </div>
-          <div>
-            Since 2024, PDB Homes. All rights reserved.
+          <div className="flex flex-wrap items-center gap-3">
+            <span>Since 2024, PDB Homes. All rights reserved.</span>
+            <span>&bull;</span>
+            <span>
+              Developed by{" "}
+              <a
+                href="https://majolat2000.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-300 hover:text-emerald-400 transition-colors font-medium hover:underline underline-offset-2"
+              >
+                Majesty
+              </a>{" "}
+              ↗
+            </span>
           </div>
         </div>
       </div>

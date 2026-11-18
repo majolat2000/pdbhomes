@@ -112,7 +112,7 @@ export default function AboutPage() {
                     Precious Olatimilehin
                   </h3>
                   <p className="text-xs text-slate-500 mt-0.5">
-                    PDB Homes &bull; Sales, Rentals &amp; Serviced Shortlets
+                    PDB Homes &bull; Your Trusted Real Estate Brand
                   </p>
                 </div>
 
