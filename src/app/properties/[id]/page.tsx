@@ -275,11 +275,11 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
                 </a>
 
                 <a
-                  href={`mailto:info@pdbhomes.com?subject=${encodeURIComponent(`Inquiry for ${property.title}`)}`}
+                  href={`mailto:info@pdbhomes.com.ng?subject=${encodeURIComponent(`Inquiry for ${property.title}`)}`}
                   className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-800 transition-colors"
                 >
                   <Mail className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Email: info@pdbhomes.com</span>
+                  <span>Email: info@pdbhomes.com.ng</span>
                 </a>
               </div>
             </div>

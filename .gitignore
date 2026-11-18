@@ -16,6 +16,7 @@ out/
 .DS_Store
 *.pem
 Thumbs.db
+*.tsbuildinfo
 
 # Debug logs
 npm-debug.log*

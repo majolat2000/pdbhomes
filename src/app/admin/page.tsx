@@ -28,6 +28,8 @@ import {
   Key,
   Settings,
   MessageCircle,
+  UploadCloud,
+  X,
 } from "lucide-react";
 
 function getWhatsAppUrl(phone: string, text?: string) {
@@ -36,14 +38,20 @@ function getWhatsAppUrl(phone: string, text?: string) {
   return "https://wa.me/" + wa + (text ? ("?text=" + encodeURIComponent(text)) : "");
 }
 
+interface UploadedImage {
+  id: string;
+  url: string;
+  isPrimary: boolean;
+}
+
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [adminEmail, setAdminEmail] = useState("precolat@gmail.com");
+  const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [currentAdminEmail, setCurrentAdminEmail] = useState("");
 
-  const [activeTab, setActiveTab] = useState<"listings" | "consultations" | "inquiries" | "requests" | "settings" | "supabase">("listings");
+  const [activeTab, setActiveTab] = useState<"listings" | "consultations" | "inquiries" | "requests" | "settings">("listings");
 
   // Settings & Password Change States
   const [currentPassword, setCurrentPassword] = useState("");
@@ -80,7 +88,15 @@ export default function AdminPage() {
   const [newBathrooms, setNewBathrooms] = useState("5.5");
   const [newSquareFeet, setNewSquareFeet] = useState("5500");
   const [newDescription, setNewDescription] = useState("");
-  const [newPrimaryImage, setNewPrimaryImage] = useState("https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80");
+  // 5-Image Direct Upload State
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+  const [imageUploadError, setImageUploadError] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  // Consultation Fee Adjustment State
+  const [consultationFee, setConsultationFee] = useState<number>(10000);
+  const [feeMessage, setFeeMessage] = useState("");
+  const [feeLoading, setFeeLoading] = useState(false);
   const [isFeatured, setIsFeatured] = useState(true);
   const [isExclusive, setIsExclusive] = useState(true);
 
@@ -195,11 +211,142 @@ export default function AdminPage() {
     }
   };
 
+  // Handle Consultation Fee Update
+  const handleUpdateConsultationFee = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFeeLoading(true);
+    setFeeMessage("");
+    try {
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ consultationFee }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setFeeMessage("Consultation price updated to ₦" + consultationFee.toLocaleString());
+      }
+    } catch (err: any) {
+      console.error(err);
+    } finally {
+      setFeeLoading(false);
+    }
+  };
+
+  // Image Upload Handler (Max 5 images: 1 Primary + 4 Optional)
+  const handleImageFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    setImageUploadError("");
+
+    const remainingSlots = 5 - uploadedImages.length;
+    if (remainingSlots <= 0) {
+      setImageUploadError("You have already uploaded the maximum of 5 images.");
+      return;
+    }
+
+    const toProcess = files.slice(0, remainingSlots);
+    setUploadingImage(true);
+
+    try {
+      const newUploads: UploadedImage[] = [];
+
+      for (const file of toProcess) {
+        if (!file.type.startsWith("image/")) continue;
+
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            const img = document.createElement("img");
+            img.onload = () => {
+              const canvas = document.createElement("canvas");
+              const maxDim = 1600;
+              let width = img.width;
+              let height = img.height;
+
+              if (width > maxDim || height > maxDim) {
+                if (width > height) {
+                  height = Math.round((height * maxDim) / width);
+                  width = maxDim;
+                } else {
+                  width = Math.round((width * maxDim) / height);
+                  height = maxDim;
+                }
+              }
+
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext("2d");
+              if (ctx) {
+                ctx.drawImage(img, 0, 0, width, height);
+                resolve(canvas.toDataURL("image/jpeg", 0.85));
+              } else {
+                resolve(ev.target?.result as string);
+              }
+            };
+            img.onerror = reject;
+            img.src = ev.target?.result as string;
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+
+        newUploads.push({
+          id: 'img-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+          url: dataUrl,
+          isPrimary: uploadedImages.length === 0 && newUploads.length === 0,
+        });
+      }
+
+      setUploadedImages((prev) => {
+        const combined = [...prev, ...newUploads];
+        if (!combined.some((img) => img.isPrimary) && combined.length > 0) {
+          combined[0].isPrimary = true;
+        }
+        return combined;
+      });
+    } catch (err: any) {
+      setImageUploadError("Failed to process image. Please try again.");
+    } finally {
+      setUploadingImage(false);
+      e.target.value = "";
+    }
+  };
+
+  const handleSetPrimary = (id: string) => {
+    setUploadedImages((prev) =>
+      prev.map((img) => ({
+        ...img,
+        isPrimary: img.id === id,
+      }))
+    );
+  };
+
+  const handleRemoveImage = (id: string) => {
+    setUploadedImages((prev) => {
+      const filtered = prev.filter((img) => img.id !== id);
+      if (filtered.length > 0 && !filtered.some((img) => img.isPrimary)) {
+        filtered[0].isPrimary = true;
+      }
+      return filtered;
+    });
+  };
+
   const handleCreateListing = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (uploadedImages.length === 0) {
+      setImageUploadError("Please upload at least 1 image for this property.");
+      return;
+    }
     setLoading(true);
 
     try {
+      const primaryImgObj = uploadedImages.find((img) => img.isPrimary) || uploadedImages[0];
+      const propertyImages = uploadedImages.map((img) => ({
+        url: img.url,
+        isPrimary: img.id === primaryImgObj.id,
+      }));
+
       const res = await fetch("/api/properties", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -214,8 +361,9 @@ export default function AdminPage() {
           bedrooms: Number(newBedrooms),
           bathrooms: Number(newBathrooms),
           squareFeet: Number(newSquareFeet),
-          description: newDescription || "Exclusive Nigerian luxury estate listed by PDB Homes.",
-          primaryImage: newPrimaryImage,
+          description: newDescription || "Nigerian property listed by PDB Homes.",
+          primaryImage: primaryImgObj.url,
+          images: propertyImages,
           isFeatured,
           isExclusive,
         }),
@@ -230,6 +378,8 @@ export default function AdminPage() {
         setNewPrice("");
         setNewAddress("");
         setNewDescription("");
+        setUploadedImages([]);
+        setImageUploadError("");
         fetchAllData();
       }
     } catch (e) {
@@ -247,26 +397,6 @@ export default function AdminPage() {
       fetchAllData();
     } catch (e) {
       console.error(e);
-    }
-  };
-
-  const handleLoadDemoListings = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/properties", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "LOAD_DEMO" }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setActionMessage("Demo Nigerian luxury properties populated successfully.");
-        fetchAllData();
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -352,7 +482,7 @@ export default function AdminPage() {
                 required
                 value={adminEmail}
                 onChange={(e) => setAdminEmail(e.target.value)}
-                placeholder="precolat@gmail.com or info@pdbhomes.com"
+                placeholder="you@example.com"
                 className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-navy"
               />
             </div>
@@ -379,13 +509,8 @@ export default function AdminPage() {
             </button>
           </form>
 
-          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 space-y-1">
-            <div className="font-bold text-slate-700">Seeded Admin Accounts:</div>
-            <div>• <strong>precolat@gmail.com</strong></div>
-            <div>• <strong>info@pdbhomes.com</strong></div>
-            <div className="text-[10px] text-slate-400 pt-1">
-              Passwords can be updated anytime inside Dashboard Settings.
-            </div>
+          <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-500 text-center">
+            Authorized administrator access only.
           </div>
         </div>
       </div>
@@ -528,17 +653,7 @@ export default function AdminPage() {
             <span>Viewings & Inquiries ({generalInquiries.length})</span>
           </button>
 
-          <button
-            onClick={() => setActiveTab("supabase")}
-            className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-2 ${
-              activeTab === "supabase"
-                ? "bg-brand-navy text-white shadow-sm"
-                : "bg-white text-slate-600 hover:bg-slate-200"
-            }`}
-          >
-            <Database className="w-3.5 h-3.5" />
-            <span>Supabase Sync</span>
-          </button>
+          
 
           <button
             onClick={() => setActiveTab("settings")}
@@ -573,13 +688,7 @@ export default function AdminPage() {
                   <span>Add New Listing</span>
                 </button>
 
-                <button
-                  onClick={handleLoadDemoListings}
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs uppercase tracking-wider transition-colors"
-                  title="Populates Banana Island, Ikoyi, Lekki & Maitama demo estates"
-                >
-                  <span>Load Demo Nigerian Estates</span>
-                </button>
+                
 
                 {properties.length > 0 && (
                   <button
@@ -600,7 +709,7 @@ export default function AdminPage() {
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 font-display">No Properties Currently Listed</h3>
                 <p className="text-xs text-slate-500 max-w-md mx-auto">
-                  The public site currently displays zero listings until you create your first listing or click &ldquo;Load Demo Nigerian Estates&rdquo;.
+                  The public site currently displays zero listings until you create your first listing.
                 </p>
                 <button
                   onClick={() => setShowAddModal(true)}
@@ -682,7 +791,7 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <h2 className="text-xl font-bold text-slate-900 font-display">Client ₦10,000 Consultation Bookings</h2>
+                <h2 className="text-xl font-bold text-slate-900 font-display">Client Consultation Bookings</h2>
                 <p className="text-xs text-slate-500">
                   Dedicated 1-on-1 advisory sessions booked by clients for sales, rentals, shortlets, or land acquisition.
                 </p>
@@ -1063,54 +1172,6 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* TAB 5: SUPABASE INTEGRATION */}
-        {activeTab === "supabase" && (
-          <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-                <Database className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-slate-900 font-display">Supabase Cloud Database Connection</h2>
-                <p className="text-xs text-slate-500">Tracks real-time consultations, property listings, and client buy/sell requests.</p>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs space-y-3">
-              <div className="font-bold text-slate-800">Connection Checklist:</div>
-              <div className="space-y-1.5 text-slate-600">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-600" />
-                  <span><strong>Supabase Client Installed:</strong> <code>@supabase/supabase-js</code> integrated.</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-600" />
-                  <span><strong>Database DDL Ready:</strong> <code>db/supabase_schema.sql</code> includes tables for <code>properties</code>, <code>leads</code>, <code>client_requests</code>, and <code>property_valuations</code>.</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-600" />
-                  <span><strong>Zero-Downtime Fallback:</strong> If Supabase credentials are not provided in <code>.env.local</code>, the application safely stores data in memory so the app never crashes.</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="text-sm font-bold text-slate-900">How to Connect Your Supabase Project:</h3>
-              <ol className="list-decimal list-inside text-xs text-slate-600 space-y-1.5 leading-relaxed">
-                <li>Create a free project at <a href="https://supabase.com" target="_blank" rel="noreferrer" className="text-brand-navy underline font-bold">supabase.com</a>.</li>
-                <li>Go to the <strong>SQL Editor</strong> in your Supabase dashboard, copy the contents of <code>db/supabase_schema.sql</code>, and click <strong>Run</strong>.</li>
-                <li>In your Supabase project settings &rarr; API, copy your <strong>Project URL</strong> and <strong>anon public key</strong>.</li>
-                <li>Add them to your <code>.env.local</code> file (or your hosting platform like Vercel/Render):</li>
-              </ol>
-
-              <pre className="p-4 bg-slate-900 text-slate-200 rounded-xl text-xs overflow-x-auto font-mono mt-3">
-{`NEXT_PUBLIC_SUPABASE_URL=https://tsilssuugqcbkgkcdipz.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
-              </pre>
-            </div>
-          </div>
-        )}
-
         {/* TAB 6: ADMIN SETTINGS & SECURITY */}
         {activeTab === "settings" && (
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-8">
@@ -1210,6 +1271,47 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
 
               {/* Authorized Administrators & Security Guidance */}
               <div className="space-y-6 text-xs">
+                                {/* Consultation Price Configuration Card */}
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-4">
+                  <div className="flex items-center gap-2 text-brand-navy font-bold text-sm">
+                    <TrendingUp className="w-4 h-4 text-emerald-600" />
+                    <span>Consultation Price Setting</span>
+                  </div>
+                  <p className="text-slate-500 text-xs leading-relaxed">
+                    Adjust the commitment fee charged to clients for booking a 1-on-1 real estate consultation.
+                  </p>
+
+                  {feeMessage && (
+                    <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 shrink-0 text-emerald-600" />
+                      <span>{feeMessage}</span>
+                    </div>
+                  )}
+
+                  <form onSubmit={handleUpdateConsultationFee} className="space-y-3 text-xs">
+                    <div>
+                      <label className="block font-bold uppercase text-slate-600 mb-1">
+                        Consultation Commitment Fee (₦)
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="500"
+                        value={consultationFee}
+                        onChange={(e) => setConsultationFee(Number(e.target.value))}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-brand-navy text-sm font-bold text-slate-900"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={feeLoading}
+                      className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors disabled:opacity-50"
+                    >
+                      {feeLoading ? "Saving Price..." : `Save Consultation Price (₦${consultationFee.toLocaleString()})`}
+                    </button>
+                  </form>
+                </div>
+
                 <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-3">
                   <div className="flex items-center gap-2 text-brand-navy font-bold text-sm">
                     <Shield className="w-4 h-4 text-emerald-600" />
@@ -1231,7 +1333,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
 
                     <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
                       <div>
-                        <div className="font-bold text-slate-900">info@pdbhomes.com</div>
+                        <div className="font-bold text-slate-900">info@pdbhomes.com.ng</div>
                         <div className="text-[11px] text-emerald-700 font-bold">Super Admin</div>
                       </div>
                       <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">
@@ -1239,13 +1341,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
                       </span>
                     </div>
                   </div>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-emerald-50/80 border border-emerald-200/60 text-slate-700 space-y-1.5">
-                  <div className="font-bold text-brand-navy">Supabase Persistent Storage</div>
-                  <p className="leading-relaxed text-[11px]">
-                    When you run the <code>db/supabase_schema.sql</code> script in your Supabase SQL editor and connect your project URL and keys in Vercel, password updates will persist directly into your cloud database across all deployments.
-                  </p>
                 </div>
               </div>
             </div>
@@ -1392,13 +1487,88 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
               </div>
 
               <div>
-                <label className="block font-bold uppercase text-slate-600 mb-1">Primary Image URL</label>
-                <input
-                  type="url"
-                  value={newPrimaryImage}
-                  onChange={(e) => setNewPrimaryImage(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 font-mono text-[11px]"
-                />
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block font-bold uppercase text-slate-700 text-xs">
+                    Listing Photos (Up to 5 Images: 1 Primary + 4 Optional) *
+                  </label>
+                  <span className="text-[11px] font-semibold text-slate-500">
+                    {uploadedImages.length} / 5 photos uploaded
+                  </span>
+                </div>
+
+                {imageUploadError && (
+                  <div className="mb-2 p-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
+                    {imageUploadError}
+                  </div>
+                )}
+
+                {/* Direct Upload Dropzone */}
+                {uploadedImages.length < 5 && (
+                  <label className="flex flex-col items-center justify-center p-5 border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl cursor-pointer bg-slate-50 hover:bg-emerald-50/40 transition-colors">
+                    <UploadCloud className="w-7 h-7 text-emerald-600 mb-1" />
+                    <span className="text-xs font-bold text-slate-800">
+                      {uploadingImage ? "Processing photo..." : "Click to Upload Photos from Device"}
+                    </span>
+                    <span className="text-[10px] text-slate-500 mt-0.5">
+                      Direct upload (JPEG, PNG, WEBP) &bull; Up to {5 - uploadedImages.length} more
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      disabled={uploadingImage}
+                      onChange={handleImageFiles}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+
+                {/* Uploaded Thumbnails Preview Grid */}
+                {uploadedImages.length > 0 && (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mt-3">
+                    {uploadedImages.map((img, idx) => (
+                      <div
+                        key={img.id}
+                        className={`relative rounded-xl overflow-hidden border-2 bg-slate-100 group aspect-[4/3] flex flex-col justify-between ${
+                          img.isPrimary ? "border-emerald-500 shadow-md ring-2 ring-emerald-500/20" : "border-slate-200"
+                        }`}
+                      >
+                        <img
+                          src={img.url}
+                          alt={`Photo ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+
+                        {/* Primary Badge or Set As Primary */}
+                        <div className="absolute top-1.5 left-1.5">
+                          {img.isPrimary ? (
+                            <span className="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[9px] font-extrabold uppercase tracking-wider shadow">
+                              Primary
+                            </span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => handleSetPrimary(img.id)}
+                              className="px-1.5 py-0.5 rounded bg-black/60 hover:bg-black/80 text-white text-[9px] font-bold backdrop-blur-xs transition-colors"
+                            >
+                              Make Primary
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Delete Button */}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(img.id)}
+                          className="absolute top-1.5 right-1.5 p-1 rounded-full bg-red-600/90 hover:bg-red-700 text-white shadow transition-colors"
+                          title="Remove photo"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div>

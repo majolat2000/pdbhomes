@@ -290,7 +290,7 @@ export default function ContactPage() {
                 Looking for a Dedicated Consultation?
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Book a 1-on-1 strategy session for verified land acquisition, home purchase, or tenancy advisory (₦10,000 commitment fee).
+                Book a 1-on-1 strategy session for verified land acquisition, home purchase, or tenancy advisory with our senior property advisors.
               </p>
               <Link
                 href="/consultation"

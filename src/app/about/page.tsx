@@ -165,11 +165,11 @@ export default function AboutPage() {
               <span>+2348181017260</span>
             </a>
             <a
-              href="mailto:info@pdbhomes.com"
+              href="mailto:info@pdbhomes.com.ng"
               className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/15 text-white flex items-center gap-2 transition-colors"
             >
               <Mail className="w-3.5 h-3.5 text-emerald-400" />
-              <span>info@pdbhomes.com</span>
+              <span>info@pdbhomes.com.ng</span>
             </a>
             <a
               href="https://wa.link/ksxyrq"

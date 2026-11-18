@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       preferredTime: body.preferredTime,
     });
 
-    // Notify admins (precolat@gmail.com and info@pdbhomes.com) without blocking
+    // Notify admins (precolat@gmail.com and info@pdbhomes.com.ng) without blocking
     notifyNewLead(lead).catch((err) => {
       console.warn("Notification dispatch error:", err);
     });

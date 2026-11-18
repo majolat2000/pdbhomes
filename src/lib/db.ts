@@ -589,7 +589,7 @@ let memoryAdmins: AdminUser[] = [
   },
   {
     id: "admin-2",
-    email: "info@pdbhomes.com",
+    email: "info@pdbhomes.com.ng",
     password: "PDB_Admin2024!",
     role: "SUPER_ADMIN",
     createdAt: new Date().toISOString(),
@@ -716,4 +716,43 @@ export async function getAdminsList(): Promise<{ id: string; email: string; role
     role: a.role,
     createdAt: a.createdAt,
   }));
+}
+
+
+// =========================================================================
+// SITE SETTINGS (Consultation Price, etc.)
+// =========================================================================
+let memoryConsultationFee = 10000;
+
+export async function getConsultationFee(): Promise<number> {
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      const { data } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "consultation_fee")
+        .single();
+      if (data && data.value) {
+        const val = Number(data.value);
+        if (!isNaN(val) && val >= 0) return val;
+      }
+    } catch (e) {
+      // fallback
+    }
+  }
+  return memoryConsultationFee;
+}
+
+export async function updateConsultationFee(fee: number): Promise<{ success: boolean; fee: number }> {
+  memoryConsultationFee = fee;
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      await supabase
+        .from("site_settings")
+        .upsert({ key: "consultation_fee", value: String(fee) });
+    } catch (e) {
+      // fallback
+    }
+  }
+  return { success: true, fee };
 }

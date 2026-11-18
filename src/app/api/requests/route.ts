@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       preferredTimeline: body.preferredTimeline || "Immediate",
     });
 
-    // Notify admins (precolat@gmail.com and info@pdbhomes.com) without blocking
+    // Notify admins (precolat@gmail.com and info@pdbhomes.com.ng) without blocking
     notifyNewPropertyRequest(saved).catch((err) => {
       console.warn("Notification dispatch error:", err);
     });

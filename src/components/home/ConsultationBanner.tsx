@@ -1,8 +1,20 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Calendar, ArrowRight, ShieldCheck, Check, MessageCircle } from "lucide-react";
 
 export function ConsultationBanner() {
+  const [fee, setFee] = useState(10000);
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((d) => {
+        if (d.success && typeof d.consultationFee === "number") setFee(d.consultationFee);
+      })
+      .catch(() => {});
+  }, []);
   return (
     <section className="py-16 sm:py-20 bg-brand-navy text-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -53,7 +65,7 @@ export function ConsultationBanner() {
                   Dedicated 1-on-1 Consultation
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-white font-display mt-0.5">
-                  ₦10,000 <span className="text-xs font-normal text-slate-300">Commitment Fee</span>
+                  ₦{fee.toLocaleString()} <span className="text-xs font-normal text-slate-300">Commitment Fee</span>
                 </h3>
                 <p className="text-xs text-slate-300 mt-1 max-w-xs mx-auto">
                   To reserve dedicated time, research matching off-market options for your budget, and coordinate private viewings.

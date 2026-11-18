@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import { Lead, ClientRequest } from "@/types";
 import { formatCurrency } from "@/lib/utils";
 
-export const NOTIFICATION_RECIPIENTS = ["precolat@gmail.com", "info@pdbhomes.com"];
+export const NOTIFICATION_RECIPIENTS = ["precolat@gmail.com", "info@pdbhomes.com.ng"];
 
 /**
  * Creates a configured Nodemailer transporter using available environment variables.
@@ -85,7 +85,7 @@ export async function sendNotificationEmail(params: {
   const transporter = getTransporter();
   if (transporter) {
     try {
-      const fromAddress = process.env.SMTP_FROM || process.env.SMTP_USER || "info@pdbhomes.com";
+      const fromAddress = process.env.SMTP_FROM || process.env.SMTP_USER || "info@pdbhomes.com.ng";
       await transporter.sendMail({
         from: `"PDB Homes Notifications" <${fromAddress}>`,
         to: NOTIFICATION_RECIPIENTS.join(", "),
@@ -214,7 +214,7 @@ Status: Recorded in PDB Homes Database & Viewable on Admin Dashboard (/admin).
       </div>
     </div>
     <div class="footer">
-      This notification was automatically sent to <strong>precolat@gmail.com</strong> and <strong>info@pdbhomes.com</strong>.<br />
+      This notification was automatically sent to <strong>precolat@gmail.com</strong> and <strong>info@pdbhomes.com.ng</strong>.<br />
       Responses are archived and viewable on your admin dashboard at <strong>/admin</strong>.
     </div>
   </div>
@@ -352,7 +352,7 @@ Status: Archived in PDB Homes Database & Viewable on Admin Dashboard (/admin).
       </div>
     </div>
     <div class="footer">
-      This notification was automatically sent to <strong>precolat@gmail.com</strong> and <strong>info@pdbhomes.com</strong>.<br />
+      This notification was automatically sent to <strong>precolat@gmail.com</strong> and <strong>info@pdbhomes.com.ng</strong>.<br />
       Responses are archived and viewable on your admin dashboard at <strong>/admin</strong>.
     </div>
   </div>

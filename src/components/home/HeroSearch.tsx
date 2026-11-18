@@ -20,8 +20,8 @@ export function HeroSearch() {
       {/* Main Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16 sm:py-20">
         {/* Subtle Tagline Badge */}
-        <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-300 text-xs font-semibold tracking-wide mb-6">
-          <span>Lagos Real Estate &bull; Sales, Rentals &amp; Shortlets</span>
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 text-xs font-semibold tracking-wide mb-6 shadow-sm">
+          <span>Your Trusted Real Estate Brand</span>
         </div>
 
         {/* Hero Title */}

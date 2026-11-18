@@ -21,11 +21,23 @@ export default function ConsultationPage() {
   const [email, setEmail] = useState("");
   const [preferredDate, setPreferredDate] = useState("");
   const [notes, setNotes] = useState("");
+  const [consultationFee, setConsultationFee] = useState(10000);
 
   const [submitting, setSubmitting] = useState(false);
   const [step, setStep] = useState<"FORM" | "PAYMENT" | "SUCCESS">("FORM");
   const [bookingId, setBookingId] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && typeof data.consultationFee === "number") {
+          setConsultationFee(data.consultationFee);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const getPurposeLabel = (p: string) => {
     switch (p) {
@@ -58,7 +70,7 @@ export default function ConsultationPage() {
           email: email || (whatsappNumber.replace(/[^0-9]/g, "") ? `${whatsappNumber.replace(/[^0-9]/g, "")}@consultation.pdbhomes.com` : "consultation@pdbhomes.com"),
           phone: whatsappNumber,
           preferredDate: preferredDate || null,
-          message: `[CONSULTATION BOOKING - ₦10,000 COMMITMENT] Purpose: ${getPurposeLabel(purpose)}. WhatsApp: ${whatsappNumber}. Notes: ${notes || "None"}`,
+          message: `[CONSULTATION BOOKING - ₦${consultationFee.toLocaleString()} COMMITMENT] Purpose: ${getPurposeLabel(purpose)}. WhatsApp: ${whatsappNumber}. Notes: ${notes || "None"}`,
         }),
       });
 
@@ -82,7 +94,7 @@ export default function ConsultationPage() {
   };
 
   const waBookingUrl = `https://wa.link/ksxyrq?text=${encodeURIComponent(
-    `Hello PDB Homes, I just booked a consultation for [${getPurposeLabel(purpose)}]. Name: ${fullName}, WhatsApp: ${whatsappNumber}, Booking Ref: ${bookingId}. I would like to confirm my ₦10,000 consultation payment.`
+    `Hello PDB Homes, I just booked a consultation for [${getPurposeLabel(purpose)}]. Name: ${fullName}, WhatsApp: ${whatsappNumber}, Booking Ref: ${bookingId}. I would like to confirm my ₦${consultationFee.toLocaleString()} consultation payment.`
   )}`;
 
   return (
@@ -109,13 +121,13 @@ export default function ConsultationPage() {
                 Commitment Fee
               </span>
               <h3 className="text-2xl font-extrabold text-white font-display">
-                ₦10,000 <span className="text-xs font-normal text-slate-300">/ Session</span>
+                ₦{consultationFee.toLocaleString()} <span className="text-xs font-normal text-slate-300">/ Session</span>
               </h3>
             </div>
           </div>
           <div className="text-xs text-slate-300 max-w-sm">
             <p>
-              To respect your time and provide dedicated preparation, all consultations require a confirmed <strong>₦10,000 commitment fee</strong> before the appointment is booked.
+              To respect your time and provide dedicated preparation, all consultations require a confirmed <strong>₦{consultationFee.toLocaleString()} commitment fee</strong> before the appointment is booked.
             </p>
           </div>
         </div>
@@ -247,7 +259,7 @@ export default function ConsultationPage() {
                 disabled={submitting}
                 className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-sm uppercase tracking-wider shadow-md transition-all active:scale-[0.99] disabled:opacity-50"
               >
-                <span>{submitting ? "Processing..." : "Proceed to ₦10,000 Commitment Payment"}</span>
+                <span>{submitting ? "Processing..." : `Proceed to ₦${consultationFee.toLocaleString()} Commitment Payment`}</span>
                 <ArrowRight className="w-4 h-4 text-emerald-400" />
               </button>
             </form>
@@ -262,7 +274,7 @@ export default function ConsultationPage() {
                 <CreditCard className="w-7 h-7" />
               </div>
               <h2 className="text-2xl font-extrabold text-brand-navy font-display">
-                Complete Your ₦10,000 Consultation Payment
+                Complete Your ₦{consultationFee.toLocaleString()} Consultation Payment
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto">
                 Booking Reference: <strong className="font-mono text-slate-900">{bookingId}</strong>
@@ -285,7 +297,7 @@ export default function ConsultationPage() {
               </div>
               <div className="flex justify-between pt-1 text-base font-extrabold text-brand-navy">
                 <span>Total Due:</span>
-                <span className="text-emerald-700 font-extrabold">₦10,000 NGN</span>
+                <span className="text-emerald-700 font-extrabold">₦{consultationFee.toLocaleString()} NGN</span>
               </div>
             </div>
 
@@ -293,7 +305,7 @@ export default function ConsultationPage() {
             <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 space-y-1">
               <strong className="block">Payment Options</strong>
               <p>
-                Complete your ₦10,000 consultation payment online or connect directly on WhatsApp with our finance desk for instant confirmation.
+                Complete your ₦{consultationFee.toLocaleString()} consultation payment online or connect directly on WhatsApp with our finance desk for instant confirmation.
               </p>
             </div>
 
@@ -304,7 +316,7 @@ export default function ConsultationPage() {
                 className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-md transition-all active:scale-95"
               >
                 <CreditCard className="w-4 h-4 text-emerald-400" />
-                <span>Pay ₦10,000 via Paystack</span>
+                <span>Pay ₦{consultationFee.toLocaleString()} via Paystack</span>
               </button>
 
               <a
