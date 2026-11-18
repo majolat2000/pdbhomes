@@ -227,7 +227,7 @@ export default function ClientPropertyRequestPage() {
                         <option value="Luxury Waterfront Mansion">Luxury Waterfront Mansion</option>
                       </optgroup>
                       <optgroup label="Lands & Commercial">
-                        <option value="Lands for Sale (Plots / Acres / Gazette)">Lands for Sale (Plots / Acres / Gazette)</option>
+                        <option value="Lands for Sale (Plots / Acres)">Lands for Sale (Plots / Acres)</option>
                         <option value="Commercial Land / Development Plot">Commercial Land / Development Plot</option>
                         <option value="Commercial Property / Office Space">Commercial Property / Office Space</option>
                       </optgroup>
@@ -356,7 +356,7 @@ export default function ClientPropertyRequestPage() {
                     rows={3}
                     value={additionalNotes}
                     onChange={(e) => setAdditionalNotes(e.target.value)}
-                    placeholder="e.g. 24/7 power supply, treated water, Governor's consent, clean title, compound space, flood-free location..."
+                    placeholder="e.g. 24/7 power supply, treated water, clean title, compound space, flood-free location..."
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-emerald-600"
                   />
                 </div>

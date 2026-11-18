@@ -11,7 +11,7 @@ export const demoNigerianProperties: Property[] = [
     mlsId: "PDB-LAG-LEKKI-01",
     title: "5-Bedroom Fully Detached Duplex with BQ & Swimming Pool",
     slug: "5-bedroom-fully-detached-duplex-lekki-phase-1",
-    description: "A newly finished 5-bedroom detached duplex in a secure, gated close off Admiralty Way, Lekki Phase 1. Features a fitted kitchen with heat extractor, private swimming pool, family lounge, box room, car park for 4 vehicles, and self-contained boys' quarters. Clean Governor's Consent documentation.",
+    description: "A newly finished 5-bedroom detached duplex in a secure, gated close off Admiralty Way, Lekki Phase 1. Features a fitted kitchen with heat extractor, private swimming pool, family lounge, box room, car park for 4 vehicles, and self-contained boys' quarters. Clean verified documentation.",
     propertyType: "DETACHED_DUPLEX",
     listingStatus: "FOR_SALE",
     price: 380000000, // ₦380 Million
@@ -35,7 +35,7 @@ export const demoNigerianProperties: Property[] = [
       { url: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1600&q=80", caption: "Fitted kitchen with pantry" },
     ],
     amenities: [
-      "Governor's Consent Title",
+      "Verified Title Documentation",
       "Private Swimming Pool",
       "Self-Contained BQ",
       "Fitted Kitchen with Heat Extractor",
@@ -75,7 +75,7 @@ export const demoNigerianProperties: Property[] = [
       { url: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80", caption: "Dining and lounge area" },
     ],
     amenities: [
-      "Federal C of O / Governor's Consent",
+      "Verified Clean Title",
       "24/7 Serviced Generator & PHCN",
       "Elevator Access",
       "Communal Swimming Pool & Gym",
@@ -171,7 +171,7 @@ export const demoNigerianProperties: Property[] = [
     mlsId: "PDB-LAG-AJAH-05",
     title: "4-Bedroom Semi-Detached Duplex in Gated Estate",
     slug: "4-bedroom-semi-detached-duplex-ajah",
-    description: "Well-built 4-bedroom semi-detached duplex in a family-friendly gated estate in Ajah, near Lagos Business School. Comes with stamp-duty paid C of O, stamped concrete compound, all en-suite bedrooms, fitted wardrobes, and reliable estate security.",
+    description: "Well-built 4-bedroom semi-detached duplex in a family-friendly gated estate in Ajah, near Lagos Business School. Comes with verified title, stamped concrete compound, all en-suite bedrooms, fitted wardrobes, and reliable estate security.",
     propertyType: "SEMI_DETACHED",
     listingStatus: "FOR_SALE",
     price: 135000000, // ₦135 Million
@@ -192,7 +192,7 @@ export const demoNigerianProperties: Property[] = [
       { url: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1600&q=80", caption: "Estate duplex facade", isPrimary: true },
     ],
     amenities: [
-      "Certificate of Occupancy (C of O)",
+      "Verified Estate Title",
       "Gated Estate Security",
       "Stamped Concrete Compound",
       "All Rooms En-Suite",
@@ -244,9 +244,9 @@ export const demoNigerianProperties: Property[] = [
   {
     id: "prop-ng-07",
     mlsId: "PDB-LAG-LAND-07",
-    title: "600 SQM Dry Residential Land with Governor's Consent",
+    title: "600 SQM Dry Residential Land in Gated Estate",
     slug: "600-sqm-dry-residential-land-sangotedo-ajah",
-    description: "Completely dry, ready-to-build 600 square-meter residential plot located in a fast-growing, gated community in Sangotedo, near Novare Mall (Shoprite), Ajah. Instant allocation upon payment. Genuine Governor's Consent and registered survey plan.",
+    description: "Completely dry, ready-to-build 600 square-meter residential plot located in a fast-growing, gated community in Sangotedo, near Novare Mall (Shoprite), Ajah. Instant allocation upon payment. Verified documentation and registered survey plan.",
     propertyType: "LAND",
     listingStatus: "FOR_SALE",
     price: 52000000, // ₦52 Million
@@ -268,7 +268,7 @@ export const demoNigerianProperties: Property[] = [
       { url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80", caption: "Dry residential plot ready for building", isPrimary: true },
     ],
     amenities: [
-      "Governor's Consent Title",
+      "Verified Title Documentation",
       "Registered Survey Plan",
       "100% Dry Land (No Sandfilling Required)",
       "Gated Estate with Electricity Infrastructure",
@@ -307,7 +307,7 @@ export const demoNigerianProperties: Property[] = [
       { url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80", caption: "High ceiling living lounge" },
     ],
     amenities: [
-      "Federal C of O / Governor's Consent",
+      "Verified Clean Title",
       "Private Boat Jetty & Lagoon Frontage",
       "Private Cinema Room",
       "Passenger Elevator",

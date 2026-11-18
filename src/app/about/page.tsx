@@ -49,8 +49,8 @@ export default function AboutPage() {
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900">Verified Titles</h4>
-                  <p className="text-xs text-slate-500">We verify Governor&apos;s Consent, C of O, Gazette, and surveys.</p>
+                  <h4 className="text-sm font-bold text-slate-900">Verified Documentation</h4>
+                  <p className="text-xs text-slate-500">We verify ownership records, surveys, and legal documentation.</p>
                 </div>
               </div>
               <div className="flex items-start gap-2.5">

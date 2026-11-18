@@ -14,7 +14,7 @@ export function WhyChooseUs() {
       icon: FileCheck,
       title: "Title & Documentation Verification",
       description:
-        "We verify land and house titles (Governor's Consent, C of O, Gazette, or registered survey) with the relevant registries before presenting options to you.",
+        "We verify land and house documentation with the relevant authorities before presenting options to you.",
     },
     {
       icon: MapPin,

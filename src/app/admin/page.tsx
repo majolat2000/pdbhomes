@@ -1407,7 +1407,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_115NCNZpqYI5kOpXN6dTqA_qKqxXGX7`}
                   rows={3}
                   value={newDescription}
                   onChange={(e) => setNewDescription(e.target.value)}
-                  placeholder="Describe title (e.g. Governor's consent), cinema room, swimming pool, water treatment, solar system..."
+                  placeholder="Describe property features, documentation, cinema room, swimming pool, water treatment, solar system..."
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200"
                 />
               </div>

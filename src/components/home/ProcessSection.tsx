@@ -23,7 +23,7 @@ export function ProcessSection() {
       icon: ShieldCheck,
       title: "Review Documents & Conclude",
       description:
-        "We review title documents (Governor's Consent, C of O, Gazette) or tenancy agreements together before any commitment, ensuring total transparency from start to finish.",
+        "We review property documentation or tenancy agreements together before any commitment, ensuring total transparency from start to finish.",
     },
   ];
 

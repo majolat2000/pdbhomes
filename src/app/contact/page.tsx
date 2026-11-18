@@ -200,7 +200,7 @@ export default function ContactPage() {
                   >
                     <option value="RENT">Rent a Property (Apartment / Duplex / House)</option>
                     <option value="SHORTLET">Book a Serviced Shortlet</option>
-                    <option value="BUY_LAND">Buy Land (Verified Title / C of O / Gazette)</option>
+                    <option value="BUY_LAND">Buy Land (Verified Plots / Acres)</option>
                     <option value="SELL_LAND">Sell Land</option>
                     <option value="BUY_PROPERTY">Buy Property (Detached Duplex / Terrace / Mansion)</option>
                     <option value="SELL_PROPERTY">Sell Property</option>

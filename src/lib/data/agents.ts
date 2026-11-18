@@ -4,7 +4,7 @@ export const agents: Agent[] = [
   {
     id: "agent-ceo",
     name: "Precious Olatimilehin",
-    email: "info@pdbhomes.com",
+    email: "info@pdbhomes.com.ng",
     phone: "+2348181017260",
     title: "Founder & CEO — PDB Homes",
     licenseNumber: "PDB Homes Principal",
@@ -15,7 +15,7 @@ export const agents: Agent[] = [
   {
     id: "agent-1",
     name: "Babatunde Adeyemi",
-    email: "info@pdbhomes.com",
+    email: "info@pdbhomes.com.ng",
     phone: "+2348181017260",
     title: "Senior Partner — Ikoyi & Banana Island Private Estates",
     licenseNumber: "NIESV / ESVARBON Reg# 019284",
@@ -26,7 +26,7 @@ export const agents: Agent[] = [
   {
     id: "agent-2",
     name: "Oluchi Nnamdi",
-    email: "info@pdbhomes.com",
+    email: "info@pdbhomes.com.ng",
     phone: "+2348181017260",
     title: "Managing Director — Lekki & Victoria Island Waterfronts",
     licenseNumber: "NIESV / ESVARBON Reg# 104012",
@@ -37,7 +37,7 @@ export const agents: Agent[] = [
   {
     id: "agent-3",
     name: "Damilola Bakare",
-    email: "info@pdbhomes.com",
+    email: "info@pdbhomes.com.ng",
     phone: "+2348181017260",
     title: "Director — Abuja Diplomatic Enclaves (Maitama & Asokoro)",
     licenseNumber: "NIESV / ESVARBON Reg# 338920",
@@ -48,12 +48,12 @@ export const agents: Agent[] = [
   {
     id: "agent-4",
     name: "Farida Bello",
-    email: "info@pdbhomes.com",
+    email: "info@pdbhomes.com.ng",
     phone: "+2348181017260",
     title: "Principal Consultant — Off-Market & Diaspora Acquisitions",
     licenseNumber: "NIESV / ESVARBON Reg# 671049",
     avatarUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80",
-    bio: "Connecting high-net-worth Nigerian diaspora investors in the UK, US, and Canada with verified title deeds, governor's consents, and premium luxury developments.",
+    bio: "Connecting Nigerian diaspora clients in the UK, US, and Canada with verified properties and premium developments in Lagos.",
     experienceYears: 10,
   },
 ];
