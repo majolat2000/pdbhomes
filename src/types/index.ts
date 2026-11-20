@@ -133,3 +133,11 @@ export interface PropertyFilterParams {
   amenities?: string[];
   sortBy?: 'price_asc' | 'price_desc' | 'newest' | 'sqft_desc';
 }
+
+export interface NewsletterSubscriber {
+  id: string;
+  email: string;
+  source?: string;
+  status?: 'ACTIVE' | 'UNSUBSCRIBED';
+  createdAt: string;
+}

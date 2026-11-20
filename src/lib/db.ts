@@ -1,4 +1,4 @@
-import { Property, Lead, ValuationRequest, PropertyFilterParams, ClientRequest } from "@/types";
+import { Property, Lead, ValuationRequest, PropertyFilterParams, ClientRequest, NewsletterSubscriber } from "@/types";
 import { agents as seedAgents } from "./data/agents";
 import { demoNigerianProperties } from "./data/properties";
 import { supabase, isSupabaseConfigured } from "./supabase";
@@ -8,6 +8,7 @@ let memoryProperties: Property[] = [...demoNigerianProperties];
 let memoryLeads: Lead[] = [];
 let memoryValuations: ValuationRequest[] = [];
 let memoryClientRequests: ClientRequest[] = [];
+let memorySubscribers: NewsletterSubscriber[] = [];
 
 // =========================================================================
 // PROPERTIES
@@ -798,4 +799,85 @@ export async function updateConsultationFee(fee: number): Promise<{ success: boo
     }
   }
   return { success: true, fee };
+}
+
+// =========================================================================
+// NEWSLETTER SUBSCRIBERS
+// =========================================================================
+
+export async function addNewsletterSubscriber(
+  email: string,
+  source = "footer"
+): Promise<{ success: boolean; data: NewsletterSubscriber; isNew: boolean }> {
+  const cleanEmail = email.trim().toLowerCase();
+
+  const existing = memorySubscribers.find((s) => s.email.toLowerCase() === cleanEmail);
+  if (existing) {
+    return { success: true, data: existing, isNew: false };
+  }
+
+  const newSub: NewsletterSubscriber = {
+    id: `sub-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+    email: cleanEmail,
+    source,
+    status: "ACTIVE",
+    createdAt: new Date().toISOString(),
+  };
+
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      await supabase.from("newsletter_subscribers").insert([
+        {
+          id: newSub.id,
+          email: newSub.email,
+          source: newSub.source,
+          status: newSub.status,
+          created_at: newSub.createdAt,
+        },
+      ]);
+    } catch (e) {
+      console.warn("Supabase newsletter insert failed, saved to memory:", e);
+    }
+  }
+
+  memorySubscribers.unshift(newSub);
+  return { success: true, data: newSub, isNew: true };
+}
+
+export async function getNewsletterSubscribers(): Promise<NewsletterSubscriber[]> {
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("newsletter_subscribers")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!error && data) {
+        return data.map((row: any) => ({
+          id: row.id,
+          email: row.email,
+          source: row.source || "footer",
+          status: row.status || "ACTIVE",
+          createdAt: row.created_at,
+        }));
+      }
+    } catch (e) {
+      console.warn("Supabase getNewsletterSubscribers failed:", e);
+    }
+  }
+
+  return memorySubscribers;
+}
+
+export async function deleteNewsletterSubscriber(id: string): Promise<boolean> {
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      await supabase.from("newsletter_subscribers").delete().eq("id", id);
+    } catch (e) {
+      console.warn("Supabase delete subscriber failed:", e);
+    }
+  }
+
+  memorySubscribers = memorySubscribers.filter((s) => s.id !== id);
+  return true;
 }

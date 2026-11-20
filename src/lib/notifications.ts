@@ -490,3 +490,52 @@ https://pdbhomes.com.ng/admin
 
   return sendNotificationEmail({ subject, html, text });
 }
+
+export async function notifyNewSubscriber(email: string, source = "Website Footer") {
+  const subject = `[NEW PROPERTY ALERTS SUBSCRIBER] ${email}`;
+  const text = `
+PDB HOMES — NEW PROPERTY ALERTS SUBSCRIBER
+==========================================
+Email Address: ${email}
+Signup Location: ${source}
+Date: ${new Date().toLocaleString()}
+
+View and export your subscriber list in the admin dashboard:
+https://pdbhomes.com.ng/admin
+`;
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f8fafc; padding: 20px; color: #1e293b; }
+    .container { max-width: 520px; margin: 0 auto; background: #ffffff; border-radius: 14px; border: 1px solid #e2e8f0; overflow: hidden; }
+    .header { background: #0A192F; color: #ffffff; padding: 20px; text-align: center; }
+    .content { padding: 24px; font-size: 14px; }
+    .email-box { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-weight: bold; font-size: 16px; padding: 12px 16px; border-radius: 8px; margin: 16px 0; text-align: center; }
+    .footer { background: #f8fafc; padding: 14px; text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2 style="margin: 0; font-size: 18px;">New Property Alerts Subscriber</h2>
+    </div>
+    <div class="content">
+      <p>Someone subscribed to receive property alerts and updates on PDB Homes:</p>
+      <div class="email-box">${email}</div>
+      <p style="font-size: 12px; color: #64748b;">Source: ${source} &bull; Date: ${new Date().toLocaleString()}</p>
+      <p style="margin-top: 20px;"><a href="https://pdbhomes.com.ng/admin" style="display: inline-block; background: #0A192F; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-size: 12px; font-weight: bold;">View Subscribers in Admin</a></p>
+    </div>
+    <div class="footer">
+      Sent to precolat@gmail.com and info@pdbhomes.com.ng
+    </div>
+  </div>
+</body>
+</html>
+`;
+
+  return sendNotificationEmail({ subject, html, text });
+}

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Property, Lead, ClientRequest, ValuationRequest } from "@/types";
+import { Property, Lead, ClientRequest, ValuationRequest, NewsletterSubscriber } from "@/types";
 import { formatCurrency, formatCompactCurrency } from "@/lib/utils";
 import {
   Building2,
@@ -30,6 +30,9 @@ import {
   MessageCircle,
   UploadCloud,
   X,
+  Copy,
+  Download,
+  Search,
 } from "lucide-react";
 
 function getWhatsAppUrl(phone: string, text?: string) {
@@ -51,7 +54,12 @@ export default function AdminPage() {
   const [loginError, setLoginError] = useState("");
   const [currentAdminEmail, setCurrentAdminEmail] = useState("");
 
-  const [activeTab, setActiveTab] = useState<"listings" | "consultations" | "inquiries" | "requests" | "settings">("listings");
+  const [activeTab, setActiveTab] = useState<"listings" | "consultations" | "inquiries" | "requests" | "newsletter" | "settings">("listings");
+
+  // Newsletter Subscribers State
+  const [subscribers, setSubscribers] = useState<NewsletterSubscriber[]>([]);
+  const [subscriberSearch, setSubscriberSearch] = useState("");
+  const [copiedEmails, setCopiedEmails] = useState(false);
 
   // Settings & Password Change States
   const [currentPassword, setCurrentPassword] = useState("");
@@ -188,27 +196,73 @@ export default function AdminPage() {
   const fetchAllData = async () => {
     setLoading(true);
     try {
-      const [resProps, resLeads, resReqs, resVals] = await Promise.all([
+      const [resProps, resLeads, resReqs, resVals, resSubs] = await Promise.all([
         fetch("/api/properties"),
         fetch("/api/leads"),
         fetch("/api/requests"),
         fetch("/api/valuations"),
+        fetch("/api/newsletter"),
       ]);
 
       const dataProps = await resProps.json();
       const dataLeads = await resLeads.json();
       const dataReqs = await resReqs.json();
       const dataVals = await resVals.json();
+      const dataSubs = await resSubs.json();
 
       if (dataProps.success) setProperties(dataProps.data);
       if (dataLeads.success) setLeads(dataLeads.data);
       if (dataReqs.success) setClientRequests(dataReqs.data);
       if (dataVals.success) setValuations(dataVals.data);
+      if (dataSubs.success) setSubscribers(dataSubs.data);
     } catch (e) {
       console.error("Failed to load admin data", e);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Newsletter Subscriber Handlers
+  const handleDeleteSubscriber = async (id: string, email: string) => {
+    if (!confirm(`Are you sure you want to remove ${email} from newsletter subscribers?`)) return;
+    try {
+      const res = await fetch(`/api/newsletter?id=${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success) {
+        setActionMessage(`Removed ${email} from newsletter subscribers.`);
+        setSubscribers((prev) => prev.filter((s) => s.id !== id));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleCopyAllEmails = () => {
+    if (subscribers.length === 0) return;
+    const emailList = subscribers.map((s) => s.email).join(", ");
+    navigator.clipboard.writeText(emailList);
+    setCopiedEmails(true);
+    setActionMessage(`Copied ${subscribers.length} subscriber email addresses to clipboard!`);
+    setTimeout(() => setCopiedEmails(false), 3000);
+  };
+
+  const handleExportSubscribersCSV = () => {
+    if (subscribers.length === 0) return;
+    const headers = "ID,Email,Source,Status,SubscribedAt\n";
+    const rows = subscribers
+      .map(
+        (s) =>
+          `"${s.id}","${s.email}","${s.source || "Footer Property Alerts"}","${s.status || "ACTIVE"}","${s.createdAt}"`
+      )
+      .join("\n");
+    const blob = new Blob([headers + rows], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `pdbhomes-newsletter-subscribers-${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   // Handle Consultation Fee Update
@@ -654,6 +708,18 @@ export default function AdminPage() {
           </button>
 
           
+
+          <button
+            onClick={() => setActiveTab("newsletter")}
+            className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-2 ${
+              activeTab === "newsletter"
+                ? "bg-brand-navy text-white shadow-sm"
+                : "bg-white text-slate-600 hover:bg-slate-200"
+            }`}
+          >
+            <Mail className="w-3.5 h-3.5" />
+            <span>Newsletter ({subscribers.length})</span>
+          </button>
 
           <button
             onClick={() => setActiveTab("settings")}
@@ -1167,6 +1233,180 @@ export default function AdminPage() {
                     </tbody>
                   </table>
                 </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 5: NEWSLETTER SUBSCRIBERS */}
+        {activeTab === "newsletter" && (
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-bold text-slate-900 font-display">
+                    Newsletter &amp; Property Alert Subscribers
+                  </h2>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                    {subscribers.length} Total
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 mt-1">
+                  List of all users who subscribed to receive verified property alerts and updates via the website footer.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={handleCopyAllEmails}
+                  disabled={subscribers.length === 0}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors disabled:opacity-50"
+                  title="Copy all subscriber emails separated by commas"
+                >
+                  <Copy className="w-3.5 h-3.5 text-slate-500" />
+                  <span>{copiedEmails ? "Copied!" : "Copy All Emails"}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleExportSubscribersCSV}
+                  disabled={subscribers.length === 0}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors shadow-xs disabled:opacity-50"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Export CSV</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Quick Stats Bar */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
+                  Total Subscribers
+                </span>
+                <span className="text-2xl font-extrabold text-brand-navy font-display mt-0.5 block">
+                  {subscribers.length}
+                </span>
+              </div>
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
+                  Active Status
+                </span>
+                <span className="text-2xl font-extrabold text-emerald-700 font-display mt-0.5 block">
+                  {subscribers.filter((s) => s.status !== "UNSUBSCRIBED").length}
+                </span>
+              </div>
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
+                  Latest Subscription
+                </span>
+                <span className="text-sm font-bold text-slate-800 font-display mt-1.5 block">
+                  {subscribers.length > 0
+                    ? new Date(subscribers[0].createdAt).toLocaleDateString("en-NG", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })
+                    : "No subscribers yet"}
+                </span>
+              </div>
+            </div>
+
+            {/* Search Input */}
+            <div className="flex items-center gap-3">
+              <div className="relative flex-1">
+                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search subscribers by email address..."
+                  value={subscriberSearch}
+                  onChange={(e) => setSubscriberSearch(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-brand-navy"
+                />
+              </div>
+            </div>
+
+            {/* Subscribers Table */}
+            {subscribers.filter(
+              (s) =>
+                s.email.toLowerCase().includes(subscriberSearch.toLowerCase()) ||
+                (s.source && s.source.toLowerCase().includes(subscriberSearch.toLowerCase()))
+            ).length === 0 ? (
+              <div className="text-center py-16 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                <Mail className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+                <p className="text-sm font-semibold text-slate-700">No subscribers found</p>
+                <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                  {subscriberSearch
+                    ? "No subscribers match your search term."
+                    : "When visitors enter their email into the 'Get Property Alerts' box at the footer, they will immediately appear here."}
+                </p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto border border-slate-200 rounded-2xl">
+                <table className="w-full text-left text-xs text-slate-700">
+                  <thead className="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                    <tr>
+                      <th className="py-3 px-4">#</th>
+                      <th className="py-3 px-4">Email Address</th>
+                      <th className="py-3 px-4">Source</th>
+                      <th className="py-3 px-4">Status</th>
+                      <th className="py-3 px-4">Date Subscribed</th>
+                      <th className="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {subscribers
+                      .filter(
+                        (s) =>
+                          s.email.toLowerCase().includes(subscriberSearch.toLowerCase()) ||
+                          (s.source && s.source.toLowerCase().includes(subscriberSearch.toLowerCase()))
+                      )
+                      .map((sub, index) => (
+                        <tr key={sub.id} className="hover:bg-slate-50 transition-colors">
+                          <td className="py-3 px-4 text-slate-400 font-mono">{index + 1}</td>
+                          <td className="py-3 px-4 font-semibold text-slate-900">
+                            <a
+                              href={`mailto:${sub.email}`}
+                              className="text-brand-navy hover:text-emerald-700 hover:underline"
+                            >
+                              {sub.email}
+                            </a>
+                          </td>
+                          <td className="py-3 px-4 text-slate-500">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[11px]">
+                              {sub.source || "Footer Property Alerts"}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                              Active
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-slate-500">
+                            {new Date(sub.createdAt).toLocaleDateString("en-NG", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </td>
+                          <td className="py-3 px-4 text-right">
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteSubscriber(sub.id, sub.email)}
+                              className="p-1.5 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                              title="Remove subscriber"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>

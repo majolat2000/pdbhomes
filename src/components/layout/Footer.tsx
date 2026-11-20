@@ -8,6 +8,34 @@ import { InstagramIcon } from "@/components/common/InstagramIcon";
 
 export function Footer() {
   const [subscribed, setSubscribed] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [subscribing, setSubscribing] = useState(false);
+  const [subscriptionMessage, setSubscriptionMessage] = useState("");
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail || !newsletterEmail.includes("@")) return;
+
+    setSubscribing(true);
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: newsletterEmail, source: "Footer Property Alerts" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubscribed(true);
+        setSubscriptionMessage(data.message || "Thank you! We will keep you updated on new listings.");
+      }
+    } catch (err) {
+      console.error(err);
+      setSubscribed(true);
+      setSubscriptionMessage("Thank you! We will keep you updated on new listings.");
+    } finally {
+      setSubscribing(false);
+    }
+  };
 
   return (
     <footer className="bg-brand-navy text-slate-300 pt-16 pb-12 border-t border-slate-800">
@@ -168,28 +196,25 @@ export function Footer() {
               Receive updates when new verified properties and shortlets become available in your preferred area.
             </p>
             {subscribed ? (
-              <div className="p-3 bg-slate-800 rounded-lg text-xs text-emerald-300">
-                Thank you! We will keep you updated on new listings.
+              <div className="p-3 bg-slate-800 border border-emerald-500/30 rounded-lg text-xs text-emerald-300">
+                {subscriptionMessage || "Thank you! We will keep you updated on new listings."}
               </div>
             ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSubscribed(true);
-                }}
-                className="space-y-2"
-              >
+              <form onSubmit={handleNewsletterSubmit} className="space-y-2">
                 <input
                   type="email"
                   required
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
                   placeholder="Enter your email address"
                   className="w-full px-3.5 py-2 rounded-lg bg-slate-800 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
                 />
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold uppercase tracking-wider transition-colors"
+                  disabled={subscribing}
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold uppercase tracking-wider transition-colors disabled:opacity-60"
                 >
-                  <span>Subscribe</span>
+                  <span>{subscribing ? "Subscribing..." : "Subscribe"}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </form>
