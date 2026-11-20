@@ -5,11 +5,20 @@ import {
   deleteNewsletterSubscriber,
 } from "@/lib/db";
 import { notifyNewSubscriber } from "@/lib/notifications";
+import { verifyAdminSession } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const session = verifyAdminSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
+
     const subscribers = await getNewsletterSubscribers();
     return NextResponse.json({
       success: true,
@@ -63,6 +72,14 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    const session = verifyAdminSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
 

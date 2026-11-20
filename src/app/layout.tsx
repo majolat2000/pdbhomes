@@ -5,6 +5,10 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://pdbhomes.com.ng"),
+  alternates: {
+    canonical: "/",
+  },
   title: "PDB Homes | Your Trusted Real Estate Brand",
   description:
     "Your trusted real estate brand in Lagos, Nigeria. Specializing in Sales, Rentals, and Serviced Shortlets across Mainland, Lekki, Ikoyi, Victoria Island, and Ajah.",
@@ -18,6 +22,17 @@ export const metadata: Metadata = {
     "Ajah Properties for Sale",
     "Mainland Lagos Homes",
   ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/pdb-logo.jpeg",
     shortcut: "/pdb-logo.jpeg",
@@ -27,9 +42,16 @@ export const metadata: Metadata = {
     title: "PDB Homes | Your Trusted Real Estate Brand",
     description:
       "Your trusted real estate brand in Lagos, Nigeria. Specializing in Sales, Rentals, and Serviced Shortlets across Mainland, Lekki, Ikoyi, Victoria Island, and Ajah.",
+    url: "https://pdbhomes.com.ng",
     siteName: "PDB Homes",
     locale: "en_NG",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PDB Homes | Your Trusted Real Estate Brand",
+    description:
+      "Your trusted real estate brand in Lagos, Nigeria. Specializing in Sales, Rentals, and Serviced Shortlets across Mainland, Lekki, Ikoyi, Victoria Island, and Ajah.",
   },
 };
 

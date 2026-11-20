@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getConsultationFee, updateConsultationFee } from "@/lib/db";
+import { verifyAdminSession } from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
@@ -18,6 +21,14 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    const session = verifyAdminSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized. Admin privileges required." },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     const fee = Number(body.consultationFee);
 

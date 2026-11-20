@@ -1,9 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClientRequest, getClientRequests, updateClientRequestStatus } from "@/lib/db";
 import { notifyNewPropertyRequest } from "@/lib/notifications";
+import { verifyAdminSession } from "@/lib/auth";
 
-export async function GET() {
+export const dynamic = "force-dynamic";
+
+export async function GET(req: NextRequest) {
   try {
+    const session = verifyAdminSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
+
     const requests = await getClientRequests();
     return NextResponse.json({ success: true, count: requests.length, data: requests });
   } catch (error: any) {
@@ -49,14 +60,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: "Your property request has been dispatched to our private client desk. An advisor will contact you within 2 hours.",
+        message: "Your property mandate has been submitted. A senior PDB Homes broker will reach out to you directly.",
         data: saved,
       },
       { status: 201 }
     );
   } catch (error: any) {
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to submit property request" },
+      { success: false, error: error.message || "Failed to process mandate request" },
       { status: 500 }
     );
   }
@@ -64,13 +75,21 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
+    const session = verifyAdminSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     if (!body.id || !body.status) {
       return NextResponse.json({ success: false, error: "ID and status are required" }, { status: 400 });
     }
 
     await updateClientRequestStatus(body.id, body.status);
-    return NextResponse.json({ success: true, message: "Status updated" });
+    return NextResponse.json({ success: true, message: "Request status updated" });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }

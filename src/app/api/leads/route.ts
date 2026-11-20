@@ -1,9 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createLead, getLeads, updateLeadStatus } from "@/lib/db";
 import { notifyNewLead } from "@/lib/notifications";
+import { verifyAdminSession } from "@/lib/auth";
 
-export async function GET() {
+export const dynamic = "force-dynamic";
+
+export async function GET(req: NextRequest) {
   try {
+    const session = verifyAdminSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
+
     const leads = await getLeads();
     return NextResponse.json({ success: true, count: leads.length, data: leads });
   } catch (error: any) {
@@ -61,6 +72,14 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
+    const session = verifyAdminSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     if (!body.id || !body.status) {
       return NextResponse.json({ success: false, error: "ID and status are required" }, { status: 400 });

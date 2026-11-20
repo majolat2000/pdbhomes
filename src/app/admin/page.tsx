@@ -108,6 +108,12 @@ export default function AdminPage() {
   const [isFeatured, setIsFeatured] = useState(true);
   const [isExclusive, setIsExclusive] = useState(true);
 
+  const getAuthHeaders = (): Record<string, string> => {
+    if (typeof window === "undefined") return {};
+    const token = localStorage.getItem("pdb_admin_token");
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
   // Check persisted auth session
   useEffect(() => {
     const saved = localStorage.getItem("pdb_admin_auth");
@@ -133,6 +139,9 @@ export default function AdminPage() {
         setIsAuthenticated(true);
         const email = data.data.email;
         setCurrentAdminEmail(email);
+        if (data.token) {
+          localStorage.setItem("pdb_admin_token", data.token);
+        }
         localStorage.setItem("pdb_admin_auth", "true");
         localStorage.setItem("pdb_admin_email", email);
         fetchAllData();
@@ -187,21 +196,26 @@ export default function AdminPage() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setIsAuthenticated(false);
     localStorage.removeItem("pdb_admin_auth");
     localStorage.removeItem("pdb_admin_email");
+    localStorage.removeItem("pdb_admin_token");
+    try {
+      await fetch("/api/admin/auth?action=logout", { method: "POST" });
+    } catch {}
   };
 
   const fetchAllData = async () => {
     setLoading(true);
     try {
+      const authHeaders = getAuthHeaders();
       const [resProps, resLeads, resReqs, resVals, resSubs] = await Promise.all([
         fetch("/api/properties"),
-        fetch("/api/leads"),
-        fetch("/api/requests"),
-        fetch("/api/valuations"),
-        fetch("/api/newsletter"),
+        fetch("/api/leads", { headers: authHeaders }),
+        fetch("/api/requests", { headers: authHeaders }),
+        fetch("/api/valuations", { headers: authHeaders }),
+        fetch("/api/newsletter", { headers: authHeaders }),
       ]);
 
       const dataProps = await resProps.json();
@@ -226,7 +240,7 @@ export default function AdminPage() {
   const handleDeleteSubscriber = async (id: string, email: string) => {
     if (!confirm(`Are you sure you want to remove ${email} from newsletter subscribers?`)) return;
     try {
-      const res = await fetch(`/api/newsletter?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/newsletter?id=${id}`, { method: "DELETE", headers: getAuthHeaders() });
       const data = await res.json();
       if (data.success) {
         setActionMessage(`Removed ${email} from newsletter subscribers.`);
@@ -273,7 +287,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/settings", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ consultationFee }),
       });
       const data = await res.json();
@@ -403,7 +417,7 @@ export default function AdminPage() {
 
       const res = await fetch("/api/properties", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({
           title: newTitle,
           price: Number(newPrice),
@@ -446,7 +460,7 @@ export default function AdminPage() {
   const handleDeleteListing = async (id: string) => {
     if (!confirm("Are you sure you want to remove this property listing?")) return;
     try {
-      await fetch(`/api/properties?id=${id}`, { method: "DELETE" });
+      await fetch(`/api/properties?id=${id}`, { method: "DELETE", headers: getAuthHeaders() });
       setActionMessage("Property deleted from listings.");
       fetchAllData();
     } catch (e) {
@@ -476,7 +490,7 @@ export default function AdminPage() {
     try {
       await fetch("/api/leads", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ id, status }),
       });
       fetchAllData();
@@ -489,7 +503,7 @@ export default function AdminPage() {
     try {
       await fetch("/api/requests", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ id, status }),
       });
       fetchAllData();

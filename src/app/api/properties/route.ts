@@ -3,6 +3,7 @@ import { getProperties, addProperty, deleteProperty, loadDemoNigerianListings, c
 import { PropertyFilterParams } from "@/types";
 import { slugify } from "@/lib/utils";
 import { agents } from "@/lib/data/agents";
+import { verifyAdminSession } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
   try {
@@ -40,6 +41,14 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const session = verifyAdminSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized. Admin privileges required." },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
 
     // Special action from admin dashboard: load demo listings
@@ -111,6 +120,14 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    const session = verifyAdminSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized. Admin privileges required." },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     if (!id) {

@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { verifyAdminCredentials, changeAdminPassword, getAdminsList } from "@/lib/db";
+import { createAdminToken, verifyAdminSession } from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
@@ -24,13 +27,36 @@ export async function POST(req: Request) {
         );
       }
 
-      return NextResponse.json({
+      const token = createAdminToken(admin.email, admin.role);
+
+      const res = NextResponse.json({
         success: true,
+        token,
         data: admin,
       });
+
+      // Secure HTTP-Only cookie
+      res.cookies.set("pdb_admin_token", token, {
+        path: "/",
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 7 * 24 * 60 * 60, // 7 days
+      });
+
+      return res;
     }
 
     if (action === "change_password") {
+      // Require authenticated admin session to change password
+      const session = verifyAdminSession(req);
+      if (!session) {
+        return NextResponse.json(
+          { success: false, error: "Unauthorized. Please log in to change your password." },
+          { status: 401 }
+        );
+      }
+
       const { email, currentPassword, newPassword } = body;
       if (!email || !currentPassword || !newPassword) {
         return NextResponse.json(
@@ -60,6 +86,12 @@ export async function POST(req: Request) {
       });
     }
 
+    if (action === "logout") {
+      const res = NextResponse.json({ success: true, message: "Logged out successfully" });
+      res.cookies.delete("pdb_admin_token");
+      return res;
+    }
+
     return NextResponse.json(
       { success: false, error: "Unsupported action." },
       { status: 400 }
@@ -73,8 +105,16 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const session = verifyAdminSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
+
     const admins = await getAdminsList();
     return NextResponse.json({
       success: true,
