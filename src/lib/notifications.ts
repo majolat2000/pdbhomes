@@ -362,3 +362,131 @@ Status: Archived in PDB Homes Database & Viewable on Admin Dashboard (/admin).
 
   return sendNotificationEmail({ subject, html, text });
 }
+
+export interface ConsultationPaymentNotificationData {
+  reference: string;
+  amount: number; // in Naira (e.g. 10000)
+  fullName: string;
+  phone: string;
+  email: string;
+  purpose: string;
+  bookingId?: string;
+  paidAt?: string;
+  channel?: string;
+}
+
+/**
+ * Dispatches instant notification to admin team upon verified Paystack consultation payment.
+ */
+export async function notifyConsultationPaymentSuccess(data: ConsultationPaymentNotificationData) {
+  const subject = `[PAYMENT VERIFIED ₦${data.amount.toLocaleString()}] Consultation Paid by ${data.fullName} — Ref: ${data.reference}`;
+
+  const cleanPhone = data.phone.replace(/[^0-9]/g, "");
+  const waLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+    `Hello ${data.fullName}, we have received your verified ₦${data.amount.toLocaleString()} consultation payment for PDB Homes (Ref: ${data.reference}). I am your assigned private client advisor.`
+  )}`;
+
+  const text = `
+PDB HOMES — VERIFIED CONSULTATION PAYMENT (PAYSTACK)
+==============================================
+Status: PAYMENT SUCCESSFUL & VERIFIED
+Amount Paid: ₦${data.amount.toLocaleString()} NGN
+Paystack Reference: ${data.reference}
+Booking Reference: ${data.bookingId || "N/A"}
+Payment Channel: ${data.channel || "Paystack Checkout"}
+Payment Time: ${data.paidAt || new Date().toLocaleString()}
+
+CLIENT DETAILS
+Client Name: ${data.fullName}
+WhatsApp Number: ${data.phone}
+Email Address: ${data.email}
+Consultation Purpose: ${data.purpose}
+
+Quick WhatsApp Contact:
+${waLink}
+
+Admin Dashboard:
+https://pdbhomes.com.ng/admin
+`;
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; margin: 0; padding: 20px; color: #1e293b; }
+    .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .header { background: #059669; color: #ffffff; padding: 28px 24px; text-align: center; }
+    .header h1 { margin: 0; font-size: 22px; font-weight: 800; }
+    .header p { margin: 6px 0 0; font-size: 13px; opacity: 0.95; }
+    .badge { display: inline-block; background: #ffffff; color: #059669; font-weight: 800; font-size: 16px; padding: 6px 16px; border-radius: 9999px; margin-top: 12px; }
+    .content { padding: 28px 24px; }
+    .table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
+    .table tr { border-bottom: 1px solid #f1f5f9; }
+    .table td { padding: 12px 8px; vertical-align: top; }
+    .table .label { color: #64748b; font-weight: 600; width: 38%; }
+    .table .value { color: #0f172a; font-weight: 700; }
+    .actions { text-align: center; margin: 24px 0 10px; }
+    .btn { display: inline-block; background: #059669; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 10px; font-weight: 700; font-size: 14px; }
+    .footer { background: #f8fafc; padding: 16px 24px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Consultation Payment Verified</h1>
+      <p>Paystack Transaction Confirmed</p>
+      <div class="badge">₦${data.amount.toLocaleString()} NGN</div>
+    </div>
+    <div class="content">
+      <table class="table">
+        <tr>
+          <td class="label">Client Name</td>
+          <td class="value">${data.fullName}</td>
+        </tr>
+        <tr>
+          <td class="label">WhatsApp Number</td>
+          <td class="value"><a href="${waLink}" style="color: #059669; text-decoration: none;">${data.phone}</a></td>
+        </tr>
+        <tr>
+          <td class="label">Email Address</td>
+          <td class="value">${data.email}</td>
+        </tr>
+        <tr>
+          <td class="label">Consultation Purpose</td>
+          <td class="value">${data.purpose}</td>
+        </tr>
+        <tr>
+          <td class="label">Paystack Reference</td>
+          <td class="value" style="font-family: monospace; color: #059669;">${data.reference}</td>
+        </tr>
+        <tr>
+          <td class="label">Booking Ref</td>
+          <td class="value" style="font-family: monospace;">${data.bookingId || "N/A"}</td>
+        </tr>
+        <tr>
+          <td class="label">Payment Channel</td>
+          <td class="value">${data.channel || "Online Payment"}</td>
+        </tr>
+        <tr>
+          <td class="label">Payment Time</td>
+          <td class="value">${data.paidAt || new Date().toLocaleString()}</td>
+        </tr>
+      </table>
+
+      <div class="actions">
+        <a href="${waLink}" class="btn" target="_blank">Contact Client on WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer">
+      Sent to <strong>precolat@gmail.com</strong> and <strong>info@pdbhomes.com.ng</strong>.<br />
+      Manage consultations on your admin dashboard at <strong>pdbhomes.com.ng/admin</strong>.
+    </div>
+  </div>
+</body>
+</html>
+`;
+
+  return sendNotificationEmail({ subject, html, text });
+}

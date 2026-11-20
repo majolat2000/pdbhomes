@@ -370,6 +370,49 @@ export async function updateLeadStatus(id: string, status: Lead["status"]): Prom
   return true;
 }
 
+export async function confirmLeadPayment(params: {
+  bookingId?: string;
+  reference: string;
+  amount: number;
+  phone?: string;
+  email?: string;
+}): Promise<boolean> {
+  const { bookingId, reference, amount, phone, email } = params;
+
+  const lead = memoryLeads.find(
+    (l) =>
+      (bookingId && l.id === bookingId) ||
+      (bookingId && l.message && l.message.includes(bookingId)) ||
+      (phone && l.phone === phone) ||
+      (email && l.email === email)
+  );
+
+  if (lead) {
+    lead.status = "QUALIFIED";
+    const paymentNote = `\n[PAID ₦${amount.toLocaleString()} via Paystack Ref: ${reference}]`;
+    if (!lead.message || !lead.message.includes(reference)) {
+      lead.message = (lead.message || "") + paymentNote;
+    }
+  }
+
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      if (bookingId) {
+        await supabase
+          .from("leads")
+          .update({
+            status: "QUALIFIED",
+          })
+          .eq("id", bookingId);
+      }
+    } catch (e) {
+      console.warn("Supabase lead payment confirmation update failed:", e);
+    }
+  }
+
+  return true;
+}
+
 // =========================================================================
 // CLIENT BUY & SELL REQUESTS
 // =========================================================================

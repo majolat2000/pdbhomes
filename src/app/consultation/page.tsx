@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   Calendar,
   CheckCircle2,
@@ -12,9 +13,12 @@ import {
   ArrowRight,
   AlertCircle,
   HelpCircle,
+  Loader2,
 } from "lucide-react";
 
-export default function ConsultationPage() {
+function ConsultationContent() {
+  const searchParams = useSearchParams();
+
   const [purpose, setPurpose] = useState<"rent" | "land_purchase" | "property_acquire" | "shortlet_enquiry">("property_acquire");
   const [fullName, setFullName] = useState("");
   const [whatsappNumber, setWhatsappNumber] = useState("");
@@ -24,11 +28,14 @@ export default function ConsultationPage() {
   const [consultationFee, setConsultationFee] = useState(10000);
 
   const [submitting, setSubmitting] = useState(false);
+  const [payingPaystack, setPayingPaystack] = useState(false);
   const [step, setStep] = useState<"FORM" | "PAYMENT" | "SUCCESS">("FORM");
   const [bookingId, setBookingId] = useState("");
+  const [paystackReference, setPaystackReference] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  React.useEffect(() => {
+  // Fetch consultation fee from settings
+  useEffect(() => {
     fetch("/api/settings")
       .then((res) => res.json())
       .then((data) => {
@@ -38,6 +45,25 @@ export default function ConsultationPage() {
       })
       .catch(() => {});
   }, []);
+
+  // Check URL query params for payment callback result
+  useEffect(() => {
+    const status = searchParams.get("status");
+    const ref = searchParams.get("reference") || searchParams.get("trxref");
+    const nameParam = searchParams.get("name");
+    const phoneParam = searchParams.get("phone");
+    const bookingParam = searchParams.get("bookingId");
+
+    if (status === "success" || ref) {
+      setStep("SUCCESS");
+      if (ref) setPaystackReference(ref);
+      if (nameParam) setFullName(nameParam);
+      if (phoneParam) setWhatsappNumber(phoneParam);
+      if (bookingParam) setBookingId(bookingParam);
+    } else if (status === "cancelled" || status === "failed") {
+      setError("Your online payment was cancelled or could not be completed. You can try again below or confirm via WhatsApp transfer.");
+    }
+  }, [searchParams]);
 
   const getPurposeLabel = (p: string) => {
     switch (p) {
@@ -67,10 +93,16 @@ export default function ConsultationPage() {
           leadType: "CONSULTATION",
           firstName: fullName.split(" ")[0] || fullName,
           lastName: fullName.split(" ").slice(1).join(" ") || "Client",
-          email: email || (whatsappNumber.replace(/[^0-9]/g, "") ? `${whatsappNumber.replace(/[^0-9]/g, "")}@consultation.pdbhomes.com` : "consultation@pdbhomes.com"),
+          email:
+            email ||
+            (whatsappNumber.replace(/[^0-9]/g, "")
+              ? `${whatsappNumber.replace(/[^0-9]/g, "")}@consultation.pdbhomes.com.ng`
+              : "consultation@pdbhomes.com.ng"),
           phone: whatsappNumber,
           preferredDate: preferredDate || null,
-          message: `[CONSULTATION BOOKING - ₦${consultationFee.toLocaleString()} COMMITMENT] Purpose: ${getPurposeLabel(purpose)}. WhatsApp: ${whatsappNumber}. Notes: ${notes || "None"}`,
+          message: `[CONSULTATION BOOKING - ₦${consultationFee.toLocaleString()} COMMITMENT] Purpose: ${getPurposeLabel(
+            purpose
+          )}. WhatsApp: ${whatsappNumber}. Notes: ${notes || "None"}`,
         }),
       });
 
@@ -88,13 +120,45 @@ export default function ConsultationPage() {
     }
   };
 
-  const handlePaystackMockCheckout = () => {
-    // Paystack payment placeholder - seamlessly advances to success
-    setStep("SUCCESS");
+  // Live Paystack API Checkout Handler
+  const handlePaystackLiveCheckout = async () => {
+    setError(null);
+    setPayingPaystack(true);
+
+    try {
+      const res = await fetch("/api/paystack/initialize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email || `${whatsappNumber.replace(/[^0-9]/g, "") || Date.now()}@consultation.pdbhomes.com.ng`,
+          amount: consultationFee,
+          bookingId: bookingId || `PDB-${Date.now().toString().slice(-6)}`,
+          fullName,
+          phone: whatsappNumber,
+          purpose: getPurposeLabel(purpose),
+          notes,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success || !data.data?.authorization_url) {
+        throw new Error(data.error || "Could not initialize Paystack secure checkout.");
+      }
+
+      // Redirect client to Paystack's secure checkout page
+      window.location.href = data.data.authorization_url;
+    } catch (err: any) {
+      console.error("Paystack checkout error:", err);
+      setError(err.message || "Unable to open Paystack payment gateway. Please use WhatsApp transfer.");
+      setPayingPaystack(false);
+    }
   };
 
   const waBookingUrl = `https://wa.link/ksxyrq?text=${encodeURIComponent(
-    `Hello PDB Homes, I just booked a consultation for [${getPurposeLabel(purpose)}]. Name: ${fullName}, WhatsApp: ${whatsappNumber}, Booking Ref: ${bookingId}. I would like to confirm my ₦${consultationFee.toLocaleString()} consultation payment.`
+    `Hello PDB Homes, I just booked a consultation for [${getPurposeLabel(purpose)}]. Name: ${fullName}, WhatsApp: ${whatsappNumber}, Booking Ref: ${bookingId}${
+      paystackReference ? `, Paystack Ref: ${paystackReference}` : ""
+    }. I would like to confirm my ₦${consultationFee.toLocaleString()} consultation payment.`
   )}`;
 
   return (
@@ -266,7 +330,7 @@ export default function ConsultationPage() {
           </div>
         )}
 
-        {/* Step 2: Payment Commitment Step (Paystack Integration Placeholder) */}
+        {/* Step 2: Payment Commitment Step (Integrated Paystack Live Checkout) */}
         {step === "PAYMENT" && (
           <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-luxury space-y-6">
             <div className="text-center space-y-2">
@@ -280,6 +344,13 @@ export default function ConsultationPage() {
                 Booking Reference: <strong className="font-mono text-slate-900">{bookingId}</strong>
               </p>
             </div>
+
+            {error && (
+              <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
 
             {/* Order Summary */}
             <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3 text-sm">
@@ -303,20 +374,30 @@ export default function ConsultationPage() {
 
             {/* Paystack Notice & CTA */}
             <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 space-y-1">
-              <strong className="block">Payment Options</strong>
+              <strong className="block">Secure Payment with Paystack</strong>
               <p>
-                Complete your ₦{consultationFee.toLocaleString()} consultation payment online or connect directly on WhatsApp with our finance desk for instant confirmation.
+                Pay safely using your Nigerian Bank Card (Mastercard, Visa, Verve), Bank Transfer, USSD, or OPay. Your payment is verified instantly.
               </p>
             </div>
 
             <div className="space-y-3 pt-2">
               <button
                 type="button"
-                onClick={handlePaystackMockCheckout}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-md transition-all active:scale-95"
+                disabled={payingPaystack}
+                onClick={handlePaystackLiveCheckout}
+                className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl bg-brand-navy hover:bg-slate-800 text-white font-bold text-sm uppercase tracking-wider shadow-md transition-all active:scale-95 disabled:opacity-60 cursor-pointer"
               >
-                <CreditCard className="w-4 h-4 text-emerald-400" />
-                <span>Pay ₦{consultationFee.toLocaleString()} via Paystack</span>
+                {payingPaystack ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
+                    <span>Connecting to Paystack...</span>
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-4 h-4 text-emerald-400" />
+                    <span>Pay ₦{consultationFee.toLocaleString()} via Paystack</span>
+                  </>
+                )}
               </button>
 
               <a
@@ -331,6 +412,7 @@ export default function ConsultationPage() {
 
               <button
                 type="button"
+                disabled={payingPaystack}
                 onClick={() => setStep("FORM")}
                 className="w-full text-center text-xs text-slate-500 hover:text-slate-800 py-1"
               >
@@ -347,18 +429,33 @@ export default function ConsultationPage() {
               <CheckCircle2 className="w-8 h-8" />
             </div>
 
+            <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold tracking-wide">
+              <span>Payment Confirmed & Verified</span>
+            </div>
+
             <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy font-display">
-              Consultation Booking Submitted!
+              Consultation Booking Confirmed!
             </h2>
 
             <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-              Thank you, <strong>{fullName}</strong>. Your consultation request for <strong>{getPurposeLabel(purpose)}</strong> has been recorded under reference <strong className="font-mono text-brand-navy">{bookingId}</strong>.
+              Thank you{fullName ? `, ${fullName}` : ""}. Your consultation session has been secured
+              {bookingId && (
+                <> under booking reference <strong className="font-mono text-brand-navy">{bookingId}</strong></>
+              )}.
             </p>
+
+            {paystackReference && (
+              <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-700 max-w-md mx-auto">
+                <span className="text-slate-400 block font-sans text-[11px] mb-0.5">Paystack Transaction Ref:</span>
+                <strong>{paystackReference}</strong>
+              </div>
+            )}
 
             <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 max-w-md mx-auto text-left space-y-1">
               <span className="font-bold block">Next Step:</span>
               <p>
-                Our lead advisor will contact your WhatsApp at <strong>{whatsappNumber}</strong> to provide your calendar invite and consultation schedule.
+                Our lead advisor has received your payment confirmation and will contact your WhatsApp at{" "}
+                <strong>{whatsappNumber || "your phone number"}</strong> shortly with your appointment calendar schedule.
               </p>
             </div>
 
@@ -370,7 +467,7 @@ export default function ConsultationPage() {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Open WhatsApp for Instant Confirmation</span>
+                <span>Open WhatsApp for Instant Schedule</span>
               </a>
 
               <Link
@@ -384,5 +481,22 @@ export default function ConsultationPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ConsultationPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-50 py-20 flex items-center justify-center">
+          <div className="text-center space-y-3">
+            <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mx-auto" />
+            <p className="text-xs text-slate-500">Loading consultation booking...</p>
+          </div>
+        </div>
+      }
+    >
+      <ConsultationContent />
+    </Suspense>
   );
 }
