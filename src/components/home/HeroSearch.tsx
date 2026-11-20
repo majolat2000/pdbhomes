@@ -45,7 +45,7 @@ export function HeroSearch() {
             <ArrowRight className="w-4 h-4" />
           </Link>
           <a
-            href="https://wa.link/ksxyrq"
+            href="https://wa.me/2348181017260"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold border border-white/20 backdrop-blur-sm transition-colors"

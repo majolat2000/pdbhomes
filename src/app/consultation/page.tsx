@@ -155,7 +155,7 @@ function ConsultationContent() {
     }
   };
 
-  const waBookingUrl = `https://wa.link/ksxyrq?text=${encodeURIComponent(
+  const waBookingUrl = `https://wa.me/2348181017260?text=${encodeURIComponent(
     `Hello PDB Homes, I just booked a consultation for [${getPurposeLabel(purpose)}]. Name: ${fullName}, WhatsApp: ${whatsappNumber}, Booking Ref: ${bookingId}${
       paystackReference ? `, Paystack Ref: ${paystackReference}` : ""
     }. I would like to confirm my ₦${consultationFee.toLocaleString()} consultation payment.`

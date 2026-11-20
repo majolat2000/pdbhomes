@@ -121,7 +121,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </Link>
 
           <a
-            href={`https://wa.link/ksxyrq?text=${encodeURIComponent(
+            href={`https://wa.me/2348181017260?text=${encodeURIComponent(
               `Hello PDB Homes, I am interested in: "${property.title}" located at ${property.city}, Lagos (${formatCurrency(property.price)}${getPriceSuffix()}). Please share more details and inspection schedule.`
             )}`}
             target="_blank"

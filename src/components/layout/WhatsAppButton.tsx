@@ -5,7 +5,7 @@ import { MessageCircle } from "lucide-react";
 
 export function WhatsAppButton() {
   const [hovered, setHovered] = useState(false);
-  const whatsappUrl = "https://wa.link/ksxyrq";
+  const whatsappUrl = "https://wa.me/2348181017260";
 
   return (
     <aside aria-label="WhatsApp Assistance" className="fixed bottom-6 right-6 z-50 flex items-center gap-3">

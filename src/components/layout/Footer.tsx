@@ -99,7 +99,7 @@ export function Footer() {
 
             <div className="pt-2 flex flex-wrap items-center gap-2.5">
               <a
-                href="https://wa.link/ksxyrq"
+                href="https://wa.me/2348181017260"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors shadow-sm"

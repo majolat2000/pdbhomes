@@ -67,7 +67,7 @@ export function Navbar() {
           {/* Actions */}
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href="https://wa.link/ksxyrq"
+              href="https://wa.me/2348181017260"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 transition-colors"
@@ -100,7 +100,7 @@ export function Navbar() {
           {/* Mobile menu trigger */}
           <div className="flex md:hidden items-center gap-1.5">
             <a
-              href="https://wa.link/ksxyrq"
+              href="https://wa.me/2348181017260"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-lg bg-emerald-50 text-emerald-700"
@@ -144,7 +144,7 @@ export function Navbar() {
           ))}
           <div className="pt-3 border-t border-slate-100 flex flex-col gap-2.5">
             <a
-              href="https://wa.link/ksxyrq"
+              href="https://wa.me/2348181017260"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors"

@@ -90,7 +90,7 @@ export function ProcessSection() {
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <a
-              href="https://wa.link/ksxyrq"
+              href="https://wa.me/2348181017260"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors"

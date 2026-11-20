@@ -99,7 +99,7 @@ export default function ContactPage() {
                 </p>
                 <div className="pt-2 flex flex-wrap justify-center gap-3">
                   <a
-                    href="https://wa.link/ksxyrq"
+                    href="https://wa.me/2348181017260"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-emerald-500 transition-colors shadow-sm"
@@ -260,7 +260,7 @@ export default function ContactPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
                 <a
-                  href="https://wa.link/ksxyrq"
+                  href="https://wa.me/2348181017260"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-emerald-800 font-bold text-xs uppercase tracking-wider hover:bg-emerald-50 shadow-md transition-all active:scale-95 text-center"
@@ -350,7 +350,7 @@ export default function ContactPage() {
                         </a>
                         <span className="text-slate-300">&bull;</span>
                         <a
-                          href="https://wa.link/ksxyrq"
+                          href="https://wa.me/2348181017260"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="font-bold text-emerald-800 hover:underline flex items-center gap-1"

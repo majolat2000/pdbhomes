@@ -263,7 +263,7 @@ function PropertiesPageContent() {
                 Submit Custom Search
               </Link>
               <a
-                href="https://wa.link/ksxyrq"
+                href="https://wa.me/2348181017260"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-5 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-500 transition-colors flex items-center gap-1.5"

@@ -82,7 +82,7 @@ export function ConsultationBanner() {
                 </Link>
 
                 <a
-                  href="https://wa.link/ksxyrq?text=Hello%20PDB%20Homes%2C%20I%20would%20like%20to%20speak%20with%20an%20agent%20about%20a%20property"
+                  href="https://wa.me/2348181017260?text=Hello%20PDB%20Homes%2C%20I%20would%20like%20to%20speak%20with%20an%20agent%20about%20a%20property"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold border border-white/15 transition-colors"

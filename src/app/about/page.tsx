@@ -126,7 +126,7 @@ export default function AboutPage() {
 
                 <div className="pt-2 flex flex-wrap items-center gap-3">
                   <a
-                    href="https://wa.link/ksxyrq"
+                    href="https://wa.me/2348181017260"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors shadow-xs"
@@ -172,7 +172,7 @@ export default function AboutPage() {
               <span>info@pdbhomes.com.ng</span>
             </a>
             <a
-              href="https://wa.link/ksxyrq"
+              href="https://wa.me/2348181017260"
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white flex items-center gap-2 transition-colors"

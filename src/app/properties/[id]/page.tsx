@@ -255,7 +255,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
 
               <div className="pt-1 flex flex-col gap-2.5">
                 <a
-                  href={`https://wa.link/ksxyrq?text=${encodeURIComponent(
+                  href={`https://wa.me/2348181017260?text=${encodeURIComponent(
                     `Hello PDB Homes, I would like to inquire about: "${property.title}" in ${property.city}, Lagos (${formatCurrency(property.price)}${getPriceSuffix()}). Please share inspection details.`
                   )}`}
                   target="_blank"

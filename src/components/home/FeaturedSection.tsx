@@ -145,7 +145,7 @@ function VideoCard({ vid }: { vid: VideoTour }) {
 
         <div className="pt-2 border-t border-slate-100">
           <a
-            href={`https://wa.link/ksxyrq?text=${encodeURIComponent(
+            href={`https://wa.me/2348181017260?text=${encodeURIComponent(
               `Hello PDB Homes, I watched the video tour for "${vid.title}" (${vid.location}) on your website. I would like more information and inspection details.`
             )}`}
             target="_blank"
@@ -205,7 +205,7 @@ export function FeaturedSection({ properties }: FeaturedSectionProps) {
               </h3>
             </div>
             <a
-              href="https://wa.link/ksxyrq?text=Hello%20PDB%20Homes%2C%20I%20would%20like%20to%20request%20more%20property%20video%20walkthroughs"
+              href="https://wa.me/2348181017260?text=Hello%20PDB%20Homes%2C%20I%20would%20like%20to%20request%20more%20property%20video%20walkthroughs"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"

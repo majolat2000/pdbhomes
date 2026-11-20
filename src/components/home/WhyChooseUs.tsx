@@ -83,7 +83,7 @@ export function WhyChooseUs() {
           </div>
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <a
-              href="https://wa.link/ksxyrq?text=Hello%20PDB%20Homes%2C%20I%20have%20a%20property%20I%20would%20like%20to%20list%20with%20you"
+              href="https://wa.me/2348181017260?text=Hello%20PDB%20Homes%2C%20I%20have%20a%20property%20I%20would%20like%20to%20list%20with%20you"
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors flex items-center gap-2"
