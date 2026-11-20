@@ -210,12 +210,13 @@ export default function AdminPage() {
     setLoading(true);
     try {
       const authHeaders = getAuthHeaders();
-      const [resProps, resLeads, resReqs, resVals, resSubs] = await Promise.all([
-        fetch("/api/properties"),
-        fetch("/api/leads", { headers: authHeaders }),
-        fetch("/api/requests", { headers: authHeaders }),
-        fetch("/api/valuations", { headers: authHeaders }),
-        fetch("/api/newsletter", { headers: authHeaders }),
+      const [resProps, resLeads, resReqs, resVals, resSubs, resSettings] = await Promise.all([
+        fetch("/api/properties", { cache: "no-store" }),
+        fetch("/api/leads", { headers: authHeaders, cache: "no-store" }),
+        fetch("/api/requests", { headers: authHeaders, cache: "no-store" }),
+        fetch("/api/valuations", { headers: authHeaders, cache: "no-store" }),
+        fetch("/api/newsletter", { headers: authHeaders, cache: "no-store" }),
+        fetch("/api/settings", { cache: "no-store" }),
       ]);
 
       const dataProps = await resProps.json();
@@ -223,12 +224,16 @@ export default function AdminPage() {
       const dataReqs = await resReqs.json();
       const dataVals = await resVals.json();
       const dataSubs = await resSubs.json();
+      const dataSettings = await resSettings.json();
 
       if (dataProps.success) setProperties(dataProps.data);
       if (dataLeads.success) setLeads(dataLeads.data);
       if (dataReqs.success) setClientRequests(dataReqs.data);
       if (dataVals.success) setValuations(dataVals.data);
       if (dataSubs.success) setSubscribers(dataSubs.data);
+      if (dataSettings.success && typeof dataSettings.consultationFee === "number") {
+        setConsultationFee(dataSettings.consultationFee);
+      }
     } catch (e) {
       console.error("Failed to load admin data", e);
     } finally {
@@ -284,18 +289,27 @@ export default function AdminPage() {
     e.preventDefault();
     setFeeLoading(true);
     setFeeMessage("");
+    const parsedFee = Number(consultationFee);
+    if (isNaN(parsedFee) || parsedFee < 0) {
+      setFeeMessage("Please enter a valid non-negative consultation fee.");
+      setFeeLoading(false);
+      return;
+    }
     try {
       const res = await fetch("/api/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-        body: JSON.stringify({ consultationFee }),
+        body: JSON.stringify({ consultationFee: parsedFee }),
       });
       const data = await res.json();
       if (data.success) {
-        setFeeMessage("Consultation price updated to ₦" + consultationFee.toLocaleString());
+        setFeeMessage(`Consultation price successfully saved as ₦${parsedFee.toLocaleString()}`);
+      } else {
+        setFeeMessage(data.error || "Failed to update consultation price.");
       }
     } catch (err: any) {
       console.error(err);
+      setFeeMessage(err.message || "Failed to update consultation price.");
     } finally {
       setFeeLoading(false);
     }
@@ -474,7 +488,7 @@ export default function AdminPage() {
     try {
       await fetch("/api/properties", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ action: "CLEAR_ALL" }),
       });
       setActionMessage("All listings cleared.");
@@ -653,7 +667,7 @@ export default function AdminPage() {
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">₦10k Consultations</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Consultations</span>
             <div className="text-3xl font-extrabold text-emerald-700 font-display">{consultationLeads.length}</div>
             <span className="text-[11px] text-emerald-600 font-semibold">{consultationLeads.filter(l => l.status === "NEW").length} pending review</span>
           </div>
@@ -694,7 +708,7 @@ export default function AdminPage() {
             }`}
           >
             <Clock className="w-3.5 h-3.5" />
-            <span>₦10k Consultations ({consultationLeads.length})</span>
+            <span>Consultations ({consultationLeads.length})</span>
           </button>
 
           <button
@@ -906,7 +920,7 @@ export default function AdminPage() {
                             <div className="flex items-center gap-1.5 flex-wrap">
                               <span className="text-sm">{l.firstName} {l.lastName}</span>
                               <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-extrabold text-[9px] uppercase tracking-wider border border-emerald-300">
-                                ₦10k Consultation
+                                Consultation Booking
                               </span>
                             </div>
                             <div className="text-[10px] text-slate-400 font-normal mt-0.5">
@@ -1547,21 +1561,31 @@ export default function AdminPage() {
                       <label className="block font-bold uppercase text-slate-600 mb-1">
                         Consultation Commitment Fee (₦)
                       </label>
-                      <input
-                        type="number"
-                        min="0"
-                        step="500"
-                        value={consultationFee}
-                        onChange={(e) => setConsultationFee(Number(e.target.value))}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-brand-navy text-sm font-bold text-slate-900"
-                      />
+                      <div className="relative">
+                        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 font-bold text-slate-400">₦</span>
+                        <input
+                          type="number"
+                          min="0"
+                          step="any"
+                          value={consultationFee}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setConsultationFee(val === "" ? ("" as any) : Number(val));
+                          }}
+                          placeholder="e.g. 5000, 10000, 25000, 50000"
+                          className="w-full pl-8 pr-3.5 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-brand-navy text-sm font-bold text-slate-900"
+                        />
+                      </div>
+                      <p className="text-[11px] text-slate-500 mt-1">
+                        Set any price you want (e.g. ₦0, ₦5,000, ₦10,000, ₦25,000, ₦50,000+). This will reflect everywhere across the site and in the Paystack checkout.
+                      </p>
                     </div>
                     <button
                       type="submit"
-                      disabled={feeLoading}
+                      disabled={feeLoading || consultationFee === ("" as any)}
                       className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors disabled:opacity-50"
                     >
-                      {feeLoading ? "Saving Price..." : `Save Consultation Price (₦${consultationFee.toLocaleString()})`}
+                      {feeLoading ? "Saving Price..." : `Save Consultation Price (₦${Number(consultationFee || 0).toLocaleString()})`}
                     </button>
                   </form>
                 </div>

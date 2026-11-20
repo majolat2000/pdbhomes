@@ -119,7 +119,7 @@ export async function notifyNewLead(lead: Lead) {
   const isConsultation = lead.leadType === "CONSULTATION" || lead.message?.includes("CONSULTATION");
   const isViewing = lead.leadType === "SCHEDULE_VIEWING";
   const typeLabel = isConsultation
-    ? "₦10,000 Consultation Booking"
+    ? "Real Estate Consultation Booking"
     : isViewing
     ? "Property Viewing Appointment"
     : "Website Contact Inquiry";
@@ -180,7 +180,7 @@ Status: Recorded in PDB Homes Database & Viewable on Admin Dashboard (/admin).
       <p>${typeLabel}</p>
     </div>
     <div class="content">
-      <span class="badge">${isConsultation ? "₦10,000 Commitment Fee Pending" : "New Client Inquiry"}</span>
+      <span class="badge">${isConsultation ? "Consultation Commitment Fee Pending" : "New Client Inquiry"}</span>
       <table class="table">
         <tr>
           <td class="label">Client Name</td>

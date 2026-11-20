@@ -8,7 +8,7 @@ export function ConsultationBanner() {
   const [fee, setFee] = useState(10000);
 
   useEffect(() => {
-    fetch("/api/settings")
+    fetch("/api/settings", { cache: "no-store" })
       .then((res) => res.json())
       .then((d) => {
         if (d.success && typeof d.consultationFee === "number") setFee(d.consultationFee);

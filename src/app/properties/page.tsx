@@ -43,7 +43,7 @@ function PropertiesPageContent() {
       if (bedrooms !== "ALL") q.set("bedrooms", bedrooms);
       if (sortBy) q.set("sortBy", sortBy);
 
-      const res = await fetch(`/api/properties?${q.toString()}`);
+      const res = await fetch(`/api/properties?${q.toString()}`, { cache: "no-store" });
       const json = await res.json();
       if (json.success) {
         setProperties(json.data);

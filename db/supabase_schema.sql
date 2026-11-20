@@ -112,48 +112,97 @@ CREATE TABLE IF NOT EXISTS public.admins (
 INSERT INTO public.admins (id, email, password, role)
 VALUES 
     ('admin-1', 'precolat@gmail.com', 'PDB_Preco2024!', 'SUPER_ADMIN'),
-    ('admin-2', 'info@pdbhomes.com', 'PDB_Admin2024!', 'SUPER_ADMIN')
-ON CONFLICT (email) DO NOTHING;
+    ('admin-2', 'info@pdbhomes.com.ng', 'PDB_Admin2024!', 'SUPER_ADMIN')
+ON CONFLICT (email) DO UPDATE SET password = EXCLUDED.password;
+
+-- 6. SITE SETTINGS TABLE (Consultation Price, Brand Settings)
+CREATE TABLE IF NOT EXISTS public.site_settings (
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Seed default consultation fee
+INSERT INTO public.site_settings (key, value)
+VALUES ('consultation_fee', '10000')
+ON CONFLICT (key) DO NOTHING;
+
+-- 7. NEWSLETTER SUBSCRIBERS TABLE (Footer Property Alerts)
+CREATE TABLE IF NOT EXISTS public.newsletter_subscribers (
+    id TEXT PRIMARY KEY DEFAULT uuid_generate_v4()::text,
+    email TEXT UNIQUE NOT NULL,
+    source TEXT DEFAULT 'footer',
+    status TEXT DEFAULT 'ACTIVE',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
 
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_properties_city ON public.properties (city);
 CREATE INDEX IF NOT EXISTS idx_properties_price ON public.properties (price);
 CREATE INDEX IF NOT EXISTS idx_leads_created ON public.leads (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_requests_created ON public.client_requests (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_subscribers_created ON public.newsletter_subscribers (created_at DESC);
 
--- Enable Row Level Security (RLS) - public read/write permissions for anon client
+-- Enable Row Level Security (RLS)
 ALTER TABLE public.properties ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.client_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.property_valuations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
 
--- Allow anonymous select on active properties
+-- Allow anonymous select on active properties and public settings
+DROP POLICY IF EXISTS "Public can view properties" ON public.properties;
 CREATE POLICY "Public can view properties" ON public.properties
     FOR SELECT USING (true);
 
--- Allow anonymous insert for leads, client_requests, and valuations
+DROP POLICY IF EXISTS "Public can view site settings" ON public.site_settings;
+CREATE POLICY "Public can view site settings" ON public.site_settings
+    FOR SELECT USING (true);
+
+-- Allow anonymous insert for client forms (leads, requests, valuations, newsletter)
+DROP POLICY IF EXISTS "Public can insert leads" ON public.leads;
 CREATE POLICY "Public can insert leads" ON public.leads
     FOR INSERT WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Public can insert client requests" ON public.client_requests;
 CREATE POLICY "Public can insert client requests" ON public.client_requests
     FOR INSERT WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Public can insert valuations" ON public.property_valuations;
 CREATE POLICY "Public can insert valuations" ON public.property_valuations
     FOR INSERT WITH CHECK (true);
 
--- Allow full access for anon/authenticated (controlled by Admin dashboard)
+DROP POLICY IF EXISTS "Public can insert newsletter subscribers" ON public.newsletter_subscribers;
+CREATE POLICY "Public can insert newsletter subscribers" ON public.newsletter_subscribers
+    FOR INSERT WITH CHECK (true);
+
+-- Allow full access for anon/authenticated (controlled by Admin dashboard API sessions)
+DROP POLICY IF EXISTS "Admin full access properties" ON public.properties;
 CREATE POLICY "Admin full access properties" ON public.properties
     FOR ALL USING (true);
 
+DROP POLICY IF EXISTS "Admin full access leads" ON public.leads;
 CREATE POLICY "Admin full access leads" ON public.leads
     FOR ALL USING (true);
 
+DROP POLICY IF EXISTS "Admin full access client requests" ON public.client_requests;
 CREATE POLICY "Admin full access client requests" ON public.client_requests
     FOR ALL USING (true);
 
+DROP POLICY IF EXISTS "Admin full access valuations" ON public.property_valuations;
 CREATE POLICY "Admin full access valuations" ON public.property_valuations
     FOR ALL USING (true);
 
+DROP POLICY IF EXISTS "Admin full access admins" ON public.admins;
 CREATE POLICY "Admin full access admins" ON public.admins
+    FOR ALL USING (true);
+
+DROP POLICY IF EXISTS "Admin full access site settings" ON public.site_settings;
+CREATE POLICY "Admin full access site settings" ON public.site_settings
+    FOR ALL USING (true);
+
+DROP POLICY IF EXISTS "Admin full access newsletter subscribers" ON public.newsletter_subscribers;
+CREATE POLICY "Admin full access newsletter subscribers" ON public.newsletter_subscribers
     FOR ALL USING (true);
